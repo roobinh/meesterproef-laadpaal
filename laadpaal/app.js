@@ -1,8 +1,12 @@
+"use strict";
+
+require('dotenv').config();
+
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var mongo = require('mongodb');
+const MongoClient = require('mongodb').MongoClient;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -23,9 +27,42 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// mongo connection
+const mdb_username = process.env.DB_USERNAME;
+const mdb_password = process.env.DB_PASSWORD;
+
+const uri = "mongodb+srv://" + mdb_username + ":" + mdb_password + "@laadpaal-klachten-2qggo.gcp.mongodb.net/test?retryWrites=true";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+
+console.log('connecting to mongodb...')
+client.connect(err => {
+    console.log('connected!')
+
+    const collection = client.db("klachten-db").collection("USERS");
+
+    //zoek naar alle gebruikers in de tabel
+    collection.find().toArray(function(err, result) {
+        if(err) {
+            // console log error
+            console.log(err)
+        } else if (result.length) {
+            // working
+            console.log(result)
+        } else {
+            // collection is empty
+        }
+    })
+
+    client.close();
+    console.log('connection closed.')
+});
+
 // routes
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', function(req, res, next) {
+    console.log()
+    res.render('pages/index');
+});
+
 
 
 module.exports = app;
