@@ -13,6 +13,7 @@ router.get('/users', function(req, res, next) {
   var mongoClient = mongodb.MongoClient;
   var url = 'mongodb://localhost:27017/klachtendb'
 
+  
   mongoClient.connect(url, function(err, client) {
     if(err) {
       console.log('unable to connect to server', err);
@@ -20,7 +21,7 @@ router.get('/users', function(req, res, next) {
       console.log('connection with mongodb establisched')
 
       var db = client.db('klachtendb')
-      
+
       //maak verbinding met juiste tabel
       var collection = db.collection('users');
 
