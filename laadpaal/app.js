@@ -36,7 +36,6 @@ const client = new MongoClient(uri, { useNewUrlParser: true });
 
 console.log('connecting to mongodb...')
 client.connect(err => {
-    console.log('connected!')
 
     const collection = client.db("klachten-db").collection("USERS");
 
