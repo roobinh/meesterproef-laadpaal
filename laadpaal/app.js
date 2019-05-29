@@ -30,6 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // mongo connection
 const mdb_username = process.env.DB_USERNAME;
 const mdb_password = process.env.DB_PASSWORD;
+console.log(mdb_username, mdb_password);
+
 
 const uri = "mongodb+srv://" + mdb_username + ":" + mdb_password + "@laadpaal-klachten-2qggo.gcp.mongodb.net/test?retryWrites=true";
 const client = new MongoClient(uri, { useNewUrlParser: true });
@@ -40,8 +42,8 @@ client.connect(err => {
     const collection = client.db("klachten-db").collection("USERS");
 
     //zoek naar alle gebruikers in de tabel
-    collection.find().toArray(function(err, result) {
-        if(err) {
+    collection.find().toArray(function (err, result) {
+        if (err) {
             // console log error
             console.log(err)
         } else if (result.length) {
@@ -57,7 +59,7 @@ client.connect(err => {
 });
 
 // routes
-app.use('/', function(req, res, next) {
+app.use('/', function (req, res, next) {
     console.log()
     res.render('pages/index');
 });
