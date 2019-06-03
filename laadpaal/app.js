@@ -59,6 +59,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // });
 
 // routes
+app.use('/kiesPaal', function (req, res, next) {
+    res.render('pages/choosePole');
+});
+
 app.use('/', function (req, res, next) {
     res.render('pages/index');
 });
