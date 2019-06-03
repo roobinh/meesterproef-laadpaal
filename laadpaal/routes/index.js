@@ -1,11 +1,10 @@
 
 var express = require('express');
-const MongoClient = require('mongodb').MongoClient;
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    
+
     const uri = "mongodb+srv://laadpalen:klachten@laadpaal-klachten-2qggo.gcp.mongodb.net/test?retryWrites=true";
     const client = new MongoClient(uri, { useNewUrlParser: true });
 
