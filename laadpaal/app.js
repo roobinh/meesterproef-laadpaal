@@ -59,6 +59,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // });
 
 // routes
+app.use('/typeMelding', function (req, res, next) {
+    res.render('pages/complaintType');
+});
 app.use('/kiesPaal', function (req, res, next) {
     res.render('pages/choosePole');
 });
