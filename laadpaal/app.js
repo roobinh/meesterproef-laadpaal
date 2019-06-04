@@ -4,7 +4,6 @@
 require('dotenv').config();
 
 // requires
-
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -89,6 +88,7 @@ app.use(
             type RootQuery {
                 users: [User!]!
                 poles: [Pole!]!
+                complaints: [Complaint!]!
             }
 
             type RootMutation {
