@@ -71,6 +71,7 @@ app.use(
 
             type RootQuery {
                 users: [User!]!
+                poles: [Pole!]!
             }
 
             type RootMutation {
@@ -114,6 +115,18 @@ app.use(
                         console.log(err)
                         throw err;
                     });
+            },
+
+            poles: () => {
+                return Pole.find()
+                .then(poles => {
+                    return poles.map(pole => {
+                        return {...pole._doc}
+                    })
+                })
+                .catch(err => {
+                    throw err
+                })
             },
 
             createPole: args => {
