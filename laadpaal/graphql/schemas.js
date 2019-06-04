@@ -50,6 +50,8 @@ module.exports = buildSchema(`
         image: String
         status: String
         date: String
+        userId: String
+        poleId: String
     }
 
     type RootQuery {

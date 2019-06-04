@@ -6,6 +6,10 @@ const Complaint = require('./models/complaint')
 const user = async userId => {
     try {
         const user = await User.findById(userId);
+        if(!user) {
+            console.log("User == null!");
+        }
+        console.log(user);
         return {
             ...user._doc,
             _id: user.id,
@@ -100,11 +104,12 @@ module.exports = {
         try {
             const complaints = await Complaint.find();
             return complaints.map(complaint => {
+                console.log(complaint);
                 return {
-                    ...complaint,
+                    ...complaint._doc,
                     _id: complaint.id,
-                    user: user.bind(this, complaint._doc.User),
-                    pole: pole.bind(this, complaint._doc.Pole)
+                    user: user.bind(this, complaint._doc.user),
+                    pole: pole.bind(this, complaint._doc.pole)
                 };
             });
         } catch (err) {
@@ -119,8 +124,8 @@ module.exports = {
             image: args.complaintInput.image,
             status: args.complaintInput.status,
             date: args.complaintInput.date,
-            user: '5cf66097e8babd08e82fdb13',
-            pole: '5cf660ece8babd08e82fdb14'
+            user: args.complaintInput.userId.toString(),
+            pole: args.complaintInput.poleId.toString()
         })
 
         return complaint   
