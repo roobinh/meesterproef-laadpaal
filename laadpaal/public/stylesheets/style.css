@@ -120,7 +120,7 @@ header{
   position: relative;
 }
 
-.complaintButton{
+.complaintButton, .selectedComplaint {
   background-color: white;
   border: none;
   text-align: left;
@@ -130,6 +130,11 @@ header{
   font-weight: bold;
   margin-bottom: 1em;
   padding: 0;
+  height: 2em
+}
+
+.selectedComplaint{
+  height: 2rem
 }
 
 /* .complaintForm:nth-child(n){
@@ -137,16 +142,20 @@ header{
   left: calc(n+50px);
 } */
 
+/* .selectedComplaint{
+  
+} */
+
 .complaintButton:active{
   background-color: #009136;
   color: white;
 }
 
-.slideRight{
-  animation: 1s alternate slideRight;
+.slideOut{
+  animation: 1s alternate slideOut;
 }
 
-@keyframes slideRight{
+@keyframes slideOut{
   from {
     transform: translateX(0)
   }
@@ -156,19 +165,12 @@ header{
   }
 }
 
-.pauseAnimation{
-  animation-play-state: paused;
+
+.slideIn{
+  animation: 1s alternate slideIn;
 }
 
-.selectedComplaint{
-  height: 2em
-}
-
-.slideLeft{
-  animation: 1s alternate slideLeft;
-}
-
-@keyframes slideLeft{
+@keyframes slideIn{
   from {
     transform: translateX(+500px)
   }
