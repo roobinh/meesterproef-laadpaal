@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 const poleSchema = new Schema({
     longitude: {
-        type: Schema.Types.Number,
+        type: Number,
         required: false
     },
     latitude: {
-        type: Schema.Types.Number,
+        type: Number,
         required: false
     },
     chargetype: {
