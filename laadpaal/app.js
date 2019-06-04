@@ -7,7 +7,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const graphqlHttp = require('express-graphql')
 const mongoose = require('mongoose')
-const config = require('./graphql/configs')
+
+const graphQlSchema = require('./graphql/schemas')
+const graphQlResolvers = require('./graphql/resolver')
 
 // dotenv vars
 require('dotenv').config();
@@ -30,8 +32,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/graphql', graphqlHttp({
-    schema: config.schema,
-    rootValue: config.root,
+    schema: graphQlSchema,
+    rootValue: graphQlResolvers,
     graphiql: true //interface to true
 }))
 
