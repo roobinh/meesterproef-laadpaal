@@ -22,11 +22,11 @@ const complaintSchema = new Schema({
         type: String,
         required: true
     },
-    User: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    Pole: {
+    pole: {
         type: Schema.Types.ObjectId,
         ref: 'Pole'
     }

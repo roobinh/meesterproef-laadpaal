@@ -27,20 +27,6 @@ const pole = async poleId => {
     }
 }
 
-const complaint = async complaintId => {
-    try {
-        const complaint = await Complaint.findById(complaintId);
-        return {
-            ...complaint._doc,
-            _id: complaint.id,
-            user: user.bind(this, complaint._doc.user),
-            pole: pole.bind(this, complaint._doc.pole)
-        };
-    } catch(err) {
-        throw err;
-    }
-}
-
 module.exports = {
 
     users: async() => {
@@ -114,12 +100,11 @@ module.exports = {
         try {
             const complaints = await Complaint.find();
             return complaints.map(complaint => {
-                console.log(complaint);
                 return {
-                    ...complaint._doc,
+                    ...complaint,
                     _id: complaint.id,
-                    user: user.bind(this, complaint.User),
-                    pole: pole.bind(this, complaint.Pole)
+                    user: user.bind(this, complaint._doc.User),
+                    pole: pole.bind(this, complaint._doc.Pole)
                 };
             });
         } catch (err) {
@@ -134,8 +119,8 @@ module.exports = {
             image: args.complaintInput.image,
             status: args.complaintInput.status,
             date: args.complaintInput.date,
-            User: '5cf66097e8babd08e82fdb13',
-            Pole: '5cf660ece8babd08e82fdb14'
+            user: '5cf66097e8babd08e82fdb13',
+            pole: '5cf660ece8babd08e82fdb14'
         })
 
         return complaint   
