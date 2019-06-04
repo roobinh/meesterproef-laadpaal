@@ -114,5 +114,66 @@ header{
   margin-left: auto;
 }
 
+.complaintForm{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
 
+.complaintButton{
+  background-color: white;
+  border: none;
+  text-align: left;
+  color: #009136;
+  font-family: 'Dosis', sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 1em;
+  padding: 0;
+}
 
+/* .complaintForm:nth-child(n){
+  position: absolute;
+  left: calc(n+50px);
+} */
+
+.complaintButton:active{
+  background-color: #009136;
+  color: white;
+}
+
+.slideRight{
+  animation: 1s alternate slideRight;
+}
+
+@keyframes slideRight{
+  from {
+    transform: translateX(0)
+  }
+
+  to {
+    transform: translateX(-500px)
+  }
+}
+
+.pauseAnimation{
+  animation-play-state: paused;
+}
+
+.selectedComplaint{
+  height: 2em
+}
+
+.slideLeft{
+  animation: 1s alternate slideLeft;
+}
+
+@keyframes slideLeft{
+  from {
+    transform: translateX(+500px)
+  }
+
+  to {
+    transform: translateX(0)
+  }
+}
