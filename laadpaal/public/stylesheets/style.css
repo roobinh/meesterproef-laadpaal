@@ -117,10 +117,9 @@ header{
 .complaintForm{
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
-.complaintButton, .selectedComplaint {
+.complaintButton{
   background-color: white;
   border: none;
   text-align: left;
@@ -134,7 +133,15 @@ header{
 }
 
 .selectedComplaint{
-  height: 2rem
+  min-height: 2em;
+  margin-bottom: 0;
+  background-color: white;
+  text-align: left;
+  color: #009136;
+  font-family: 'Dosis', sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  padding: 0;
 }
 
 /* .complaintForm:nth-child(n){

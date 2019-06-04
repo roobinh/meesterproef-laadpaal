@@ -88,6 +88,7 @@ function addEventListeners(newComplaintButtons) {
             const movingElement = e.srcElement
 
             const sentenceEnd = e.srcElement.innerHTML
+            e.srcElement.remove()
             console.log(sentenceStart);
 
             completeSentence(sentenceStart, sentenceEnd)
