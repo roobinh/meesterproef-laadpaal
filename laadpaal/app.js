@@ -11,7 +11,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const graphqlHttp = require('express-graphql')
 const mongoose = require('mongoose')
+
 const User = require('./models/user')
+const Pole = require('./models/pole')
+// const Complaint = require('./models/complaint')
 
 const { buildSchema } = require('graphql')
 
@@ -49,12 +52,30 @@ app.use(
                 points: Int 
             }
 
+            type Pole {
+                _id: ID!
+                longitude: Float
+                latitude: Float
+                chargetype: String
+                power: String
+                amount: Int
+            }
+
+            input PoleInput {
+                longitude: Float
+                latitude: Float
+                chargetype: String
+                power: String
+                amount: Int
+            }
+
             type RootQuery {
                 users: [User!]!
             }
 
             type RootMutation {
                 createUser(userInput: UserInput): User
+                createPole(poleInput: PoleInput): Pole
             }
 
             schema {
@@ -75,6 +96,7 @@ app.use(
                     throw err;
                 })
             },
+
             createUser: (args) => {
                 const user = new User({
                     number: args.userInput.number,
@@ -92,7 +114,27 @@ app.use(
                         console.log(err)
                         throw err;
                     });
-            }
+            },
+
+            createPole: args => {
+                const pole = new Pole({
+                    longitude: args.poleInput.longitude,
+                    latitude:   args.poleInput.latitude,
+                    chargetype: args.poleInput.chargetype,
+                    power: args.poleInput.power,
+                    amount: args.poleInput.amount
+                })
+
+                return pole
+                    .save()
+                    .then(result =>{
+                        console.log(result) 
+                        return { ...result._doc }
+                    }).catch(err => {
+                        console.log(err)
+                        throw err;
+                    });
+            } 
         },
         graphiql: true //interface to true
 }))
