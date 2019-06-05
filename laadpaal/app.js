@@ -52,6 +52,7 @@ app.use(session({
 
 // routes
 app.get('/typeMelding', function (req, res, next) {
+    console.log(req.session);
     res.render('pages/complaintType');
 });
 app.get('/kiesPaal', function (req, res, next) {
@@ -62,6 +63,18 @@ app.get('/', function (req, res, next) {
     res.render('pages/index');
 });
 
+app.post('/choosePole', function(req, res, next) {
+    console.log(req.body.pole)
+
+    if(req.body.pole) {
+        req.session.user.complaint = {
+            poleId: req.body.pole
+        }
+
+        res.redirect('/typeMelding')
+    }
+})
+
 // create user
 app.post('/createuser', function(req, res, next) {
     const name = req.body.name;
@@ -70,7 +83,7 @@ app.post('/createuser', function(req, res, next) {
     const query = `
     mutation {
         createUser(userInput: {
-          number: "9823184",
+          number: "0",
           email: "${email}",
           name: "${name}",
           points: 0

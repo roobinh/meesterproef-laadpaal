@@ -14,9 +14,14 @@
     <p class="subtitle">Is dit de laadpaal waar je een melding over wilt doen?</p>
     <div class="map"></div>
     
-    <form class="choosePoleForm">
+    
+    <form class="choosePoleForm" method="POST" action="/choosePole">
+      <input type="radio" name="pole" value="5cf67fa7a2649907bc1814c1">Paal 1</input>
+      <input type="radio" name="pole" value="5cf7babc9c0c532b4845498a">Paal 2</input>
+      <input type="radio" name="pole" value="5cf7baa3ebe21115004e4c80">Paal 3</input>
+
       <button class="button">KIES ANDERE</button>
-      <button class="button">SELECTEER</button>
+      <button class="button" type="submit">SELECTEER</button>
     </form>
   </section>
 </body>

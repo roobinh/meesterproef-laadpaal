@@ -66,6 +66,7 @@ module.exports = {
     createUser: async args => {
 
         args.userInput.points ? points = args.userInput.points : points = 0;
+        // args.userInput.number ? number = args.userInput.number : number = "0";
 
         const user = new User({
             number: args.userInput.number,
