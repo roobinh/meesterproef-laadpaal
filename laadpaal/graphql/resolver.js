@@ -64,11 +64,14 @@ module.exports = {
     },
 
     createUser: async args => {
+
+        args.userInput.points ? points = args.userInput.points : points = 0;
+
         const user = new User({
             number: args.userInput.number,
             email: args.userInput.email,
             name: args.userInput.name,
-            points: args.userInput.points
+            points: points
         });
 
         return user

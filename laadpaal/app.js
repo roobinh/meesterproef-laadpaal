@@ -7,9 +7,12 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const graphqlHttp = require('express-graphql')
 const mongoose = require('mongoose')
+const fetch = require('node-fetch')
 
 const graphQlSchema = require('./graphql/schemas')
 const graphQlResolvers = require('./graphql/resolver')
+
+const bodyParser = require('body-parser')
 
 // dotenv vars
 require('dotenv').config();
@@ -30,6 +33,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.use('/graphql', graphqlHttp({
     schema: graphQlSchema,
@@ -38,16 +43,44 @@ app.use('/graphql', graphqlHttp({
 }))
 
 // routes
-app.use('/typeMelding', function (req, res, next) {
+app.get('/typeMelding', function (req, res, next) {
     res.render('pages/complaintType');
 });
-app.use('/kiesPaal', function (req, res, next) {
+app.get('/kiesPaal', function (req, res, next) {
     res.render('pages/choosePole');
 });
 
-app.use('/', function (req, res, next) {
+app.get('/', function (req, res, next) {
     res.render('pages/index');
 });
+
+// create user
+app.post('/createuser', function(req, res, next ) {
+    const name = req.body.name;
+    const email = req.body.email;
+
+    const query = `
+    mutation {
+        createUser(userInput: {
+          number: "9823184",
+          email: "${email}",
+          name: "${name}",
+          points: 0
+        }) {
+            _id
+        }
+      }
+    `  
+    return fetch('http://localhost:2500/graphql', { 
+        method: "POST", 
+        headers: { "content-type": "application/json" }, 
+        body: JSON.stringify({query}), 
+    }).then(response => response.json())
+      .then(data => {
+            console.log('Here is the data: ', data);
+            res.redirect('/kiesPaal')
+    });
+})
 
 // connect to mongoose
 var url = "mongodb+srv://" + mdb_username + ":" + mdb_password + "@laadpaal-klachten-2qggo.gcp.mongodb.net/klachten-db?retryWrites=true"
