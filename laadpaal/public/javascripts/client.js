@@ -2,6 +2,7 @@ console.log('client.js loaded.')
 const complaintForm = document.querySelector(".complaintForm")
 const complaintButtons = document.querySelectorAll(".option")
 const selectedComplaint = document.querySelector(".selectedComplaint")
+const subtitle = document.querySelector(".subtitle")
 
 if (complaintButtons) {
     complaintButtons.forEach(complaintButton => {
@@ -13,7 +14,6 @@ if (complaintButtons) {
 
             const sentenceStart = e.srcElement.innerHTML
 
-            // moveElement(targetElement, movingElement)
             createSentence(targetElement, sentenceStart)
             slideElementOut(complaintButtons, movingElement)
         })
@@ -27,7 +27,6 @@ function moveElement(targetElement, movingElement) {
 
 function createSentence(targetElement, sentenceStart) {
     targetElement.innerHTML = sentenceStart;
-    // movingElement.classList.remove("option")
 }
 
 
@@ -92,10 +91,24 @@ function addEventListeners(newComplaintButtons) {
             console.log(sentenceStart);
 
             completeSentence(sentenceStart, sentenceEnd)
-            slideElementOut(newComplaintButtons, movingElement)
+            slideSecondQuestionsOut(newComplaintButtons, movingElement)
         })
     })
 }
+
+function slideSecondQuestionsOut(complaintButtons, movingElement) {
+    complaintButtons.forEach(complaintButton => {
+        const chosenType = movingElement.innerHTML
+        if (complaintButton.innerHTML != chosenType) {
+            complaintButton.classList.add("slideOut")
+            setTimeout(function () {
+                slideFormIn()
+            }, 500);
+        }
+    })
+}
+
+
 
 function completeSentence(sentenceStart, sentenceEnd) {
     let firstPart = sentenceStart
@@ -108,3 +121,25 @@ function completeSentence(sentenceStart, sentenceEnd) {
 
     selectedComplaint.innerHTML = fullSentence.join(" ")
 }
+
+function slideFormIn() {
+    newChild = `
+    <label class="slideIn label">FOTO</label>
+    <input id="file-upload" class="slideIn button" type="file" name="image" accept="image/jpeg">
+
+    <textarea class="textarea slideIn">Voeg een beschrijving toe</textarea>
+    
+      
+    
+    <div class="buttonWrapper">
+      <button class="button formButtonLeft slideIn">OVERSLAAN</button>
+      <button class="button formButtonRight  slideIn">GA VERDER</button>
+    </div>
+    `
+    subtitle.innerHTML = "Voeg eventueel een foto of beschrijving toe"
+    complaintForm.innerHTML = newChild
+
+}
+
+
+
