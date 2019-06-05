@@ -33,18 +33,35 @@ const pole = async poleId => {
 
 module.exports = {
 
-    users: async() => {
-        try {
-            const users = await User.find();
-            return users.map(user => {
-                return {
-                    ...user._doc,
-                    _id: user.id,
-                };
-            });
-        } catch(err) {
-            throw err
-        }
+    users: async args => {
+        console.log(args);
+        if(args.userId)     // return specific user 
+        {          
+            try {
+                const users = await User.find({ _id: { $in: args.userId } });
+                return users.map(user => {
+                    return {
+                        ...user._doc,
+                        _id: user.id,
+                    };
+                });
+            } catch(err) {
+                throw err
+            }
+        } else              // return all users
+        {           
+            try {
+                const users = await User.find();
+                return users.map(user => {
+                    return {
+                        ...user._doc,
+                        _id: user.id,
+                    };
+                });
+            } catch(err) {
+                throw err
+            }
+        }        
     },
 
     createUser: async args => {
@@ -100,7 +117,8 @@ module.exports = {
             });
     },
 
-    complaints: async () => {
+    complaints: async args => {
+        console.log(args)
         try {
             const complaints = await Complaint.find();
             return complaints.map(complaint => {
