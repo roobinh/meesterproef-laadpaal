@@ -8,6 +8,7 @@ const logger = require('morgan');
 const graphqlHttp = require('express-graphql')
 const mongoose = require('mongoose')
 const fetch = require('node-fetch')
+const session = require('express-session')
 
 const graphQlSchema = require('./graphql/schemas')
 const graphQlResolvers = require('./graphql/resolver')
@@ -28,7 +29,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // server settings
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -36,11 +36,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+// graphql
 app.use('/graphql', graphqlHttp({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
     graphiql: true //interface to true
 }))
+
+// session
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET
+ }))
 
 // routes
 app.get('/typeMelding', function (req, res, next) {
@@ -55,7 +63,7 @@ app.get('/', function (req, res, next) {
 });
 
 // create user
-app.post('/createuser', function(req, res, next ) {
+app.post('/createuser', function(req, res, next) {
     const name = req.body.name;
     const email = req.body.email;
 
@@ -68,6 +76,8 @@ app.post('/createuser', function(req, res, next ) {
           points: 0
         }) {
             _id
+            name
+            email
         }
       }
     `  
@@ -77,18 +87,25 @@ app.post('/createuser', function(req, res, next ) {
         body: JSON.stringify({query}), 
     }).then(response => response.json())
       .then(data => {
-            console.log('Here is the data: ', data);
+            data = data.data.createUser
+            // set session data
+            req.session.user = {
+                email: data.email,
+                name: data.name,
+                id: data._id
+            };
+
             res.redirect('/kiesPaal')
     });
 })
 
 // connect to mongoose
 var url = "mongodb+srv://" + mdb_username + ":" + mdb_password + "@laadpaal-klachten-2qggo.gcp.mongodb.net/klachten-db?retryWrites=true"
-console.log('connecting to mongodb...')
+console.log('Connecting to MongoDB...')
 mongoose.connect(url, { 
     useNewUrlParser: true 
 }).then( () => {
-    console.log('connected to mongodb!')
+    console.log('Connected to MongoDB!')
 }).catch(err => {
     console.log(err)
 })
