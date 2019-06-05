@@ -34,7 +34,6 @@ const pole = async poleId => {
 module.exports = {
 
     users: async args => {
-        console.log(args);
         if(args.userId)     // return specific user 
         {          
             try {
@@ -83,18 +82,35 @@ module.exports = {
             });
     },
     
-    poles: async() => {
-        try {
-            const poles = await Pole.find()
-            return poles.map(pole => {
-                return {
-                    ...pole._doc,
-                    _id: pole.id,
-                };
-            });
-        } catch(err) {
-            throw err
+    poles: async args => {
+        if(args.poleId) 
+        {
+            try {
+                const poles = await Pole.find({ _id: { $in: args.poleId } });
+                return poles.map(pole => {
+                    return {
+                        ...pole._doc,
+                        _id: pole.id,
+                    };
+                });
+            } catch(err) {
+                throw err
+            }
+        } else 
+        {
+            try {
+                const poles = await Pole.find()
+                return poles.map(pole => {
+                    return {
+                        ...pole._doc,
+                        _id: pole.id,
+                    };
+                });
+            } catch(err) {
+                throw err
+            }
         }
+        
     },
 
     createPole: async args => {
@@ -118,21 +134,40 @@ module.exports = {
     },
 
     complaints: async args => {
-        console.log(args)
-        try {
-            const complaints = await Complaint.find();
-            return complaints.map(complaint => {
-                console.log(complaint);
-                return {
-                    ...complaint._doc,
-                    _id: complaint.id,
-                    user: user.bind(this, complaint._doc.user),
-                    pole: pole.bind(this, complaint._doc.pole)
-                };
-            });
-        } catch (err) {
-            throw err
-        }
+        
+        if(args.complaintId) 
+        {
+            try {
+                const complaints = await Complaint.find({ _id: { $in: args.complaintId } });
+                return complaints.map(complaint => {
+                    console.log(complaint);
+                    return {
+                        ...complaint._doc,
+                        _id: complaint.id,
+                        user: user.bind(this, complaint._doc.user),
+                        pole: pole.bind(this, complaint._doc.pole)
+                    };
+                });
+            } catch (err) {
+                throw err
+            }
+        } else 
+        {
+            try {
+                const complaints = await Complaint.find();
+                return complaints.map(complaint => {
+                    console.log(complaint);
+                    return {
+                        ...complaint._doc,
+                        _id: complaint.id,
+                        user: user.bind(this, complaint._doc.user),
+                        pole: pole.bind(this, complaint._doc.pole)
+                    };
+                });
+            } catch (err) {
+                throw err
+            }
+        }        
     },
 
     createComplaint: async args => {
