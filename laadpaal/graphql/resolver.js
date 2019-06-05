@@ -190,8 +190,59 @@ module.exports = {
                 console.log(err)
                 throw err;
         });
+    },
+
+    updateComplaint: async args => {
+
+        console.log("JO " + args.complaintInput.userId)
+
+        const complaints = await Complaint.find({ _id: { $in: args.complaintId } });
+        
+        return complaints.map(complaint => {
+
+            if(args.complaintInput.type) {
+                complaint.type = args.complaintInput.type;
+            }
+
+            if(args.complaintInput.image) {
+                complaint.image = args.complaintInput.image;
+            }
+
+            if(args.complaintInput.status) {
+                complaint.status = args.complaintInput.status;
+            }
+
+            if(args.complaintInput.date) {
+                complaint.date = args.complaintInput.date;
+            }
+
+            if(args.complaintInput.description) {
+                complaint.description = args.complaintInput.description;
+            }
+
+            if(args.complaintInput.userId) {
+                complaint.user = args.complaintInput.userId.toString();
+            }
+
+            if(args.complaintInput.poleId) {
+                complaint.pole = args.complaintInput.poleId.toString();
+            }
+
+            return complaint   
+                .save()
+                .then(result => {
+                    console.log(result) 
+                    return { ...result._doc }
+                }).catch(err => {
+                    console.log(err)
+                    throw err;
+                })
+        })
     }
 }
+
+    
+
 
 /*
 Example Http Request:

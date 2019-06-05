@@ -54,6 +54,16 @@ module.exports = buildSchema(`
         poleId: String
     }
 
+    input updateComplaint {
+        type: String
+        description: String
+        image: String
+        status: String
+        date: String
+        userId: String
+        poleId: String
+    }
+
     type RootQuery {
         users(userId: String): [User!]!
         poles(poleId: String): [Pole!]!
@@ -64,6 +74,7 @@ module.exports = buildSchema(`
         createUser(userInput: UserInput): User
         createPole(poleInput: PoleInput): Pole
         createComplaint(complaintInput: ComplaintInput): Complaint
+        updateComplaint(complaintId: String, complaintInput: ComplaintInput): [Complaint!]!
     }
 
     schema {
