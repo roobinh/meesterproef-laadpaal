@@ -1,21 +1,219 @@
+html{
+  padding: 0;
+}
+
 body {
+  background-color:white;
+  padding: 0;
+  margin: 0;
+}
+
+.body{
   padding: 25px;
-  background-color:#462255;
+  display: flex;
+  flex-direction: column;
 }
 
-a {
-  color: #00B7FF;
+h1{
+  font-family: 'Abel', sans-serif;
+  color: #009136;
+  font-weight: 400;
 }
 
-.option {
+.subtitle{
   font-family: 'Dosis', sans-serif;
-  font-weight:800;
+  font-weight:700;
+  letter-spacing: .05em;
+  color: black;
+}
+
+.img{
+  width: 100%;
+  height: 10em;
+  background-color: #009136;
+  margin-bottom: 1em;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+}
+
+.login label{
+  font-family: 'Dosis', sans-serif;
+  font-weight:500;
+  letter-spacing: .05em;
+  color: black;
+}
+
+.login input{
+  background-color: white;
+  font-family: 'Dosis', sans-serif;
+  color: black;
+  letter-spacing: .05em;
+  border: none;
+  border-bottom: solid #009136;
+  height: 2em;
+  margin-bottom: 1em;
+}
+
+.login input:last-of-type{
+  margin-bottom: 8em;
+}
+
+.button{
+  font-family: 'Dosis', sans-serif;
+  color: white;
+  background-color: #009136;
+  border: solid #009136;
+  width: 8em;
+  height: 3em;
+  font-weight: bold;
+  border-radius: 2px;
+  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.24);
+}
+
+.login .button{
+  align-self: flex-end;
+}
+
+header{
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: #009136;
+  display: flex;
+  height: 2.5em;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.menu{
+  margin-left: auto;
+  width: 2em;
+}
+
+.backArrow{
+  height: inherit;
+  width: 2em;
+}
+
+.backArrowLink{
+  height: 100%;
+}
+
+.map{
+  width: 100%;
+  height: 10em;
+  background-color: #009136;
+  margin-bottom: 1em;
+}
+
+.choosePoleForm{
+  margin-top: 10em;
+  display: flex;
+}
+
+.choosePoleForm button:last-of-type{
+  margin-left: auto;
+}
+
+.complaintForm{
+  display: flex;
+  flex-direction: column;
+}
+
+.complaintButton{
+  background-color: white;
+  border: none;
+  text-align: left;
+  color: #009136;
+  font-family: 'Dosis', sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 1em;
+  padding: 0;
+  height: 2em
+}
+
+.selectedComplaint{
+  min-height: 2em;
+  margin-bottom: 0;
+  background-color: white;
+  text-align: left;
+  color: #009136;
+  font-family: 'Dosis', sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  padding: 0;
+}
+
+.complaintButton:active{
+  background-color: #009136;
   color: white;
 }
 
-.title {
-  font-family: 'Abel', sans-serif;
-  color: #FF8026;
-  font-size: 16px;
-  font-weight: 250;
+.slideOut{
+  animation: 1s alternate slideOut;
 }
+
+@keyframes slideOut{
+  from {
+    transform: translateX(0)
+  }
+
+  to {
+    transform: translateX(-500px)
+  }
+}
+
+
+.slideIn{
+  animation: 1s alternate slideIn;
+}
+
+@keyframes slideIn{
+  from {
+    transform: translateX(+500px)
+  }
+
+  to {
+    transform: translateX(0)
+  }
+}
+
+.buttonWrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+input[type="file"]{
+  display: none;
+}
+
+.label{
+  font-family: 'Dosis', sans-serif;
+  color: white;
+  background-color: #009136;
+  border: solid #009136;
+  width: 6em;
+  height: 2em;
+  font-weight: bold;
+  border-radius: 2px;
+  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.24);
+  padding: none;
+  text-align: center;
+  line-height: 2em;
+  font-size: 1.5em;
+  margin-bottom: 6em;
+}
+
+.textarea{
+  margin-bottom: 2em;
+  height: 6em;
+  font-family: 'Dosis', sans-serif;
+  font-weight: bold;
+
+}
+
+

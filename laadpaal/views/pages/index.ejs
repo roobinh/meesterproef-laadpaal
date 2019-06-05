@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <% include ../partials/head %>
-  </head>
 
-  <header>
-    <% include ../partials/header %>
-  </header>
+<% include ../partials/head %>
 
-  <body>
-    <h1 class="title">Wat is er mis?</h1>
-    <h2 class="option">De laadpaal...</h2>
-    <h2 class="option">De parkeerplek...</h2>
-    <h2 class="option">Mijn pasje...</h2>
-  </body>
+<body>
+  <section class="body">
+    <h1>Laadpalen app</h1>  
+    <div class="img"></div>
+    <p class="subtitle">Log in om een melding te maken</p>
+    <form class="login">
+      <label for="email">Email</Label>
+      <input type="text" id="email" value="henk@email.com">
 
-  <footer>
-    <% include ../partials/footer %>
- </footer>
+      <label for="name">Voornaam</Label>
+      <input type="text" id="name" value="Henk">
+
+      <button class="button">LOG IN</button>
+    </form>
+  </section>
+</body>
+
+<% include ../partials/footer %>
+
 </html>
 
 

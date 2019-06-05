@@ -38,6 +38,13 @@ app.use('/graphql', graphqlHttp({
 }))
 
 // routes
+app.use('/typeMelding', function (req, res, next) {
+    res.render('pages/complaintType');
+});
+app.use('/kiesPaal', function (req, res, next) {
+    res.render('pages/choosePole');
+});
+
 app.use('/', function (req, res, next) {
     res.render('pages/index');
 });
