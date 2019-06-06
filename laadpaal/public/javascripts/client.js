@@ -4,6 +4,12 @@ const complaintButtons = document.querySelectorAll(".option")
 const selectedComplaint = document.querySelector(".selectedComplaint")
 const subtitle = document.querySelector(".subtitle")
 
+myStorage = window.localStorage
+
+
+
+
+
 if (complaintButtons) {
     complaintButtons.forEach(complaintButton => {
         complaintButton.addEventListener("click", e => {
@@ -88,7 +94,6 @@ function addEventListeners(newComplaintButtons) {
 
             const sentenceEnd = e.srcElement.innerHTML
             e.srcElement.remove()
-            console.log(sentenceStart);
 
             completeSentence(sentenceStart, sentenceEnd)
             slideSecondQuestionsOut(newComplaintButtons, movingElement)
@@ -120,20 +125,24 @@ function completeSentence(sentenceStart, sentenceEnd) {
     fullSentence.push(secondPart.substring(3, secondPart.length))
 
     selectedComplaint.innerHTML = fullSentence.join(" ")
+    myStorage.setItem("type", fullSentence.join(" "))
 }
+
+
+s
 
 function slideFormIn() {
     newChild = `
     <label class="slideIn label">FOTO</label>
     <input id="file-upload" class="slideIn button" type="file" name="image" accept="image/jpeg">
 
-    <textarea class="textarea slideIn">Voeg een beschrijving toe</textarea>
-    
+    <textarea name="description" class="textarea slideIn" placeholder="Voeg een beschrijving toe" required></textarea>
+    <input name="type" type="checkbox" class="invisible" value="${myStorage.getItem('type')}" checked></input>
       
     
     <div class="buttonWrapper">
-      <button class="button formButtonLeft slideIn">OVERSLAAN</button>
-      <button class="button formButtonRight  slideIn">GA VERDER</button>
+      <button class="button formButtonLeft slideIn" type="submit">OVERSLAAN</button>
+      <button class="button formButtonRight  slideIn" type="submit">GA VERDER</button>
     </div>
     `
     subtitle.innerHTML = "Voeg eventueel een foto of beschrijving toe"
@@ -141,5 +150,9 @@ function slideFormIn() {
 
 }
 
+
+// let type = myStorage.getItem('type');
+
+// console.log(type)
 
 

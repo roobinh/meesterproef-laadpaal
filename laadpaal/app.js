@@ -68,7 +68,7 @@ app.get('/typeMelding', authenticate, function (req, res, next) {
     res.render('pages/complaintType');
 });
 
-app.get('/loginFailed', function(req, res, next) {
+app.get('/loginFailed', function (req, res, next) {
     res.render('pages/loginFailed');
 });
 
@@ -112,7 +112,7 @@ app.post('/createuser', function (req, res, next) {
         .then(data => {
 
             // if user is created successfully...
-            if(data.data.createUser.email) {
+            if (data.data.createUser.email) {
 
                 data = data.data.createUser
                 // set session data
@@ -121,14 +121,14 @@ app.post('/createuser', function (req, res, next) {
                     name: data.name,
                     id: data._id
                 };
-    
+
                 res.redirect('/kiesPaal')
 
             } else {
                 res.send("User not created")
             }
 
-            
+
         });
 })
 
@@ -155,7 +155,7 @@ app.post('/login', function (req, res, next) {
         .then(data => {
             data = data.data.users[0]
 
-            if(data) {
+            if (data) {
 
                 req.session.user = {
                     email: data.email,
@@ -170,6 +170,50 @@ app.post('/login', function (req, res, next) {
                 res.redirect('/registreer')
             }
         });
+})
+//add complaint
+app.post('/createComplaint', authenticate, function (req, res, next) {
+    const type = req.body.type
+    const image = "temp_image.jpg"
+    const description = req.body.description
+    const userId = req.session.user.id
+    const poleId = req.session.user.complaint.poleId
+    const status = "Pending"
+    const date = new Date();
+    const date2 = date.getDay() + "/" + date.getMonth() + "/" + date.getYear()
+
+    const query = `
+    mutation {
+        createComplaint(complaintInput: {
+          type: "${type}",
+          description: "${description}",
+          image: "${image}",
+          status: "${status}",
+          date: "${date2}",
+          userId: "${userId}",
+          poleId: "${poleId}"
+        }) {
+          type
+          description
+          image
+          status
+          date
+        }
+      }
+    `
+
+    console.log(query)
+
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    }).then(response => response.json())
+        .then(data => {
+            console.log("--- Complaint aangemaakt ---")
+            console.log(data)
+        }
+        );
 })
 
 // connect to mongoose
@@ -188,13 +232,13 @@ function authenticate(req, res, next) {
 
     console.log("---- Authenticating -------")
     console.log("Session user: " + req.session.user)
-    if(req.session.user) {
+    if (req.session.user) {
         console.log("Authentication Succeeded.")
         next();
     } else {
         console.log("Authentication failed.")
         res.redirect('/loginFailed')
-    }   
+    }
 
 }
 
