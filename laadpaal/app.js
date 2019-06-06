@@ -1,19 +1,18 @@
 "use strict";
 
-// requires
+// packages
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const graphqlHttp = require('express-graphql')
 const mongoose = require('mongoose')
 const fetch = require('node-fetch')
+const bodyParser = require('body-parser')
 const session = require('express-session')
 
+// graphql
 const graphQlSchema = require('./graphql/schemas')
 const graphQlResolvers = require('./graphql/resolver')
-
-const bodyParser = require('body-parser')
 
 // dotenv vars
 require('dotenv').config();
@@ -24,72 +23,77 @@ const mdb_password = process.env.DB_PASSWORD;
 const app = express()
 var port = process.env.port || 2500;
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// app.set
+app .set('views', path.join('views'))
+    .set('view engine', 'ejs');
 
-// server settings
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-
-// graphql
-app.use('/graphql', graphqlHttp({
-    schema: graphQlSchema,
-    rootValue: graphQlResolvers,
-    graphiql: true //interface to true
-}))
-
-// session
-app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET
-}))
+// app.use
+app .use(express.json())
+    .use(express.urlencoded({extended: false}))
+    .use(cookieParser())
+    .use(express.static(path.join('public')))
+    .use(bodyParser.urlencoded({extended: false}))
+    .use(bodyParser.json())
+    .use('/graphql', graphqlHttp({
+        schema: graphQlSchema,
+        rootValue: graphQlResolvers,
+        graphiql: true })) //interface
+    .use(session({
+        resave: false,
+        saveUninitialized: true,
+        secret: process.env.SESSION_SECRET }))
 
 // routes
 app.get('/', function (req, res, next) {
-    res.render('pages/index');
+    res.render('pages/login');
 });
 
-app.get('/registreer', function (req, res, next) {
+app.get('/register', function (req, res, next) {
     res.render('pages/register');
 });
 
-app.get('/kiesPaal', authenticate, function (req, res, next) {
-    res.render('pages/choosePole');
+app.get('/choosepole', authenticate, function (req, res, next) {
+    res.render('pages/choosepole');
 });
 
-app.get('/typeMelding', authenticate, function (req, res, next) {
-    console.log(req.session.user);
-    res.render('pages/complaintType');
+app.get('/success', authenticate, function(req, res, next) {
+    if(req.session.currentComplaint) {
+        // next ->
+        //      1. get request to server
+        //      2. render complaint information on page
+        res.render('pages/success');
+    } else {
+        res.send("session.currentcomplaint not found.")
+    }
+})
+
+app.get('/complaint/create', authenticate, function (req, res, next) {
+    res.render('pages/createComplaint');
 });
 
 app.get('/loginFailed', function (req, res, next) {
-    res.render('pages/loginFailed');
+    res.render('pages/loginfailed');
 });
 
 app.post('/choosePole', authenticate, function (req, res, next) {
     console.log(req.body.pole)
-
 
     if (req.body.pole) {
         req.session.user.complaint = {
             poleId: req.body.pole
         }
 
-        res.redirect('/typeMelding')
+        res.redirect('/complaint/create')
     }
 })
 
-// create user
 app.post('/createuser', function (req, res, next) {
+
+    // set vars
     const name = req.body.name;
     const email = req.body.email;
 
+    // set query
     const query = `
     mutation {
         createUser(userInput: {
@@ -104,26 +108,24 @@ app.post('/createuser', function (req, res, next) {
         }
       }
     `
+
+    // request to server
     return fetch('http://localhost:2500/graphql', {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ query }),
-    }).then(response => response.json())
+    })
+        .then(response => response.json())
         .then(data => {
-
             // if user is created successfully...
             if (data.data.createUser.email) {
-
-                data = data.data.createUser
                 // set session data
                 req.session.user = {
-                    email: data.email,
-                    name: data.name,
-                    id: data._id
+                    email: data.data.createUser.email,
+                    name: data.data.createUser.name,
+                    id: data.data.createUser._id
                 };
-
-                res.redirect('/kiesPaal')
-
+                res.redirect('/choosepole')
             } else {
                 res.send("User not created")
             }
@@ -134,6 +136,7 @@ app.post('/createuser', function (req, res, next) {
 
 //login
 app.post('/login', function (req, res, next) {
+
     // email user wants to login with
     const email = req.body.email;
 
@@ -155,24 +158,23 @@ app.post('/login', function (req, res, next) {
         .then(data => {
             data = data.data.users[0]
 
-            if (data) {
-
+            if (data) { // login success
                 req.session.user = {
                     email: data.email,
                     name: data.name,
                     id: data._id
                 }
-
-                console.log(req.session)
-
-                res.redirect('/kiesPaal')
-            } else {
-                res.redirect('/registreer')
+                res.redirect('/choosepole')
+            } else { //login failed
+                res.redirect('/register')
             }
         });
 })
 //add complaint
 app.post('/createComplaint', authenticate, function (req, res, next) {
+
+    console.log("--------Creating Complaint--------")
+    console.log(req.session)
     const type = req.body.type
     const image = "temp_image.jpg"
     const description = req.body.description
@@ -193,6 +195,7 @@ app.post('/createComplaint', authenticate, function (req, res, next) {
           userId: "${userId}",
           poleId: "${poleId}"
         }) {
+          _id
           type
           description
           image
@@ -212,8 +215,10 @@ app.post('/createComplaint', authenticate, function (req, res, next) {
         .then(data => {
             console.log("--- Complaint aangemaakt ---")
             console.log(data)
+            req.session.currentComplaint = data.data.createComplaint._id
+            res.redirect('/success')
         }
-        );
+    );
 })
 
 // connect to mongoose
@@ -229,9 +234,9 @@ mongoose.connect(url, {
 
 // authenticate
 function authenticate(req, res, next) {
-
     console.log("---- Authenticating -------")
-    console.log("Session user: " + req.session.user)
+    console.log("Session user: ")
+    console.log(req.session)
     if (req.session.user) {
         console.log("Authentication Succeeded.")
         next();
@@ -239,7 +244,6 @@ function authenticate(req, res, next) {
         console.log("Authentication failed.")
         res.redirect('/loginFailed')
     }
-
 }
 
 // start server

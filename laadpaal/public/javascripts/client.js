@@ -128,9 +128,6 @@ function completeSentence(sentenceStart, sentenceEnd) {
     myStorage.setItem("type", fullSentence.join(" "))
 }
 
-
-s
-
 function slideFormIn() {
     newChild = `
     <label class="slideIn label">FOTO</label>
