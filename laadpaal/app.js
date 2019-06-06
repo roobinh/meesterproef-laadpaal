@@ -22,7 +22,7 @@ const mdb_password = process.env.DB_PASSWORD;
 
 // nodejs
 const app = express()
-var port = process.env.port || 2500; 
+var port = process.env.port || 2500;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,7 +48,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET
- }))
+}))
 
 // routes
 app.get('/typeMelding', function (req, res, next) {
@@ -63,10 +63,14 @@ app.get('/', function (req, res, next) {
     res.render('pages/index');
 });
 
-app.post('/choosePole', function(req, res, next) {
+app.get('/registreer', function (req, res, next) {
+    res.render('pages/register');
+});
+
+app.post('/choosePole', function (req, res, next) {
     console.log(req.body.pole)
 
-    if(req.body.pole) {
+    if (req.body.pole) {
         req.session.user.complaint = {
             poleId: req.body.pole
         }
@@ -76,7 +80,7 @@ app.post('/choosePole', function(req, res, next) {
 })
 
 // create user
-app.post('/createuser', function(req, res, next) {
+app.post('/createuser', function (req, res, next) {
     const name = req.body.name;
     const email = req.body.email;
 
@@ -93,13 +97,13 @@ app.post('/createuser', function(req, res, next) {
             email
         }
       }
-    `  
-    return fetch('http://localhost:2500/graphql', { 
-        method: "POST", 
-        headers: { "content-type": "application/json" }, 
-        body: JSON.stringify({query}), 
+    `
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
     }).then(response => response.json())
-      .then(data => {
+        .then(data => {
             data = data.data.createUser
             // set session data
             req.session.user = {
@@ -109,15 +113,52 @@ app.post('/createuser', function(req, res, next) {
             };
 
             res.redirect('/kiesPaal')
-    });
+        });
+})
+
+//login
+app.post('/login', function (req, res, next) {
+    const name = req.body.name;
+    const email = req.body.email;
+
+    const query = `
+    mutation {
+        createUser(userInput: {
+          number: "0",
+          email: "${email}",
+          name: "${name}",
+          points: 0
+        }) {
+            _id
+            name
+            email
+        }
+      }
+    `
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    }).then(response => response.json())
+        .then(data => {
+            data = data.data.createUser
+            // set session data
+            req.session.user = {
+                email: data.email,
+                name: data.name,
+                id: data._id
+            };
+
+            res.redirect('/kiesPaal')
+        });
 })
 
 // connect to mongoose
 var url = "mongodb+srv://" + mdb_username + ":" + mdb_password + "@laadpaal-klachten-2qggo.gcp.mongodb.net/klachten-db?retryWrites=true"
 console.log('Connecting to MongoDB...')
-mongoose.connect(url, { 
-    useNewUrlParser: true 
-}).then( () => {
+mongoose.connect(url, {
+    useNewUrlParser: true
+}).then(() => {
     console.log('Connected to MongoDB!')
 }).catch(err => {
     console.log(err)
