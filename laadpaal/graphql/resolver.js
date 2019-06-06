@@ -34,7 +34,19 @@ const pole = async poleId => {
 module.exports = {
 
     users: async args => {
-        if(args.userId)     // return specific user 
+        if(args.email) {    // return specific user
+            try {
+                const users = await User.find({ email: { $in: args.email } });
+                return users.map(user => {
+                    return {
+                        ...user._doc,
+                        _id: user.id,
+                    };
+                });
+            } catch(err) {
+                throw err
+            }
+        } else if(args.userId)     // return specific user 
         {          
             try {
                 const users = await User.find({ _id: { $in: args.userId } });

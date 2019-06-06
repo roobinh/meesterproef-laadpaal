@@ -65,7 +65,7 @@ module.exports = buildSchema(`
     }
 
     type RootQuery {
-        users(userId: String): [User!]!
+        users(userId: String, email: String): [User!]!
         poles(poleId: String): [Pole!]!
         complaints(complaintId: String): [Complaint!]!
     }

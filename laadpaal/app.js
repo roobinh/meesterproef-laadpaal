@@ -51,14 +51,6 @@ app.use(session({
 }))
 
 // routes
-app.get('/typeMelding', function (req, res, next) {
-    console.log(req.session);
-    res.render('pages/complaintType');
-});
-app.get('/kiesPaal', function (req, res, next) {
-    res.render('pages/choosePole');
-});
-
 app.get('/', function (req, res, next) {
     res.render('pages/index');
 });
@@ -67,8 +59,22 @@ app.get('/registreer', function (req, res, next) {
     res.render('pages/register');
 });
 
-app.post('/choosePole', function (req, res, next) {
+app.get('/kiesPaal', authenticate, function (req, res, next) {
+    res.render('pages/choosePole');
+});
+
+app.get('/typeMelding', authenticate, function (req, res, next) {
+    console.log(req.session.user);
+    res.render('pages/complaintType');
+});
+
+app.get('/loginFailed', function(req, res, next) {
+    res.render('pages/loginFailed');
+});
+
+app.post('/choosePole', authenticate, function (req, res, next) {
     console.log(req.body.pole)
+
 
     if (req.body.pole) {
         req.session.user.complaint = {
@@ -104,34 +110,40 @@ app.post('/createuser', function (req, res, next) {
         body: JSON.stringify({ query }),
     }).then(response => response.json())
         .then(data => {
-            data = data.data.createUser
-            // set session data
-            req.session.user = {
-                email: data.email,
-                name: data.name,
-                id: data._id
-            };
 
-            res.redirect('/kiesPaal')
+            // if user is created successfully...
+            if(data.data.createUser.email) {
+
+                data = data.data.createUser
+                // set session data
+                req.session.user = {
+                    email: data.email,
+                    name: data.name,
+                    id: data._id
+                };
+    
+                res.redirect('/kiesPaal')
+
+            } else {
+                res.send("User not created")
+            }
+
+            
         });
 })
 
 //login
 app.post('/login', function (req, res, next) {
-    const name = req.body.name;
+    // email user wants to login with
     const email = req.body.email;
 
     const query = `
-    mutation {
-        createUser(userInput: {
-          number: "0",
-          email: "${email}",
-          name: "${name}",
-          points: 0
-        }) {
-            _id
-            name
-            email
+    query {
+        users(email: "${email}") {
+          _id
+          number
+          email
+          name   
         }
       }
     `
@@ -141,15 +153,22 @@ app.post('/login', function (req, res, next) {
         body: JSON.stringify({ query }),
     }).then(response => response.json())
         .then(data => {
-            data = data.data.createUser
-            // set session data
-            req.session.user = {
-                email: data.email,
-                name: data.name,
-                id: data._id
-            };
+            data = data.data.users[0]
 
-            res.redirect('/kiesPaal')
+            if(data) {
+
+                req.session.user = {
+                    email: data.email,
+                    name: data.name,
+                    id: data._id
+                }
+
+                console.log(req.session)
+
+                res.redirect('/kiesPaal')
+            } else {
+                res.redirect('/registreer')
+            }
         });
 })
 
@@ -163,6 +182,21 @@ mongoose.connect(url, {
 }).catch(err => {
     console.log(err)
 })
+
+// authenticate
+function authenticate(req, res, next) {
+
+    console.log("---- Authenticating -------")
+    console.log("Session user: " + req.session.user)
+    if(req.session.user) {
+        console.log("Authentication Succeeded.")
+        next();
+    } else {
+        console.log("Authentication failed.")
+        res.redirect('/loginFailed')
+    }   
+
+}
 
 // start server
 var server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
