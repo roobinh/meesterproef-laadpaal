@@ -1,14 +1,11 @@
 console.log('client.js loaded.')
+
 const complaintForm = document.querySelector(".complaintForm")
 const complaintButtons = document.querySelectorAll(".option")
 const selectedComplaint = document.querySelector(".selectedComplaint")
 const subtitle = document.querySelector(".subtitle")
 
-myStorage = window.localStorage
-
-
-
-
+const myStorage = window.localStorage
 
 if (complaintButtons) {
     complaintButtons.forEach(complaintButton => {
@@ -17,7 +14,6 @@ if (complaintButtons) {
 
             const targetElement = selectedComplaint
             const movingElement = e.srcElement
-
             const sentenceStart = e.srcElement.innerHTML
 
             createSentence(targetElement, sentenceStart)
@@ -144,12 +140,9 @@ function slideFormIn() {
     `
     subtitle.innerHTML = "Voeg eventueel een foto of beschrijving toe"
     complaintForm.innerHTML = newChild
-
 }
 
-
 // let type = myStorage.getItem('type');
-
 // console.log(type)
 
 

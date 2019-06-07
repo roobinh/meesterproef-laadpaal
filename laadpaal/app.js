@@ -1,17 +1,17 @@
 "use strict";
 
 // packages
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const graphqlHttp = require('express-graphql')
-const mongoose = require('mongoose')
-const fetch = require('node-fetch')
-const bodyParser = require('body-parser')
-const session = require('express-session')
+const path =             require('path');
+const express =          require('express');
+const cookieParser =     require('cookie-parser');
+const graphqlHttp =      require('express-graphql')
+const mongoose =         require('mongoose')
+const fetch =            require('node-fetch')
+const bodyParser =       require('body-parser')
+const session =          require('express-session')
 
 // graphql
-const graphQlSchema = require('./graphql/schemas')
+const graphQlSchema =    require('./graphql/schemas')
 const graphQlResolvers = require('./graphql/resolver')
 
 // dotenv vars
@@ -45,18 +45,23 @@ app .use(express.json())
 
 // routes
 app.get('/', function (req, res, next) {
-    res.render('pages/login');
+    
+    if(req.session.user) {
+        res.redirect('/home')
+    } else {
+        res.render('pages/login');
+    }
 });
 
 app.get('/register', function (req, res, next) {
     res.render('pages/register');
 });
 
-app.get('/choosepole', authenticate, function (req, res, next) {
+app.get('/home', authenticate, function (req, res, next) {
     res.render('pages/choosepole');
 });
 
-app.get('/success', authenticate, function(req, res, next) {
+app.get('/complaint/success', authenticate, function(req, res, next) {
     if(req.session.currentComplaint) {
         // next ->
         //      1. get request to server
@@ -71,7 +76,7 @@ app.get('/complaint/create', authenticate, function (req, res, next) {
     res.render('pages/createComplaint');
 });
 
-app.get('/loginFailed', function (req, res, next) {
+app.get('/login/failed', function (req, res, next) {
     res.render('pages/loginfailed');
 });
 
@@ -117,15 +122,18 @@ app.post('/createuser', function (req, res, next) {
     })
         .then(response => response.json())
         .then(data => {
+
+            data = data.data.users[0]
+
             // if user is created successfully...
             if (data.data.createUser.email) {
                 // set session data
                 req.session.user = {
-                    email: data.data.createUser.email,
-                    name: data.data.createUser.name,
-                    id: data.data.createUser._id
+                    email: data.email,
+                    name: data.name,
+                    id: data._id
                 };
-                res.redirect('/choosepole')
+                res.redirect('/home')
             } else {
                 res.send("User not created")
             }
@@ -140,6 +148,7 @@ app.post('/login', function (req, res, next) {
     // email user wants to login with
     const email = req.body.email;
 
+    // set querry
     const query = `
     query {
         users(email: "${email}") {
@@ -150,6 +159,8 @@ app.post('/login', function (req, res, next) {
         }
       }
     `
+
+    // post request
     return fetch('http://localhost:2500/graphql', {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -164,16 +175,16 @@ app.post('/login', function (req, res, next) {
                     name: data.name,
                     id: data._id
                 }
-                res.redirect('/choosepole')
+                res.redirect('/home')
             } else { //login failed
                 res.redirect('/register')
             }
         });
 })
-//add complaint
-app.post('/createComplaint', authenticate, function (req, res, next) {
 
-    console.log("--------Creating Complaint--------")
+// create complaint in database
+app.post('/createComplaint', authenticate, function (req, res, next) {
+    console.log("--------Creating Complaint in Database--------")
     console.log(req.session)
     const type = req.body.type
     const image = "temp_image.jpg"
@@ -213,10 +224,15 @@ app.post('/createComplaint', authenticate, function (req, res, next) {
         body: JSON.stringify({ query }),
     }).then(response => response.json())
         .then(data => {
-            console.log("--- Complaint aangemaakt ---")
-            console.log(data)
-            req.session.currentComplaint = data.data.createComplaint._id
-            res.redirect('/success')
+            if(data.errors) {
+                console.log("Complaint unsuccessfully created")
+                res.send("complaint unsuccessfull")
+            } else {
+                console.log("--- Complaint aangemaakt ---")
+                console.log(data)
+                req.session.currentComplaint = data.data.createComplaint._id
+                res.redirect('/complaint/success')
+            } 
         }
     );
 })
@@ -236,13 +252,13 @@ mongoose.connect(url, {
 function authenticate(req, res, next) {
     console.log("---- Authenticating -------")
     console.log("Session user: ")
-    console.log(req.session)
-    if (req.session.user) {
+    if (req.session.user) { 
         console.log("Authentication Succeeded.")
+        console.log(req.session.user)
         next();
     } else {
         console.log("Authentication failed.")
-        res.redirect('/loginFailed')
+        res.redirect('/login/failed')
     }
 }
 
