@@ -32,7 +32,6 @@ const pole = async poleId => {
 }
 
 module.exports = {
-
     users: async args => {
         if(args.email) {    // return specific user
             try {
@@ -76,7 +75,6 @@ module.exports = {
     },
 
     createUser: async args => {
-
         args.userInput.points ? points = args.userInput.points : points = 0;
         // args.userInput.number ? number = args.userInput.number : number = "0";
 
@@ -150,7 +148,6 @@ module.exports = {
     },
 
     complaints: async args => {
-        
         if(args.complaintId) 
         {
             try {

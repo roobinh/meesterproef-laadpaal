@@ -122,16 +122,14 @@ app.post('/createuser', function (req, res, next) {
     })
         .then(response => response.json())
         .then(data => {
-
-            data = data.data.users[0]
-
+            
             // if user is created successfully...
             if (data.data.createUser.email) {
                 // set session data
                 req.session.user = {
-                    email: data.email,
-                    name: data.name,
-                    id: data._id
+                    email: data.data.createUser.email,
+                    name: data.data.createUser.name,
+                    id: data.data.createUser._id
                 };
                 res.redirect('/home')
             } else {
