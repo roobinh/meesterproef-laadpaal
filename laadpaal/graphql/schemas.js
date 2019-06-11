@@ -40,6 +40,7 @@ module.exports = buildSchema(`
         image: String
         status: String
         date: String
+        time: String
         pole: Pole!
         user: User!
     }
@@ -50,6 +51,7 @@ module.exports = buildSchema(`
         image: String
         status: String
         date: String
+        time: String
         userId: String
         poleId: String
     }
@@ -60,6 +62,7 @@ module.exports = buildSchema(`
         image: String
         status: String
         date: String
+        time: String
         userId: String
         poleId: String
     }

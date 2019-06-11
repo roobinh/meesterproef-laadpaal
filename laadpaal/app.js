@@ -45,7 +45,6 @@ app .use(express.json())
 
 // routes
 app.get('/', function (req, res, next) {
-    
     if(req.session.user) {
         res.redirect('/home')
     } else {
@@ -63,22 +62,69 @@ app.get('/home', authenticate, function (req, res, next) {
 
 app.get('/complaint/success', authenticate, function(req, res, next) {
     if(req.session.currentComplaint) {
-        // next ->
-        //      1. get request to server
-        //      2. render complaint information on page
-        res.render('pages/success');
-    } else {
-        res.send("session.currentcomplaint not found.")
-    }
-})
+
+        var complaintId = req.session.currentComplaint;
+
+        const query = `
+        query {
+            complaints(complaintId: "${complaintId}") {
+              type
+              description
+              image  
+              status
+              date
+              time
+              pole {
+                longitude
+                latitude
+                chargetype
+                power
+                amount
+              }
+              user {
+                email
+                name
+              }
+            }
+          }
+        `
+
+        return fetch('http://localhost:2500/graphql', {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        })      .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if(data.data.complaints) {
+                        console.log(data.data.complaints)
+                        res.render('pages/success', {data: data.data.complaints[0]});
+                    } else {
+                        res.send("session.currentcomplaint not found.")
+                    }
+                }
+            )}
+});
+            
 
 app.get('/complaint/create', authenticate, function (req, res, next) {
-    res.render('pages/createComplaint');
+    //check if currentpole is set
+    console.log(req.session)
+    if(req.session.user.complaint) {
+        res.render('pages/createComplaint');
+    } else {
+        res.redirect('/')
+    }
 });
 
 app.get('/login/failed', function (req, res, next) {
     res.render('pages/loginfailed');
 });
+
+app.get('/logout', authenticate, function(req, res, next) {
+    req.session.destroy();
+    res.redirect('/')
+})
 
 app.post('/choosePole', authenticate, function (req, res, next) {
     console.log(req.body.pole)
@@ -186,12 +232,18 @@ app.post('/createComplaint', authenticate, function (req, res, next) {
     console.log(req.session)
     const type = req.body.type
     const image = "temp_image.jpg"
-    const description = req.body.description
+    const description = req.body.description.trim();
     const userId = req.session.user.id
     const poleId = req.session.user.complaint.poleId
     const status = "Pending"
-    const date = new Date();
-    const date2 = date.getDay() + "/" + date.getMonth() + "/" + date.getYear()
+
+    var currentDate = new Date();
+    var date = currentDate.getDate();
+    var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+    var year = currentDate.getFullYear();
+    var time = currentDate.getHours() + ":" + currentDate.getMinutes();
+    var dateString = date + "-" +(month + 1) + "-" + year;
+    
 
     const query = `
     mutation {
@@ -200,7 +252,8 @@ app.post('/createComplaint', authenticate, function (req, res, next) {
           description: "${description}",
           image: "${image}",
           status: "${status}",
-          date: "${date2}",
+          date: "${dateString}",
+          time: "${time}",
           userId: "${userId}",
           poleId: "${poleId}"
         }) {

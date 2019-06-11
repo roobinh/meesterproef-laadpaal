@@ -190,6 +190,7 @@ module.exports = {
             image: args.complaintInput.image,
             status: args.complaintInput.status,
             date: args.complaintInput.date,
+            time: args.complaintInput.time,
             user: args.complaintInput.userId.toString(),
             pole: args.complaintInput.poleId.toString()
         })
@@ -206,8 +207,6 @@ module.exports = {
     },
 
     updateComplaint: async args => {
-
-        console.log("JO " + args.complaintInput.userId)
 
         const complaints = await Complaint.find({ _id: { $in: args.complaintId } });
         
