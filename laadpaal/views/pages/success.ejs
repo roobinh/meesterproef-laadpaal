@@ -8,7 +8,17 @@
 <% include ../partials/header %>
 
 <section class="body">
-    <h1>Bedankt voor de melding!</h1>
+  <% 
+    if(data.user.name) {
+      %> <h1>Bedankt voor de melding, <%- data.user.name %> !</h1> <%
+    } else {
+      %> <h1>Bedankt voor de melding!</h1> <%
+    } %>
+
+    <p><%- data.date %></p>
+    <h1><%- data.type %></h1>
+    <p></p>
+    <div class="img"></div>
 
     <p>nog op deze pagina: </p>
     <p>- naam van de gebruiker</p>
