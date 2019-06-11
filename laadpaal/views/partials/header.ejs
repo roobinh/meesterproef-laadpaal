@@ -1,35 +1,15 @@
 <!-- Header -->
 <header>
     <a href="" class="backArrowLink"><img class="backArrow" src="/icons/back-arrow.png" alt="back arrow"></a>
-    <nav role="navigation">
-        <div id="menuToggle">
-            <!--
-            A fake / hidden checkbox is used as click reciever,
-            so you can use the :checked selector on it.
-            -->
-            <input type="checkbox" />
-                
-                <!--
-                Some spans to act as a hamburger.
-                
-                They are acting like a real hamburger,
-                not that McDonalds stuff.
-                -->
-            <span></span>
-            <span></span>
-            <span></span>
-                
-                <!--
-                Too bad the menu has to be inside of the button
-                but hey, it's pure CSS magic.
-                -->
-            <ul id="menu">
-            <a href="/myaccount"><li>MIJN ACCOUNT</li></a>
-            <a href="/malfunctions"><li>STORINGEN</li></a>
-            <a href="/chat"><li>CHAT</li></a>
-            <a href="/account/complaints"><li>MIJN MELDINGEN</li></a>
-            <a href="/logout"><li>UITLOGGEN</li></a>
-            </ul>
-        </div>
-    </nav>
+    <input class="menu-btn" type="checkbox" id="menu-btn" />
+    <label class="menu-icon" for="menu-btn">
+        <span class="navicon"></span>
+    </label>
+    <ul class="menu">
+        <li><a href="/myaccount">MIJN ACCOUNT</a></li>
+        <li><a href="/malfunctions">STORINGEN</a></li>
+        <li><a href="/chat">CHAT</a></li>
+        <li><a href="/account/complaints">MIJN MELDINGEN</a></li>
+        <li><a href="/logout">UITLOGGEN</a></li>
+  </ul>
 </header>
