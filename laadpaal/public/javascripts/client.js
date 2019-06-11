@@ -126,8 +126,8 @@ function completeSentence(sentenceStart, sentenceEnd) {
 
 function slideFormIn() {
     newChild = `
-    <label class="slideIn label">FOTO</label>
-    <input id="file-upload" class="slideIn button" type="file" name="image" accept="image/jpeg">
+
+    <input name="image" type="file" class="slideIn" accept="image/jpeg">
 
     <textarea name="description" class="textarea slideIn" placeholder="Voeg een beschrijving toe" required></textarea>
     <input name="type" type="checkbox" class="invisible" value="${myStorage.getItem('type')}" checked></input>
