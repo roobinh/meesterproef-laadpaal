@@ -48,10 +48,10 @@ function addNextAnswers(chosenType) {
     let newChild
     if (chosenType == "De laadpaal...") {
         newChild = `
-    <button class="complaintButton option slideIn">...is uit.</button>
-    <button class="complaintButton option slideIn">...is defect.</button>
+    <button class="complaintButton option slideIn">...is uit/defect.</button>
     <button class="complaintButton option slideIn">...is te lang bezet.</button>
     <button class="complaintButton option slideIn">...is niet te bereiken.</button>
+    <button class="complaintButton option slideIn">...slang is kapot.</button>
     <button class="complaintButton option slideIn">...is bezet door een niet elektrische auto.</button>`
     } else if (chosenType == "De parkeerplek...") {
         newChild = `

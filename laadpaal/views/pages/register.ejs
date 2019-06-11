@@ -10,7 +10,12 @@
     <p class="subtitle">Registreer om een melding te maken</p>
     <form class="login" action="/createuser" method="POST">
       <label for="email">Email</Label>
-      <input type="email" name="email" id="email" placeholder="example@email.com" required>
+      
+      <% if(typeof email != 'undefined') { %>
+        <input type="email" name="email" id="email" value="<%=email%>" required>
+      <% } else { %>
+        <input type="email" name="email" id="email" placeholder="example@email.com" required>
+      <% } %>
 
       <label for="name">Voornaam</Label>
       <input type="text" name="name" id="name" placeholder="uw naam hier" required>

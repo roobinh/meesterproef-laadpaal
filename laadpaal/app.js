@@ -80,7 +80,7 @@ app.get('/register', function (req, res, next) {
 });
 
 app.get('/home', authenticate, function (req, res, next) {
-    res.render('pages/choosepole');
+    res.render('pages/choosepole', { name: req.session.user.name});
 });
 
 app.get('/complaint/success', authenticate, function(req, res, next) {
@@ -241,7 +241,7 @@ app.post('/login', function (req, res, next) {
                 }
                 res.redirect('/home')
             } else { //login failed
-                res.redirect('/register')
+                res.render('pages/register', { email: email });
             }
         });
 })
