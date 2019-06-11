@@ -141,8 +141,3 @@ function slideFormIn() {
     subtitle.innerHTML = "Voeg eventueel een foto of beschrijving toe"
     complaintForm.innerHTML = newChild
 }
-
-// let type = myStorage.getItem('type');
-// console.log(type)
-
-
