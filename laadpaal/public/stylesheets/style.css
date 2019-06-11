@@ -162,6 +162,7 @@ header .menu-icon .navicon {
   position: relative;
   transition: background .2s ease-out;
   width: 18px;
+  margin-right: 2em;
 }
 
 header .menu-icon .navicon:before,
@@ -190,7 +191,7 @@ header .menu-btn {
 }
 
 header .menu-btn:checked ~ .menu {
-  max-height: 240px;
+  max-height: 360px;
 }
 
 header .menu-btn:checked ~ .menu-icon .navicon {
