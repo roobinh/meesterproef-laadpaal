@@ -3,6 +3,12 @@
 
 <% include ../partials/head %>
 
+<% if(typeof errorMsg !== 'undefined') {
+    %> <h2 class="error"><%=errorMsg%></h2> <%
+} 
+
+%>
+
 <body>
   <section class="body">
     <h1>Laadpalen app</h1>  
@@ -10,7 +16,7 @@
     <p class="subtitle">Log in om een melding te maken</p>
     <form class="login" action="/login" method="POST">
       <label for="email">Email</Label>
-      <input type="email" name="email" id="email" placeholder="example@email.com" required>
+      <input type="email" name="email" id="email" value="example@email.com" required>
 
       <a class="link" href="/register">registreer</a>
 

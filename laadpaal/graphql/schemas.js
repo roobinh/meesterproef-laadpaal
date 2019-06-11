@@ -60,7 +60,7 @@ module.exports = buildSchema(`
         type: String
         description: String
         image: String
-        status: String
+        status: String  
         date: String
         time: String
         userId: String

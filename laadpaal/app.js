@@ -9,6 +9,20 @@ const mongoose =         require('mongoose')
 const fetch =            require('node-fetch')
 const bodyParser =       require('body-parser')
 const session =          require('express-session')
+const multer =           require('multer')
+const fs =               require('fs')
+
+// const multerConf = {
+//     storage: multer.diskStorage({
+//         destination : function(req, file, next) {
+//             next(null, './public/images');
+//         }, 
+//         filename: function(req, file, next) {
+//             console.log(file);
+//         }
+//     }),
+// }
+
 
 // graphql
 const graphQlSchema =    require('./graphql/schemas')
@@ -21,7 +35,7 @@ const mdb_password = process.env.DB_PASSWORD;
 
 // nodejs
 const app = express()
-var port = process.env.port || 2500;
+const port = process.env.port || 2500;
 
 // app.set
 app .set('views', path.join('views'))
@@ -42,6 +56,10 @@ app .use(express.json())
         resave: false,
         saveUninitialized: true,
         secret: process.env.SESSION_SECRET }))
+    .use('/image', express.static('public/images/uploads'))
+
+
+const upload = multer({dest: './public/images/uploads/'})
 
 // routes
 app.get('/', function (req, res, next) {
@@ -51,6 +69,11 @@ app.get('/', function (req, res, next) {
         res.render('pages/login');
     }
 });
+
+app.get('/login/failed', function (req, res, next) {
+    res.render('pages/login', { errorMsg: "U bent nog niet ingelogd" });
+});
+
 
 app.get('/register', function (req, res, next) {
     res.render('pages/register');
@@ -68,6 +91,7 @@ app.get('/complaint/success', authenticate, function(req, res, next) {
         const query = `
         query {
             complaints(complaintId: "${complaintId}") {
+              _id
               type
               description
               image  
@@ -106,7 +130,6 @@ app.get('/complaint/success', authenticate, function(req, res, next) {
             )}
 });
             
-
 app.get('/complaint/create', authenticate, function (req, res, next) {
     //check if currentpole is set
     console.log(req.session)
@@ -117,9 +140,6 @@ app.get('/complaint/create', authenticate, function (req, res, next) {
     }
 });
 
-app.get('/login/failed', function (req, res, next) {
-    res.render('pages/loginfailed');
-});
 
 app.get('/logout', authenticate, function(req, res, next) {
     req.session.destroy();
@@ -227,22 +247,24 @@ app.post('/login', function (req, res, next) {
 })
 
 // create complaint in database
-app.post('/createComplaint', authenticate, function (req, res, next) {
+app.post('/createComplaint', authenticate, upload.single('image'), function (req, res, next) {
     console.log("--------Creating Complaint in Database--------")
     console.log(req.session)
+    console.log(req.body)
+    console.log("Req.file = ", req.file)
+
     const type = req.body.type
-    const image = "temp_image.jpg"
     const description = req.body.description.trim();
     const userId = req.session.user.id
     const poleId = req.session.user.complaint.poleId
     const status = "Pending"
 
-    var currentDate = new Date();
-    var date = currentDate.getDate();
-    var month = currentDate.getMonth(); //Be careful! January is 0 not 1
-    var year = currentDate.getFullYear();
-    var time = currentDate.getHours() + ":" + currentDate.getMinutes();
-    var dateString = date + "-" +(month + 1) + "-" + year;
+    const currentDate = new Date();
+    const date = currentDate.getDate();
+    const month = currentDate.getMonth(); //Be careful! January is 0 not 1
+    const year = currentDate.getFullYear();
+    const time = currentDate.getHours() + ":" + currentDate.getMinutes();
+    const dateString = date + "-" +(month + 1) + "-" + year;
     
 
     const query = `
@@ -250,7 +272,7 @@ app.post('/createComplaint', authenticate, function (req, res, next) {
         createComplaint(complaintInput: {
           type: "${type}",
           description: "${description}",
-          image: "${image}",
+          image: "",
           status: "${status}",
           date: "${dateString}",
           time: "${time}",
@@ -280,7 +302,18 @@ app.post('/createComplaint', authenticate, function (req, res, next) {
                 res.send("complaint unsuccessfull")
             } else {
                 console.log("--- Complaint aangemaakt ---")
-                console.log(data)
+                console.log("req.file = ")
+                console.log(req.file)
+
+                
+                if(req.file) { // als er een image wordt meegestuurd
+                    fs.rename(req.file.path, req.file.destination + data.data.createComplaint._id + '.jpeg', err => {
+                        if(err) {
+                            console.log(err)
+                        }
+                    })
+                }
+
                 req.session.currentComplaint = data.data.createComplaint._id
                 res.redirect('/complaint/success')
             } 
