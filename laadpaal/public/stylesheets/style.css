@@ -200,10 +200,6 @@ header{
   justify-content: space-between;
 }
 
-input[type="file"]{
-  display: none;
-}
-
 .label{
   font-family: 'Dosis', sans-serif;
   color: white;
