@@ -80,6 +80,11 @@ app.get('/login/failed', function (req, res, next) {
     res.render('pages/loginfailed');
 });
 
+app.get('/logout', authenticate, function(req, res, next) {
+    req.session.destroy();
+    res.redirect('/')
+})
+
 app.post('/choosePole', authenticate, function (req, res, next) {
     console.log(req.body.pole)
 
