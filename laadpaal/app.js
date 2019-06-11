@@ -143,7 +143,7 @@ app.get('/complaint/create', authenticate, function (req, res, next) {
 
 app.get('/logout', authenticate, function(req, res, next) {
     req.session.destroy();
-    res.redirect('/')
+    res.render('pages/login', {errorMsg: "U bent nu uitgelogd"})
 })
 
 app.post('/choosePole', authenticate, function (req, res, next) {
