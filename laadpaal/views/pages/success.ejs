@@ -7,21 +7,17 @@
 
 <% include ../partials/header %>
 
-<section class="body">
-  <% 
-    if(data.user.name) {
-      %> <h1>Bedankt voor de melding, <%- data.user.name %> !</h1> <%
-    } else {
-      %> <h1>Bedankt voor de melding!</h1> <%
-    } %>
+  <section class="body"> <% 
+      if(data.user.name) {
+        %> <h1 class="title">Bedankt voor de melding, <%- data.user.name %> !</h1> <%
+      } else {
+        %> <h1>Bedankt voor de melding!</h1> <%
+      } %>
 
-    <p><%- data.date %></p>
-    <h1><%- data.type %></h1>
-    <p></p>
-
-    <img src="/images/uploads/<%= data._id %>.jpeg"></img>
-    <div class="img"></div>
-
+    <section class="bonnetje">
+      <p class="subtitle">22-09-1999</p>
+      <h2 class="subtitle">De laadpaal is kapot</h2>
+    </section>
   </section>
 </body>
 
