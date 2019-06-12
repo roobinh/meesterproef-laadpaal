@@ -1,16 +1,16 @@
 "use strict";
 
 // packages
-const path =             require('path');
-const express =          require('express');
-const cookieParser =     require('cookie-parser');
-const graphqlHttp =      require('express-graphql')
-const mongoose =         require('mongoose')
-const fetch =            require('node-fetch')
-const bodyParser =       require('body-parser')
-const session =          require('express-session')
-const multer =           require('multer')
-const fs =               require('fs')
+const path = require('path');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const graphqlHttp = require('express-graphql')
+const mongoose = require('mongoose')
+const fetch = require('node-fetch')
+const bodyParser = require('body-parser')
+const session = require('express-session')
+const multer = require('multer')
+const fs = require('fs')
 
 // const multerConf = {
 //     storage: multer.diskStorage({
@@ -25,7 +25,7 @@ const fs =               require('fs')
 
 
 // graphql
-const graphQlSchema =    require('./graphql/schemas')
+const graphQlSchema = require('./graphql/schemas')
 const graphQlResolvers = require('./graphql/resolver')
 
 // dotenv vars
@@ -38,32 +38,34 @@ const app = express()
 const port = process.env.port || 2500;
 
 // app.set
-app .set('views', path.join('views'))
+app.set('views', path.join('views'))
     .set('view engine', 'ejs');
 
 // app.use
-app .use(express.json())
-    .use(express.urlencoded({extended: false}))
+app.use(express.json())
+    .use(express.urlencoded({ extended: false }))
     .use(cookieParser())
     .use(express.static(path.join('public')))
-    .use(bodyParser.urlencoded({extended: false}))
+    .use(bodyParser.urlencoded({ extended: false }))
     .use(bodyParser.json())
     .use('/graphql', graphqlHttp({
         schema: graphQlSchema,
         rootValue: graphQlResolvers,
-        graphiql: true })) //interface
+        graphiql: true
+    })) //interface
     .use(session({
         resave: false,
         saveUninitialized: true,
-        secret: process.env.SESSION_SECRET }))
+        secret: process.env.SESSION_SECRET
+    }))
     .use('/image', express.static('public/images/uploads'))
 
 
-const upload = multer({dest: './public/images/uploads/'})
+const upload = multer({ dest: './public/images/uploads/' })
 
 // routes
 app.get('/', function (req, res, next) {
-    if(req.session.user) {
+    if (req.session.user) {
         res.redirect('/home')
     } else {
         res.render('pages/login');
@@ -80,11 +82,11 @@ app.get('/register', function (req, res, next) {
 });
 
 app.get('/home', authenticate, function (req, res, next) {
-    res.render('pages/choosepole', {name: req.session.user.name});
+    res.render('pages/choosepole', { name: req.session.user.name });
 });
 
-app.get('/complaint/success', authenticate, function(req, res, next) {
-    if(req.session.currentComplaint) {
+app.get('/complaint/success', authenticate, function (req, res, next) {
+    if (req.session.currentComplaint) {
 
         var complaintId = req.session.currentComplaint;
 
@@ -117,23 +119,24 @@ app.get('/complaint/success', authenticate, function(req, res, next) {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ query }),
-        })      .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    if(data.data.complaints) {
-                        console.log(data.data.complaints)
-                        res.render('pages/success', {data: data.data.complaints[0]});
-                    } else {
-                        res.send("session.currentcomplaint not found.")
-                    }
+        }).then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.data.complaints) {
+                    console.log("succesPAge::::", data.data.complaints)
+                    res.render('pages/success', { data: data.data.complaints[0] });
+                } else {
+                    res.send("session.currentcomplaint not found.")
                 }
-            )}
+            }
+            )
+    }
 });
-            
+
 app.get('/complaint/create', authenticate, function (req, res, next) {
     //check if currentpole is set
     console.log(req.session)
-    if(req.session.user.complaint) {
+    if (req.session.user.complaint) {
         res.render('pages/createComplaint');
     } else {
         res.redirect('/')
@@ -141,9 +144,9 @@ app.get('/complaint/create', authenticate, function (req, res, next) {
 });
 
 
-app.get('/logout', authenticate, function(req, res, next) {
+app.get('/logout', authenticate, function (req, res, next) {
     req.session.destroy();
-    res.render('pages/login', {errorMsg: "U bent nu uitgelogd"})
+    res.render('pages/login', { errorMsg: "U bent nu uitgelogd" })
 })
 
 app.post('/choosePole', authenticate, function (req, res, next) {
@@ -188,7 +191,7 @@ app.post('/createuser', function (req, res, next) {
     })
         .then(response => response.json())
         .then(data => {
-            
+
             // if user is created successfully...
             if (data.data.createUser.email) {
                 // set session data
@@ -264,8 +267,8 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
     const month = currentDate.getMonth(); //Be careful! January is 0 not 1
     const year = currentDate.getFullYear();
     const time = currentDate.getHours() + ":" + currentDate.getMinutes();
-    const dateString = date + "-" +(month + 1) + "-" + year;
-    
+    const dateString = date + "-" + (month + 1) + "-" + year;
+
 
     const query = `
     mutation {
@@ -297,7 +300,7 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
         body: JSON.stringify({ query }),
     }).then(response => response.json())
         .then(data => {
-            if(data.errors) {
+            if (data.errors) {
                 console.log("Complaint unsuccessfully created")
                 res.send("complaint unsuccessfull")
             } else {
@@ -305,10 +308,10 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
                 console.log("req.file = ")
                 console.log(req.file)
 
-                
-                if(req.file) { // als er een image wordt meegestuurd
+
+                if (req.file) { // als er een image wordt meegestuurd
                     fs.rename(req.file.path, req.file.destination + data.data.createComplaint._id + '.jpeg', err => {
-                        if(err) {
+                        if (err) {
                             console.log(err)
                         }
                     })
@@ -316,9 +319,9 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
 
                 req.session.currentComplaint = data.data.createComplaint._id
                 res.redirect('/complaint/success')
-            } 
+            }
         }
-    );
+        );
 })
 
 // connect to mongoose
@@ -336,7 +339,7 @@ mongoose.connect(url, {
 function authenticate(req, res, next) {
     console.log("---- Authenticating -------")
     console.log("Session user: ")
-    if (req.session.user) { 
+    if (req.session.user) {
         console.log("Authentication Succeeded.")
         console.log(req.session.user)
         next();
@@ -349,4 +352,3 @@ function authenticate(req, res, next) {
 // start server
 var server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
 module.exports = app;
-
