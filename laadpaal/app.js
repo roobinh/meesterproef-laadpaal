@@ -12,18 +12,6 @@ const session = require('express-session')
 const multer = require('multer')
 const fs = require('fs')
 
-// const multerConf = {
-//     storage: multer.diskStorage({
-//         destination : function(req, file, next) {
-//             next(null, './public/images');
-//         }, 
-//         filename: function(req, file, next) {
-//             console.log(file);
-//         }
-//     }),
-// }
-
-
 // graphql
 const graphQlSchema = require('./graphql/schemas')
 const graphQlResolvers = require('./graphql/resolver')
@@ -266,7 +254,12 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
     const date = currentDate.getDate();
     const month = currentDate.getMonth(); //Be careful! January is 0 not 1
     const year = currentDate.getFullYear();
-    const time = currentDate.getHours() + ":" + currentDate.getMinutes();
+    let time = ""
+    if(currentDate.getMinutes() < 10) {
+        time = currentDate.getHours() + ":0" + currentDate.getMinutes();
+    } else {
+        time = currentDate.getHours() + ":" + currentDate.getMinutes();
+    }
     const dateString = date + "-" + (month + 1) + "-" + year;
 
 
