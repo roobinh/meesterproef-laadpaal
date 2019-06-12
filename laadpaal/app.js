@@ -73,12 +73,29 @@ app.get('/home', authenticate, function (req, res, next) {
     res.render('pages/choosepole', { name: req.session.user.name });
 });
 
+app.get('/setpole/:id', authenticate, function(req, res, next) {
+
+    if (req.params.id) {
+        req.session.user.complaint = {
+            poleId: req.params.id
+        }
+
+        res.redirect('/complaint/create')
+    } else {
+        res.send("idk what happened...")
+    }
+});
+
+app.get('/complaint/details/:id', authenticate, function(req, res, next) {
+    res.send("This page has yet to come... (id = " + req.params.id + ")");
+});
+
 app.get('/complaint/success', authenticate, function (req, res, next) {
     if (req.session.currentComplaint) {
 
         var complaintId = req.session.currentComplaint;
 
-        const query = `
+        const query = ` 
         query {
             complaints(complaintId: "${complaintId}") {
               _id
