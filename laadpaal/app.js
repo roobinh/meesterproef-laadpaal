@@ -80,7 +80,7 @@ app.get('/register', function (req, res, next) {
 });
 
 app.get('/home', authenticate, function (req, res, next) {
-    res.render('pages/choosepole', { name: req.session.user.name});
+    res.render('pages/choosepole', {name: req.session.user.name});
 });
 
 app.get('/complaint/success', authenticate, function(req, res, next) {

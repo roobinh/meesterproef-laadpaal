@@ -4,7 +4,6 @@
 <% include ../partials/head %>
 
 
-
 <body>
 
 <% include ../partials/header %>
@@ -12,8 +11,10 @@
 <section class="body">
     <h1>Welkom, <%= name %></h1>
     <p class="subtitle">Kies de laadpaal</p>
-    <div class="map"></div>
     
+    <div id='map' class="map">
+		  <!-- Map gets shown here -->
+	  </div> 
     
     <form class="choosePoleForm" method="POST" action="/choosePole">
       <div class="chosePole">
@@ -28,6 +29,10 @@
 </body>
 
 <% include ../partials/footer %>
+
+<!-- MapBox --> 
+<script src="/javascripts/mapbox.js"></script>
+
 
 </html>
 
