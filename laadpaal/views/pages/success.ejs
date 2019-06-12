@@ -9,20 +9,25 @@
 
   <section class="body"> <% 
       if(data.user.name) {
-        %> <h1 class="title">Bedankt voor de melding, <%- data.user.name %> !</h1> <%
+        %> <h1>Bedankt voor de melding, <%- data.user.name %> !</h1> <%
       } else {
         %> <h1>Bedankt voor de melding!</h1> <%
       } %>
 
-    <section class="bonnetje">
-      <p class="subtitle">22-09-1999</p>
-      <h2 class="subtitle">De laadpaal is kapot</h2>
+    <section class="ticket">
+      <p class="ticketSubtitle"><%= data.date%></p>
+      <p class="ticketSubtitle"><%= data.time%></p>
+      <h2 class="ticketType"><%= data.type%></h2>
+      <p class="ticketDescription"><%= data.description%></p>
+      <img class="ticketImg" src="/images/uploads/<%= data._id %>.jpeg"></img>
     </section>
+    <form class="login" action="/alternativeroute" >
+     
+      <button class="button">ALTERNATIEVE LAADPAAL</button>
+    </form>
   </section>
 </body>
 
 <% include ../partials/footer %>
 
 </html>
-
-
