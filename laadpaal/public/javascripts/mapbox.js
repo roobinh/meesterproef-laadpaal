@@ -1,14 +1,15 @@
 
 // MapBox
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9vYmluMTk5OSIsImEiOiJjanJxYzVpeGIwdzJ4NDlycTZvd2lramRkIn0.jEoxjM-oE38jYCIHnhLw_g';
+ 
 
-var mapLong = '4.9006';
-var mapLat = '52.3648';
+var mapLong = '4.909203';
+var mapLat = '52.360157';
 
 var map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/streets-v11",
-    zoom: 12,
+    zoom: 15,
     center: [mapLong, mapLat]
 });
 
@@ -43,7 +44,6 @@ function setPointers(poles) {
         var title = poles[i].name;
         var el = document.createElement('div')
         el.className = 'marker';
-        console.log('placing marker...')
 
         new mapboxgl.Marker(el)
             .setLngLat(pointer['features'][0]['geometry']['coordinates'])
