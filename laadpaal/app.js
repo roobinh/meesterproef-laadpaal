@@ -73,7 +73,7 @@ app.get('/home', authenticate, function (req, res, next) {
     res.render('pages/choosepole', { name: req.session.user.name });
 });
 
-app.get('/setpole/:id', authenticate, function(req, res, next) {
+app.get('/setpole/:id', authenticate, function (req, res, next) {
 
     if (req.params.id) {
         req.session.user.complaint = {
@@ -86,7 +86,7 @@ app.get('/setpole/:id', authenticate, function(req, res, next) {
     }
 });
 
-app.get('/complaint/details/:id', authenticate, function(req, res, next) {
+app.get('/complaint/details/:id', authenticate, function (req, res, next) {
     res.send("This page has yet to come... (id = " + req.params.id + ")");
 });
 
@@ -151,6 +151,26 @@ app.get('/logout', authenticate, function (req, res, next) {
     req.session.destroy();
     res.render('pages/login', { errorMsg: "U bent nu uitgelogd" })
 })
+
+app.get('/myreports', authenticate, function (req, res, next) {
+    res.render('pages/myreports')
+})
+
+app.get('/6394623948798', authenticate, function (req, res, next) {
+    res.render('pages/myreportdetail')
+})
+
+app.get('/reports', authenticate, function (req, res, next) {
+    res.render('pages/reports')
+})
+
+app.get('/reports/9086986689', authenticate, function (req, res, next) {
+    res.render('pages/reportsdetail')
+})
+
+
+
+
 
 app.post('/choosePole', authenticate, function (req, res, next) {
     console.log(req.body.pole)
@@ -270,7 +290,7 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
     const month = currentDate.getMonth(); //Be careful! January is 0 not 1
     const year = currentDate.getFullYear();
     let time = ""
-    if(currentDate.getMinutes() < 10) {
+    if (currentDate.getMinutes() < 10) {
         time = currentDate.getHours() + ":0" + currentDate.getMinutes();
     } else {
         time = currentDate.getHours() + ":" + currentDate.getMinutes();
