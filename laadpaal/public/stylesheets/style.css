@@ -434,3 +434,15 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   font-size: 1.2em;
   margin: 0;
 }
+
+td {
+  font-family: 'Dosis', sans-serif;
+}
+
+
+th {
+    color: #009136;
+    font-family: 'Dosis', sans-serif;
+    border-bottom: 1px solid #009136;
+    text-align: left;
+}
