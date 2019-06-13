@@ -131,9 +131,16 @@ module.exports = {
         const pole = new Pole({
             longitude: args.poleInput.longitude,
             latitude: args.poleInput.latitude,
-            chargetype: args.poleInput.chargetype,
-            power: args.poleInput.power,
-            amount: args.poleInput.amount
+            city: args.poleInput.city,
+            region: args.poleInput.region,
+            regioncode: args.poleInput.regioncode,
+            district: args.poleInput.district,
+            subdistrict: args.poleInput.subdistrict,
+            address: args.poleInput.address,
+            postalcode: args.poleInput.postalcode,
+            provider: args.poleInput.provider,
+            sockets: args.poleInput.sockets,
+            usedsockets: args.poleInput.usedsockets
         })
 
         return pole

@@ -1,4 +1,4 @@
-const { buildSchema } = require('graphql')
+const { buildSchema } = require('graphql')   
 
 module.exports = buildSchema(`
     type User {
@@ -18,19 +18,33 @@ module.exports = buildSchema(`
 
     type Pole {
         _id: ID!
-        longitude: Float
-        latitude: Float
-        chargetype: String
-        power: String
-        amount: Int
+        longitude: Float!
+        latitude: Float!
+        city: String
+        region: String
+        regioncode: String
+        district: String
+        subdistrict: String
+        address: String
+        postalcode: String
+        provider: String
+        sockets: Float
+        usedsockets: Float
     }
 
     input PoleInput {
-        longitude: Float
-        latitude: Float
-        chargetype: String
-        power: String
-        amount: Int
+        longitude: Float!
+        latitude: Float!
+        city: String
+        region: String
+        regioncode: String
+        district: String
+        subdistrict: String
+        address: String
+        postalcode: String
+        provider: String
+        sockets: Float
+        usedsockets: Float
     }
 
     type Complaint {

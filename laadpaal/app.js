@@ -108,9 +108,6 @@ app.get('/complaint/success', authenticate, function (req, res, next) {
               pole {
                 longitude
                 latitude
-                chargetype
-                power
-                amount
               }
               user {
                 email
@@ -126,6 +123,7 @@ app.get('/complaint/success', authenticate, function (req, res, next) {
             body: JSON.stringify({ query }),
         }).then(response => response.json())
             .then(data => {
+                console.log("DATA!!!")
                 console.log(data);
                 if (data.data.complaints) {
                     console.log("succesPAge::::", data.data.complaints)
@@ -362,3 +360,104 @@ function authenticate(req, res, next) {
 // start server
 var server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
 module.exports = app;
+
+
+/* Fill database
+
+const csv = require('csv-parser');
+var allQuerrys = []
+
+async function createPoles() {
+    var providers = ["NUON", "EVBOX", "EVNET", "ALVEN"]
+
+    fs.createReadStream('dfLocations.csv')  
+        .pipe(csv())
+        .on('data', (row) => {
+            var country = row.Region
+            var postal = row.PostalCode;
+            
+            if(country == "Amsterdam") {
+                var longitude = parseFloat(row.Longitude)
+                var latitude = parseFloat(row.Latitude)
+                var city = row.City
+                var region = row.Region
+                var regioncode = row.State
+                var district = row.District
+                var subdistrict = row.SubDistrict
+                var address = row.Address
+                var postalcode = row.PostalCode
+                var randomprovider = providers[Math.floor(Math.random() * providers.length)]
+                var provider = randomprovider
+                var sockets = Math.floor(Math.random() * 2) + 1
+                var usedsockets = Math.ceil(Math.random() * sockets)
+                
+                if(longitude && latitude) {
+
+                    const query = `
+                    mutation {
+                        createPole(poleInput: {
+                            longitude: ${longitude},
+                            latitude: ${latitude},
+                            city: "${city}",
+                            region: "${region}",
+                            regioncode: "${regioncode}",
+                            district: "${district}",
+                            subdistrict: "${subdistrict}",
+                            address: "${address}",
+                            postalcode: "${postalcode}",
+                            provider: "${provider}",
+                            sockets: ${sockets},
+                            usedsockets: ${usedsockets}
+                            }
+                        ) {
+                          city
+                          region
+                          regioncode
+                          district
+                          subdistrict
+                          address
+                          postalcode
+                          provider
+                          sockets
+                          usedsockets
+                        }
+                    }
+                    `
+
+                    allQuerrys.push(query)
+                           }       
+        }})
+        .on('end', () => {
+            console.log('all querrys added..');
+            console.log(allQuerrys.length)
+            addToDB(0)
+        }
+    );    
+}
+
+function addToDB(number) {
+    console.log('adding to db...' + number);
+
+    var query = allQuerrys[number]
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    })  
+        .then(response => response.json())
+        .then(data => {
+            if(number <= allQuerrys.length) {
+                addToDB(number+1);
+
+                if (data.errors) {
+                    console.log("Complaint unsuccessfully created")
+                } else {
+                    console.log("--- Complaint aangemaakt ---")
+                }
+            }
+        });
+}
+
+createPoles();
+
+*/
