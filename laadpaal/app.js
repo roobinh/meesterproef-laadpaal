@@ -123,8 +123,6 @@ app.get('/complaint/success', authenticate, function (req, res, next) {
             body: JSON.stringify({ query }),
         }).then(response => response.json())
             .then(data => {
-                console.log("DATA!!!")
-                console.log(data);
                 if (data.data.complaints) {
                     console.log("succesPAge::::", data.data.complaints)
                     res.render('pages/success', { data: data.data.complaints[0] });
@@ -156,10 +154,6 @@ app.get('/myreports', authenticate, function (req, res, next) {
     res.render('pages/myreports')
 })
 
-app.get('/6394623948798', authenticate, function (req, res, next) {
-    res.render('pages/myreportdetail')
-})
-
 app.get('/reports', authenticate, function (req, res, next) {
     res.render('pages/reports')
 })
@@ -167,10 +161,6 @@ app.get('/reports', authenticate, function (req, res, next) {
 app.get('/reports/9086986689', authenticate, function (req, res, next) {
     res.render('pages/reportsdetail')
 })
-
-
-
-
 
 app.post('/choosePole', authenticate, function (req, res, next) {
     console.log(req.body.pole)
