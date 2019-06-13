@@ -9,7 +9,7 @@ var mapLat = '52.360157';
 //create map
 var map = new mapboxgl.Map({
     container: "map",
-    style: "mapbox://styles/mapbox/streets-v11",
+    style: "mapbox://styles/mapbox/streets-v11?optimize=true",
     zoom: 15,
     center: [mapLong, mapLat]
 });
@@ -22,49 +22,63 @@ map.addControl(new this.mapboxgl.GeolocateControl({
   trackUserLocation: true
 }))
 
-var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function(){
-        if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
-            var json = JSON.parse(xmlhttp.responseText);
-            setPointers(json);
-        }
-    };
+const query = ` 
+query {
+  poles {
+    _id
+    longitude
+    latitude
+    city
+    region
+    regioncode
+    district
+    subdistrict
+    address
+    postalcode
+    provider
+    sockets
+    usedsockets
+  }
+} `
 
-xmlhttp.open("GET","./mapbox/poles.json",true);
-xmlhttp.send();
+fetch('/graphql', {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ query }),
+}).then(response => response.json())
+    .then(data => {
 
-function setPointers(poles) {
-    for(i=0;i < poles.length;i++) {
-        
-        var pointer = {
-            type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [poles[i].longitude, poles[i].latitude]
-              },
-              properties: {
-                title: poles[i].name,
-              }
-            }]
-        };
+          for(var i = 0; i < data.data.poles.length; i++ ) {
 
-        var title = poles[i].name;
-        var id = poles[i].id;
+            pole = data.data.poles[i];
 
-        var el = document.createElement('div')
-        el.className = 'marker';
+            var pointer = {
+              type: 'FeatureCollection',
+              features: [{
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [pole.longitude, pole.latitude]
+                },
+                properties: {
+                  title: pole.address,
+                }
+              }]
+            }
 
-        new mapboxgl.Marker(el)
-            .setLngLat(pointer['features'][0]['geometry']['coordinates'])
-            .setPopup(new mapboxgl.Popup({ offset: 15 }) // add popups
-            .setHTML(`
-                      <h3>${title}</h3>
-                      <p><a href="/setpole/${id}">Klacht indienen</a></p>
-                      <p><a href="/complaint/details/${id}">Klachten bekijken</a></p>
-                      `))
+            var title = pole.address;
+            var id = pole._id;
+            
+            var el = document.createElement('div')
+            el.className = 'marker';
 
-            .addTo(map);
-    }
-}
+            new mapboxgl.Marker(el)
+                .setLngLat(pointer['features'][0]['geometry']['coordinates'])
+                .setPopup(new mapboxgl.Popup({ offset: 15 }) // add popups
+                .setHTML(`
+                          <h3>${title}</h3>
+                          <p><a href="/setpole/${id}">Klacht indienen</a></p>
+                          <p><a href="/complaint/details/${id}">Klachten bekijken</a></p>
+                          `))
+                .addTo(map);
+        }});
