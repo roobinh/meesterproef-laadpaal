@@ -1,6 +1,8 @@
 <!-- Header -->
 <header>
-    <a href="" class="backArrowLink"><img class="backArrow" src="/icons/back-arrow.png" alt="back arrow"></a>
+    <img class="backArrow" src="/icons/back-arrow.png" alt="back arrow" onclick="window.history.back()">
+    <%# <label class="backButton" for="back"></label>
+    <input type="button" value="Back" id="back" class="invisible" onclick="window.history.back()" />  %>
     <input class="menu-btn" type="checkbox" id="menu-btn" />
     <label class="menu-icon" for="menu-btn">
         <span class="navicon"></span>

@@ -126,18 +126,35 @@ function completeSentence(sentenceStart, sentenceEnd) {
 
 function slideFormIn() {
     newChild = `
+    <label class="fotoButton slideIn" for="file-upload">FOTO</label>
 
-    <input name="image" type="file" class="slideIn" accept="image/jpeg">
+    <input class="invisible" id="file-upload" name="image" type="file" class="slideIn" onchange="readURL(this)" accept="image/jpeg">
+    <img id="uploadImg" class="slideIn" src="#" alt="your image" />
 
     <textarea name="description" class="textarea slideIn" placeholder="Voeg een beschrijving toe" required></textarea>
     <input name="type" type="checkbox" class="invisible" value="${myStorage.getItem('type')}" checked></input>
       
     
     <div class="buttonWrapper">
-      <button class="button formButtonLeft slideIn" type="submit">OVERSLAAN</button>
-      <button class="button formButtonRight  slideIn" type="submit">GA VERDER</button>
+       <button class="button formButtonRight  slideIn" type="submit">GA VERDER</button>
     </div>
     `
     subtitle.innerHTML = "Voeg eventueel een foto of beschrijving toe"
     complaintForm.innerHTML = newChild
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        let uploadImg = document.querySelector('#uploadImg')
+
+        reader.onload = function (e) {
+            uploadImg.setAttribute("src", e.target.result)
+            // .attr('src', e.target.result)
+            // .width(150)
+            // .height(200);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
 }
