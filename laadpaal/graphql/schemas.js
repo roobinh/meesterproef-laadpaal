@@ -84,7 +84,7 @@ module.exports = buildSchema(`
     type RootQuery {
         users(userId: String, email: String): [User!]!
         poles(poleId: String): [Pole!]!
-        complaints(complaintId: String): [Complaint!]!
+        complaints(complaintId: String, userId: String): [Complaint!]!
     }
 
     type RootMutation {

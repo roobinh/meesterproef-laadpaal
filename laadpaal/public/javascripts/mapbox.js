@@ -1,3 +1,5 @@
+(function () {
+  
 // MapBox
 mapboxgl.accessToken =
   "pk.eyJ1Ijoicm9vYmluMTk5OSIsImEiOiJjanJxYzVpeGIwdzJ4NDlycTZvd2lramRkIn0.jEoxjM-oE38jYCIHnhLw_g";
@@ -5,7 +7,11 @@ mapboxgl.accessToken =
 // hva location
 var mapLong = "4.909203";
 var mapLat = "52.360157";
+
 var complaints = [];
+var availablepoles = []
+var dichstbijzijnde = [99999, 0, 0];
+
 
 //create map
 var map = new mapboxgl.Map({
@@ -16,15 +22,23 @@ var map = new mapboxgl.Map({
 });
 
 // set user location
-map.addControl(
-  new this.mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true
-    },
-    trackUserLocation: true
-  })
-);
+var geolocation = new this.mapboxgl.GeolocateControl({
+  positionOptions: {
+    enableHighAccuracy: true
+  },
+  trackUserLocation: true
+})
 
+map.addControl(geolocation);
+
+// on mapload, trigger user location
+map.on('load', function() {
+  geolocation._geolocateButton.click();
+  geolocation.on('geolocate', function(e) {
+    calculateNearestPole(e.coords.longitude, e.coords.latitude);
+  })}
+
+)
 
 var query =  `
 query {
@@ -75,8 +89,6 @@ fetch("/graphql", {
   .then(response => response.json())
   .then(data => {
 
-    console.log(data);
-
     data.data.poles.forEach(pole => {
 
       var pointer = {
@@ -107,11 +119,12 @@ fetch("/graphql", {
         if(pole.usedsockets == pole.sockets) { // both poles in use
           el.className = "marker red";  
         } else { // no complaint + open spot
+          availablepoles.push([pole.longitude, pole.latitude]);
           el.className = "marker green"
         }
       }
 
-      new mapboxgl.Marker(el)
+      var marker = new mapboxgl.Marker(el)
           .setLngLat(pointer['features'][0]['geometry']['coordinates'])
           .setPopup(new mapboxgl.Popup({ offset: 15 }) // add popups
           .setHTML(`
@@ -119,6 +132,48 @@ fetch("/graphql", {
                     <p><a href="/setpole/${id}">Klacht indienen</a></p>
                     <p><a href="/complaint/details/${id}">Klachten bekijken</a></p>
                     `))
-          .addTo(map);
+          .addTo(map);      
     });
   });
+
+
+document.getElementById('fly').addEventListener('click', function() {
+  map.flyTo({
+    center: [
+        dichstbijzijnde[2], dichstbijzijnde[1]    
+    ],
+    zoom: 16
+  })
+})
+
+function calculateNearestPole(long, lat) {
+  availablepoles.forEach(pole => {
+    var distance = calculateDistance(lat, long, pole[1], pole[0]);
+
+    if(distance < dichstbijzijnde[0]) {
+      dichstbijzijnde = [distance, pole[1], pole[0]];
+    }
+
+  })
+  console.log("dichstbijzijnde pole(afstand:"+dichstbijzijnde[0] +"): " + dichstbijzijnde[1] + dichstbijzijnde[2]);
+}
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
+
+})();

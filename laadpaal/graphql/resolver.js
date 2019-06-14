@@ -155,12 +155,29 @@ module.exports = {
     },
 
     complaints: async args => {
-        if(args.complaintId) 
+        if(args.userId)
+        {
+            try {
+                const complaints = await Complaint.find();
+                return complaints.map(complaint => {
+                    if(complaint.user == args.userId) {
+                        return {
+                            ...complaint._doc,
+                            _id: complaint.id,
+                            user: user.bind(this, complaint._doc.user),
+                            pole: pole.bind(this, complaint._doc.pole)
+                        }
+                    }
+                })
+                
+            } catch (err) {
+                throw err
+            }
+        } else if(args.complaintId) 
         {
             try {
                 const complaints = await Complaint.find({ _id: { $in: args.complaintId } });
                 return complaints.map(complaint => {
-                    console.log(complaint);
                     return {
                         ...complaint._doc,
                         _id: complaint.id,
