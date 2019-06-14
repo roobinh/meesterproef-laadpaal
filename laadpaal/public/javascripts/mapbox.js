@@ -10,10 +10,10 @@
 
   //create map
   var map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/mapbox/streets-v11?optimize=true",
-    zoom: 15,
-    center: [4.909203, 52.360157]
+    "container": "map",
+    "style": "mapbox://styles/mapbox/streets-v11?optimize=true",
+    "zoom": 14,
+    "center": [4.909203, 52.360157]
   });
 
   // set user location
