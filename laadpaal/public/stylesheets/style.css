@@ -394,7 +394,7 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   flex-direction: column;
 }
 
-a.mapbutton {
+.mapbutton {
     font-family: 'Dosis', sans-serif;
     background-color: #009136;
     border: solid #009136;
