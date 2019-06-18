@@ -154,6 +154,10 @@ app.get('/myreports', authenticate, function (req, res, next) {
     res.render('pages/myreports')
 })
 
+app.get('/myreports/6394623948798', authenticate, function (req, res, next) {
+    res.render('pages/myreportdetail')
+})
+
 app.get('/reports', authenticate, function (req, res, next) {
     res.render('pages/reports')
 })
