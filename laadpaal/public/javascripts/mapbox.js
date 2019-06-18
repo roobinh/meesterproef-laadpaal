@@ -135,25 +135,24 @@
         filter: ["has", "point_count"],
         paint: {
           "circle-color": [
-            "step",
-            ["get", "point_count"],
-            "#51bbd6",
-            100,
-            "#f1f075",
-            750,
-            "#f28cb1"
-            ],
-            "circle-radius": [
-            "step",
-            ["get", "point_count"],
-            20,
-            100,
-            30,
-            750,
-            40
-            ]
-        }
-      })
+              "step",
+              ["get", "point_count"],
+              "#51bbd6",
+              100,
+              "#f1f075",
+              750,
+              "#f28cb1"
+          ],
+          "circle-radius": [
+              "step",
+              ["get", "point_count"],
+              20,
+              100,
+              30,
+              750,
+              40
+        ]
+      }})
 
       // inspect a cluster on click
       map.on('click', 'clusters', function (e) {
@@ -209,7 +208,7 @@
         filter: ["!", ["has", "point_count"]],
         paint: {
           "circle-color": ['get','color'],
-          "circle-radius": 4,
+          "circle-radius": 8,
           "circle-stroke-width": 1,
           "circle-stroke-color": "#fff"
         }
