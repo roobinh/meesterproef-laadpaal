@@ -7,12 +7,12 @@
 <body>
     <section class="body">
         <section class="ticket">
-            <p class="ticketSubtitle">12-04-2018</p>
-            <p class="ticketSubtitle">11:05</p>
-            <h2 class="ticketType">De laadpaal is bezet door een niet elektrische auto.</h2>
-            <p class="ticketDescription">Status: in behandeling</p>
-            <p class="ticketDescription">Beschrijving: Vieze kut pickup</p>
-            <img class="ticketImg" src="/images/uploads/5d00d38a1506b80206e63804.jpeg">
+            <p class="ticketSubtitle"><%=data.date%></p>
+            <p class="ticketSubtitle"><%=data.time%></p>
+            <h2 class="ticketType"><%=data.type%></h2>
+            <p class="ticketDescription">Status: <%=data.status%></p>
+            <p class="ticketDescription">Beschrijving: <%=data.description%></p>
+            <img class="ticketImg" src="/images/uploads/<%=data._id%>.jpeg">
         </section>
         <section class="chat">
 

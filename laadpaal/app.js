@@ -195,8 +195,55 @@ app.get('/myreports', authenticate, function (req, res, next) {
 
 })
 
-app.get('/myreports/6394623948798', authenticate, function (req, res, next) {
-    res.render('pages/myreportdetail')
+app.get('/myreports/:id', authenticate, function (req, res, next) {
+
+    const complaintId = req.params.id;
+
+    const query = ` 
+    query {
+        complaints(complaintId: "${complaintId}") {
+          _id
+          type
+          status
+          description
+               image
+          date
+          time
+          pole {
+            _id
+            longitude
+            latitude
+            city
+            region
+            regioncode
+            district
+            subdistrict
+            address
+            postalcode
+            provider
+            sockets
+            usedsockets
+          }
+        }
+       }
+    `
+
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    }).then(response => response.json())
+        .then(data => {
+            if (data.data.complaints) {
+                console.log("data::::", data.data.complaints[0])
+                res.render('pages/myreportdetail', { data: data.data.complaints[0] });
+            } else {
+                res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
+            }
+        }
+        )
+
+
 })
 
 app.get('/reports', authenticate, function (req, res, next) {
