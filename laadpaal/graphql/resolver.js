@@ -158,18 +158,15 @@ module.exports = {
         if(args.userId)
         {
             try {
-                const complaints = await Complaint.find();
+                const complaints = await Complaint.find({ user: { $in: args.userId } });
                 return complaints.map(complaint => {
-                    if(complaint.user == args.userId) {
                         return {
                             ...complaint._doc,
                             _id: complaint.id,
                             user: user.bind(this, complaint._doc.user),
                             pole: pole.bind(this, complaint._doc.pole)
-                        }
-                    }
-                })
-                
+                        };
+                    });                
             } catch (err) {
                 throw err
             }
