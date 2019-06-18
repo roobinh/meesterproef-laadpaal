@@ -120,10 +120,10 @@
         new mapboxgl.Marker(el)
           .setLngLat(pointer["features"][0]["geometry"]["coordinates"])
           .setPopup(
-            new mapboxgl.Popup({ offset: 15 }).setHTML(` // add popups
+            new mapboxgl.Popup({ offset: 15 }).setHTML(`
                     <h3>${pole.address}</h3>
-                    <p><a href="/setpole/${pole._id}">Melding maken</a></p>
-                    <p><a href="/reports/${pole._id}">Meldingen bekijken</a></p>
+                    <p><a class="mapbutton" href="/setpole/${pole._id}">Melding maken</a></p>
+                    <p><a class="mapbutton" href="/reports/${pole._id}">Meldingen bekijken</a></p>
                     `)
           )
           .addTo(map);
@@ -132,10 +132,15 @@
     );
 
   document.getElementById("fly").addEventListener("click", function () {
-    map.flyTo({
-      center: [dichstbijzijnde[2], dichstbijzijnde[1]],
-      zoom: 16
-    });
+    if(dichstbijzijnde[1]==0 && dichstbijzijnde[2]==0) {
+      console.log('paal nog niet berekend.')
+    } else {
+      map.flyTo({
+        center: [dichstbijzijnde[2], dichstbijzijnde[1]],
+        zoom: 16
+      });
+    }
+    
   });
 
   function calculateNearestPole(long, lat) {
