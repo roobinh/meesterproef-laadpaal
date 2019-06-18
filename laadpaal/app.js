@@ -247,7 +247,64 @@ app.get('/myreports/:id', authenticate, function (req, res, next) {
 })
 
 app.get('/reports', authenticate, function (req, res, next) {
-    res.render('pages/reports')
+
+    const query = ` 
+    query {
+        complaints {
+          _id
+          type
+          status
+          description
+               image
+          date
+          time
+          pole {
+            _id
+            longitude
+            latitude
+            city
+            region
+            regioncode
+            district
+            subdistrict
+            address
+            postalcode
+            provider
+            sockets
+            usedsockets
+          }
+        }
+       }
+    `
+
+    let poles = [{ id: '5d08c507ea730b0c5084f2f0' }];
+
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    }).then(response => response.json())
+        .then(data => {
+            if (data.data.complaints) {
+                console.log("data::::", data.data.complaints)
+                data.data.complaints.forEach(complaint => {
+                    if (!poles.includes(`id: ${complaint._id}`)) {
+                        console.log("besttat niert");
+
+                    } else {
+                        console.log("wellles");
+
+                    }
+                });
+                res.render('pages/reports', { data: data.data.complaints });
+            } else {
+                res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
+            }
+        }
+        )
+
+
+
 })
 
 app.get('/reports/9086986689', authenticate, function (req, res, next) {
