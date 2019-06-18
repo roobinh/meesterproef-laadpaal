@@ -7,6 +7,7 @@
   var complaints = [];
   var availablepoles = [];
   var dichstbijzijnde = [99999, 0, 0];
+  var pointers = [];
 
   //create map
   var map = new mapboxgl.Map({
@@ -82,54 +83,138 @@
   })
     .then(response => response.json())
     .then(data => {
+      
       data.data.poles.forEach(pole => {
-        var pointer = {
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [pole.longitude, pole.latitude]
-              },
-              properties: {
-                title: pole.address
-              }
-            }
-          ]
-        };
 
-        // create marker
-        var el = document.createElement("div");
-
-        // set point color
-        if (complaints.includes(pole._id)) {
-          // if pole has a complaint
-          el.className = "marker yellow";
+        if(complaints.includes(pole._id)) {
+          var color = "yellow"
         } else {
           if (pole.usedsockets == pole.sockets) {
             // both poles in use
-            el.className = "marker red";
+            var color = "red"
           } else {
             // no complaint + open spot
             availablepoles.push([pole.longitude, pole.latitude]);
-            el.className = "marker green";
+            var color = "green"
           }
         }
+      
+        var pointer = {
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [pole.longitude, pole.latitude]
+              },
+              "properties": {
+                "address": pole.address,
+                "id": pole._id,
+                "lngLat": pole.longitude +" "+ pole.latitude,
+                "color": color
+            }
+        };
 
-        new mapboxgl.Marker(el)
-          .setLngLat(pointer["features"][0]["geometry"]["coordinates"])
-          .setPopup(
-            new mapboxgl.Popup({ offset: 15 }).setHTML(`
-                    <h3>${pole.address}</h3>
-                    <p><a class="mapbutton" href="/setpole/${pole._id}">Melding maken</a></p>
-                    <p><a class="mapbutton" href="/reports/${pole._id}">Meldingen bekijken</a></p>
-                    `)
-          )
-          .addTo(map);
+        pointers.push(pointer)
+    })
+
+      map.addSource("earthquakes", {
+        type: "geojson",
+        data: {
+            "type": "FeatureCollection",
+            "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+            "features": pointers
+        },
+        cluster: true,
+        clusterMaxZoom: 14,
+        clusterRadius: 50
+      })
+
+      map.addLayer({
+        id: "clusters",
+        type: "circle",
+        source: "earthquakes",
+        filter: ["has", "point_count"],
+        paint: {
+          "circle-color": [
+            "step",
+            ["get", "point_count"],
+            "#51bbd6",
+            100,
+            "#f1f075",
+            750,
+            "#f28cb1"
+            ],
+            "circle-radius": [
+            "step",
+            ["get", "point_count"],
+            20,
+            100,
+            30,
+            750,
+            40
+            ]
+        }
+      })
+
+      // inspect a cluster on click
+      map.on('click', 'clusters', function (e) {
+        var features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+        var clusterId = features[0].properties.cluster_id;
+        
+        map.getSource('earthquakes').getClusterExpansionZoom(clusterId, function (err, zoom) {
+          if (err)
+          return;
+        
+          map.easeTo({
+            center: features[0].geometry.coordinates,
+            zoom: zoom
+          });
+        });
       });
-    }
-    );
+
+      map.on('click', 'unclustered-point', function(e) {
+        console.log(e.features)
+        console.log('jo')
+        var address = e.features[0].properties.address
+        var id = e.features[0].properties.id
+        console.log(id)
+
+        var html = `
+          <h3>${address}</h3>
+          <p><a class="mapbutton" href="/setpole/${id}">Melding maken</a></p>
+          <p><a class="mapbutton" href="/reports/${id}">Meldingen bekijken</a></p>
+        `
+
+        new mapboxgl.Popup()
+          .setLngLat(e.features[0].properties.lngLat.split(" "))
+          .setHTML(html)
+          .addTo(map);
+      })
+
+      map.addLayer({
+        id: "cluster-count",
+        type: "symbol",
+        source: "earthquakes",
+        filter: ["has", "point_count"],
+        layout: {
+          "text-field": "{point_count_abbreviated}",
+          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-size": 12
+        }
+      });
+
+      map.addLayer({
+        id: "unclustered-point",
+        type: "circle",
+        source: "earthquakes",
+        filter: ["!", ["has", "point_count"]],
+        paint: {
+          "circle-color": ['get','color'],
+          "circle-radius": 4,
+          "circle-stroke-width": 1,
+          "circle-stroke-color": "#fff"
+        }
+      })
+  });
 
   document.getElementById("fly").addEventListener("click", function () {
     if(dichstbijzijnde[1]==0 && dichstbijzijnde[2]==0) {
