@@ -9,6 +9,9 @@
   var dichstbijzijnde = [99999, 0, 0];
   var pointers = [];
 
+  var hrefArr = window.location.href.split('/');
+  var href = hrefArr[hrefArr.length-1];
+
   //create map
   var map = new mapboxgl.Map({
     "container": "map",
@@ -98,8 +101,9 @@
             var color = "green"
           }
         }
-      
-        var pointer = {
+        if(href == "nearestpole") {
+          if(color == "green") {
+            var pointer = {
               "type": "Feature",
               "geometry": {
                 "type": "Point",
@@ -110,10 +114,32 @@
                 "id": pole._id,
                 "lngLat": pole.longitude +" "+ pole.latitude,
                 "color": color
+              }
             }
-        };
+            pointers.push(pointer)
 
-        pointers.push(pointer)
+          } else {
+            //do nothing
+          }
+        } else {
+          var pointer = {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [pole.longitude, pole.latitude]
+            },
+            "properties": {
+              "address": pole.address,
+              "id": pole._id,
+              "lngLat": pole.longitude +" "+ pole.latitude,
+              "color": color
+            }
+          }
+          pointers.push(pointer)
+      }
+        
+
+        
     })
 
       map.addSource("earthquakes", {
@@ -236,7 +262,11 @@
       }
     });
 
-    console.log(`dichstbijzijnde pole(afstand:${dichstbijzijnde[0]}): ${dichstbijzijnde[1]}, ${dichstbijzijnde[2]}`);
+    if(href == "nearestpole") {
+      flyToNearestPole();
+    }
+
+    console.log(`dichstbijzijnde pole(afstand:${dichstbijzijnde[0]}): ${dichstbijzijnde[1]}, ${dichstbijzijnde[2]}`); 
   }
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -256,6 +286,17 @@
 
   function deg2rad(deg) {
     return deg * (Math.PI / 180);
+  }
+
+  function flyToNearestPole() {
+    if(dichstbijzijnde[1]==0 && dichstbijzijnde[2]==0) {
+      console.log('paal nog niet berekend.')
+    } else {
+      map.flyTo({
+        center: [dichstbijzijnde[2], dichstbijzijnde[1]],
+        zoom: 16
+      });
+    }
   }
 
 })();

@@ -129,9 +129,13 @@ app.get('/complaint/success', authenticate, function (req, res, next) {
                     res.send("session.currentcomplaint not found.")
                 }
             }
-            )
+        )
     }
 });
+
+app.get('/nearestpole', function(req, res, next) {
+    res.render('pages/nearestpole')
+})
 
 app.get('/complaint/create', authenticate, function (req, res, next) {
     //check if currentpole is set

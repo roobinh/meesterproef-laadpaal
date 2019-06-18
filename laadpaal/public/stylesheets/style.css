@@ -540,10 +540,15 @@ th {
   margin-right: 10px;
 }
 
-/* 
-.mapboxgl-ctrl-top-right {
-  right: 0;
-  bottom: 20px;
-  height: 100px;
-  position: fixed;
-} */
+.alternativeButton {
+  height: 40px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  background: #005e23;
+  top: 10px;
+  left: 25%;
+}
