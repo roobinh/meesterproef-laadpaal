@@ -13,7 +13,7 @@
   var map = new mapboxgl.Map({
     "container": "map",
     "style": "mapbox://styles/mapbox/streets-v11?optimize=true",
-    "zoom": 14,
+    "zoom": 12,
     "center": [4.909203, 52.360157]
   });
 
@@ -25,7 +25,7 @@
     trackUserLocation: true
   });
 
-  map.addControl(geolocation);
+  map.addControl(geolocation, 'bottom-right');
 
   // on mapload, trigger user location
   map.on("load", function () {
