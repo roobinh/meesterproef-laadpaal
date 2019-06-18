@@ -185,6 +185,21 @@ module.exports = {
             } catch (err) {
                 throw err
             }
+        } else if(args.poleId) 
+        {
+            try {
+                const complaints = await Complaint.find({ pole: { $in: args.poleId } });
+                return complaints.map(complaint => {
+                    return {
+                        ...complaint._doc,
+                        _id: complaint.id,
+                        user: user.bind(this, complaint._doc.user),
+                        pole: pole.bind(this, complaint._doc.pole)
+                    };
+                });
+            } catch (err) {
+                throw err
+            }
         } else 
         {
             try {
