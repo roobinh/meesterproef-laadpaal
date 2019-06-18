@@ -64,7 +64,6 @@ app.get('/login/failed', function (req, res, next) {
     res.render('pages/login', { errorMsg: "U bent nog niet ingelogd" });
 });
 
-
 app.get('/register', function (req, res, next) {
     res.render('pages/register');
 });
@@ -93,7 +92,7 @@ app.get('/complaint/details/:id', authenticate, function (req, res, next) {
 app.get('/complaint/success', authenticate, function (req, res, next) {
     if (req.session.currentComplaint) {
 
-        var complaintId = req.session.currentComplaint;
+        const complaintId = req.session.currentComplaint;
 
         const query = ` 
         query {
@@ -151,7 +150,49 @@ app.get('/logout', authenticate, function (req, res, next) {
 })
 
 app.get('/myreports', authenticate, function (req, res, next) {
-    res.render('pages/myreports')
+
+    const userId = req.session.user.id;
+
+    const query = ` 
+    query {
+        complaints(userId: "${userId}") {
+          _id
+          type
+          description
+          status
+          date
+          time
+            pole {
+            _id
+            address
+          }
+          user {
+              _id
+            email
+            name
+            points
+          }
+          date
+        }
+       }
+    `
+
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    }).then(response => response.json())
+        .then(data => {
+            if (data.data.complaints) {
+                console.log("data::::", data.data)
+                res.render('pages/myreports', { data: data.data.complaints });
+            } else {
+                res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
+            }
+        }
+        )
+
+
 })
 
 app.get('/myreports/6394623948798', authenticate, function (req, res, next) {

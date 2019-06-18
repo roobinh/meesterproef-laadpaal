@@ -16,17 +16,14 @@
                 </tr>
             </thead>
             <tbody>
+            <% data.forEach(complaint=>{ %>
                 <tr>
-                    <td><a href="/myreports/6394623948798">Beukenplein</a></td>
-                    <td>11-09-2018</td>
-                    <td>In behandeling</td>
+                    <td><a href="/myreports/<%= complaint._id %>"><%= complaint.pole.address%></a></td>
+                    <td><%= complaint.date%></td>
+                    <td><%= complaint.status%></td>
                 </tr>
-                <tr>
-                    <td>Beukenplein</td>
-                    <td>11-09-2018</td>
-                    <td>In behandeling</td>
-                </tr>
-            </tbody>
+            <% }) %>
+           </tbody>
         </table>
     </section>
 </body>
