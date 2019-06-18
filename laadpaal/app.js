@@ -380,12 +380,12 @@ var allQuerrys = []
 async function createPoles() {
     var providers = ["NUON", "EVBOX", "EVNET", "ALVEN"]
 
-    fs.createReadStream('dfLocations.csv')  
+    fs.createReadStream('dfLocations.csv')
         .pipe(csv())
         .on('data', (row) => {
             var country = row.Region
             var postal = row.PostalCode;
-            
+
             if(country == "Amsterdam") {
                 var longitude = parseFloat(row.Longitude)
                 var latitude = parseFloat(row.Latitude)
@@ -400,7 +400,7 @@ async function createPoles() {
                 var provider = randomprovider
                 var sockets = Math.floor(Math.random() * 2) + 1
                 var usedsockets = Math.ceil(Math.random() * sockets)
-                
+
                 if(longitude && latitude) {
 
                     const query = `
@@ -435,14 +435,14 @@ async function createPoles() {
                     `
 
                     allQuerrys.push(query)
-                           }       
+                           }
         }})
         .on('end', () => {
             console.log('all querrys added..');
             console.log(allQuerrys.length)
             addToDB(0)
         }
-    );    
+    );
 }
 
 function addToDB(number) {
@@ -453,7 +453,7 @@ function addToDB(number) {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ query }),
-    })  
+    })
         .then(response => response.json())
         .then(data => {
             if(number <= allQuerrys.length) {
