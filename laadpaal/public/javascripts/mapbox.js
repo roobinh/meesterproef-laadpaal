@@ -86,21 +86,25 @@
   })
     .then(response => response.json())
     .then(data => {
-      
+      console.log(data.data.poles)
       data.data.poles.forEach(pole => {
 
         if(complaints.includes(pole._id)) {
           var color = "yellow"
+          var showComplaints = 1;
         } else {
           if (pole.usedsockets == pole.sockets) {
             // both poles in use
             var color = "red"
+            var showComplaints = 0; 
           } else {
             // no complaint + open spot
             availablepoles.push([pole.longitude, pole.latitude]);
             var color = "green"
+            var showComplaints = 0;
           }
         }
+
         if(href == "nearestpole") {
           if(color == "green") {
             var pointer = {
@@ -113,11 +117,11 @@
                 "address": pole.address,
                 "id": pole._id,
                 "lngLat": pole.longitude +" "+ pole.latitude,
-                "color": color
+                "color": color,
+                "showComplaints": showComplaints
               }
             }
             pointers.push(pointer)
-
           } else {
             //do nothing
           }
@@ -132,7 +136,8 @@
               "address": pole.address,
               "id": pole._id,
               "lngLat": pole.longitude +" "+ pole.latitude,
-              "color": color
+              "color": color,
+              "showComplaints": showComplaints
             }
           }
           pointers.push(pointer)
@@ -201,12 +206,20 @@
         console.log('jo')
         var address = e.features[0].properties.address
         var id = e.features[0].properties.id
+       
+        if(e.features[0].properties.showComplaints == 1) {
+          var mapbutton = "mapbutton"
+        } else {
+          var mapbutton = "mapbuttongrey"
+        }
+
         console.log(id)
 
+        
         var html = `
           <h3>${address}</h3>
           <p><a class="mapbutton" href="/setpole/${id}">Melding maken</a></p>
-          <p><a class="mapbutton" href="/reports/${id}">Meldingen bekijken</a></p>
+          <p><a class="${mapbutton}" href="/reports/${id}">Meldingen bekijken</a></p>
         `
 
         new mapboxgl.Popup()
@@ -242,15 +255,7 @@
   });
 
   document.getElementById("fly").addEventListener("click", function () {
-    if(dichstbijzijnde[1]==0 && dichstbijzijnde[2]==0) {
-      console.log('paal nog niet berekend.')
-    } else {
-      map.flyTo({
-        center: [dichstbijzijnde[2], dichstbijzijnde[1]],
-        zoom: 16
-      });
-    }
-    
+    flyToNearestPole();
   });
 
   function calculateNearestPole(long, lat) {

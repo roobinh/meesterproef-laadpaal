@@ -425,6 +425,26 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
     height: 2em
 }
 
+.mapbuttongrey {
+  font-family: 'Dosis', sans-serif;
+  background-color: #009136;
+  border: solid #009136;
+  width: 8em;
+  height: 3em;
+  font-weight: bold;
+  border-radius: 2px;
+  background-color: white;
+  border: none;
+  text-align: left;
+  color: grey;
+  font-family: 'Dosis', sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 1em;
+  padding: 0;
+  height: 2em
+}
+
 .complaintButton{
   background-color: white;
   border: none;
