@@ -277,7 +277,7 @@ app.get('/reports', authenticate, function (req, res, next) {
        }
     `
 
-    let poles = [{ id: '5d08c507ea730b0c5084f2f0' }];
+    let poles = [];
 
     return fetch('http://localhost:2500/graphql', {
         method: "POST",
@@ -288,15 +288,28 @@ app.get('/reports', authenticate, function (req, res, next) {
             if (data.data.complaints) {
                 console.log("data::::", data.data.complaints)
                 data.data.complaints.forEach(complaint => {
-                    if (!poles.includes(`id: ${complaint._id}`)) {
-                        console.log("besttat niert");
-
-                    } else {
+                    if (poles.some(e => e.id === `${complaint.pole._id}`)) {
                         console.log("wellles");
+                        poles.find(x => x.id == `${complaint.pole._id}`).count++
+
+                        // e.count++
+                    } else {
+                        console.log("besttat niert");
+                        poles.push({
+                            id: complaint.pole._id,
+                            address: complaint.pole.address,
+                            count: 1
+                        })
 
                     }
                 });
-                res.render('pages/reports', { data: data.data.complaints });
+                console.log(poles);
+
+                poles.sort(function (a, b) {
+                    return b.count - a.count;
+                });
+
+                res.render('pages/reports', { data: poles });
             } else {
                 res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
             }
@@ -306,6 +319,8 @@ app.get('/reports', authenticate, function (req, res, next) {
 
 
 })
+
+
 
 app.get('/reports/9086986689', authenticate, function (req, res, next) {
     res.render('pages/reportsdetail')

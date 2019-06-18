@@ -15,14 +15,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                     <td><a href="/reports/9086986689">Beukenplein</a></td>
-                    <td>115</td>
-                </tr>
-                <tr>
-                    <td>Beukenplein</td>
-                    <td>6</td>
-                </tr>
+                <%data.forEach(pole=>{ %>
+                    <tr>
+                        <td><a href="/reports/<%=pole.id%>"><%=pole.address%></a></td>
+                        <td><%=pole.count%></td>
+                    </tr>
+                <%})%>
             </tbody>
         </table>
     </section>
