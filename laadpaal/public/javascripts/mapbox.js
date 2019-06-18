@@ -1,4 +1,4 @@
-(function() {
+(function () {
   // MapBox
   mapboxgl.accessToken =
     "pk.eyJ1Ijoicm9vYmluMTk5OSIsImEiOiJjanJxYzVpeGIwdzJ4NDlycTZvd2lramRkIn0.jEoxjM-oE38jYCIHnhLw_g";
@@ -27,11 +27,11 @@
   map.addControl(geolocation);
 
   // on mapload, trigger user location
-  map.on("load", function() {
+  map.on("load", function () {
     geolocation._geolocateButton.click();
   });
 
-  geolocation.on("geolocate", function(e) {
+  geolocation.on("geolocate", function (e) {
     calculateNearestPole(e.coords.longitude, e.coords.latitude);
   });
 
@@ -122,16 +122,16 @@
           .setPopup(
             new mapboxgl.Popup({ offset: 15 }).setHTML(` // add popups
                     <h3>${pole.address}</h3>
-                    <p><a href="/setpole/${pole._id}">Klacht indienen</a></p>
-                    <p><a href="/complaint/details/${pole._id}">Klachten bekijken</a></p>
+                    <p><a href="/setpole/${pole._id}">Melding maken</a></p>
+                    <p><a href="/reports/${pole._id}">Meldingen bekijken</a></p>
                     `)
           )
           .addTo(map);
       });
     }
-  );
+    );
 
-  document.getElementById("fly").addEventListener("click", function() {
+  document.getElementById("fly").addEventListener("click", function () {
     map.flyTo({
       center: [dichstbijzijnde[2], dichstbijzijnde[1]],
       zoom: 16
@@ -157,9 +157,9 @@
     var a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c; // Distance in km
     return d;

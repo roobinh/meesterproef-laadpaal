@@ -322,8 +322,54 @@ app.get('/reports', authenticate, function (req, res, next) {
 
 
 
-app.get('/reports/9086986689', authenticate, function (req, res, next) {
-    res.render('pages/reportsdetail')
+app.get('/reports/:id', authenticate, function (req, res, next) {
+
+    const poleId = req.params.id;
+
+    const query = ` 
+    query {
+        complaints(poleId: "${poleId}") {
+          _id
+          type
+          status
+          description
+               image
+          date
+          time
+          pole {
+            _id
+            longitude
+            latitude
+            city
+            region
+            regioncode
+            district
+            subdistrict
+            address
+            postalcode
+            provider
+            sockets
+            usedsockets
+          }
+        }
+       }
+    `
+
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    }).then(response => response.json())
+        .then(data => {
+            if (data.data.complaints) {
+                console.log(data.data.complaints)
+                res.render('pages/reportsdetail', { data: data.data.complaints });
+            } else {
+                res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
+            }
+        }
+        )
+
 })
 
 app.post('/choosePole', authenticate, function (req, res, next) {
