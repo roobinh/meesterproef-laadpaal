@@ -187,11 +187,11 @@ app.get('/myreports', authenticate, function (req, res, next) {
         body: JSON.stringify({ query }),
     }).then(response => response.json())
         .then(data => {
-            if (data.data.complaints) {
+            if (data.data.complaints.length > 0) {
                 console.log("data::::", data.data)
                 res.render('pages/myreports', { data: data.data.complaints });
             } else {
-                res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
+                res.render('pages/myreports', { data: "error" });
             }
         }
         )

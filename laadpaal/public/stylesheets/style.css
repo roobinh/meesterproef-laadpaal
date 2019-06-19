@@ -76,7 +76,6 @@ h1{
   color: black;
 }
 
-
 .invisible {
   display: none;
 }
@@ -202,6 +201,14 @@ header .menu-btn:hover {
 header .backArrow {
   display: block;
   float: left;
+  font-size: 2em; 
+  padding: 10px 20px;
+  text-decoration: none;
+} 
+
+header .navHome {
+  display: block;
+  float: center;
   font-size: 2em; 
   padding: 10px 20px;
   text-decoration: none;
