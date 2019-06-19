@@ -186,6 +186,16 @@
         }
       })
 
+      map.on('mouseenter', 'unclustered-point', function (e) {
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = 'pointer';
+      })
+
+      map.on('mouseleave', 'unclustered-point', function (e) {
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = '';
+      })
+
       // inspect a cluster on click
       map.on('click', 'clusters', function (e) {
         var features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
@@ -262,7 +272,9 @@
     flyToNearestPole();
   });
 
-  document.getElementById("legenda").addEventListener("click", function () {
+  const legendaButton = document.getElementById("legendaButton")
+
+  legendaButton.addEventListener("click", function () {
     toggleLegenda();
   });
 
@@ -313,7 +325,13 @@
   }
 
   function toggleLegenda() {
-    
+    const legenda = document.querySelector(".legenda")
+    legenda.classList.toggle("heightZero")
+    if (legendaButton.innerHTML === "?") {
+      legendaButton.innerHTML = "X";
+    } else {
+      legendaButton.innerHTML = "?";
+    }
   }
 
 })();
