@@ -410,6 +410,7 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .legendaMarkerYellow {
