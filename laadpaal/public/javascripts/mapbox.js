@@ -262,6 +262,10 @@
     flyToNearestPole();
   });
 
+  document.getElementById("legenda").addEventListener("click", function () {
+    toggleLegenda();
+  });
+
   function calculateNearestPole(long, lat) {
     availablepoles.forEach(pole => {
       var distance = calculateDistance(lat, long, pole[1], pole[0]);
@@ -306,6 +310,10 @@
         zoom: 16
       });
     }
+  }
+
+  function toggleLegenda() {
+    
   }
 
 })();
