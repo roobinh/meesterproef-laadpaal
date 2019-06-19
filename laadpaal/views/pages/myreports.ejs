@@ -14,8 +14,10 @@
                 
                     <section class="ticket">
                         <h2 class="ticketType"><%=complaint.type%></h2>
-                        <p class="ticketDate"><%=complaint.date%> (<%= complaint.time%>)</p>
-                        <a href="/myreports/<%= complaint._id %>" class="aTicket">CHAT</a>
+                        <div class="markerWrapper">
+                            <p class="ticketDate"><%=complaint.date%> (<%= complaint.time%>)</p>
+                            <a href="/myreports/<%= complaint._id %>" class="chatLink">CHAT</a>
+                        </div>
                         <p class="ticketDescription">Adres: <%=complaint.pole.address%></p>
                         <p class="ticketDescription">Status: <%=complaint.status%></p>
                         <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
