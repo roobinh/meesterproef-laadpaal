@@ -2,14 +2,16 @@
 <html>
 
 <% include ../partials/head %>
-<% include ../partials/header %>
-
-    <% console.log(data) %>
-    
+<% include ../partials/header %>    
 
 <body>
     <section class="body">
-        <h1>Storingen</h1>
+        <h1>Storing Zoeken</h1>
+
+        <input type="text" name="complaintid" id="complaintid" value="Complaint ID here">
+        <button class="button" id="search">Zoeken</button>
+
+        <h1>Alle Storingen</h1>
         <table>
             <thead>
                 <tr>
@@ -33,5 +35,6 @@
 
 
 <% include ../partials/footer %>
+<script src="/javascripts/dashboard.js"></script>
 
 </html>

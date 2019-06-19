@@ -475,40 +475,38 @@ app.post('/login', function (req, res, next) {
 })
 
 //login
-app.post('/dashboard/changestatus', function (req, res, next) {
+app.post('/dashboard/changestatus/:id', function (req, res, next) {
+    console.log(req.params.id)
 
-    console.log(req.body.state)
     // email user wants to login with
 
     // set querry
     const query = `
-    
+        mutation {
+            updateComplaint(complaintId:"${req.params.id}",  complaintInput: {
+            status: "${req.body.state}"
+            }) {
+                type
+                description
+                image
+                status
+                date
+                time
+              }
+        }
     `
-
     // post request
 
-    /*
     return fetch('http://localhost:2500/graphql', {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ query }),
     }).then(response => response.json())
         .then(data => {
-            data = data.data.users[0]
-
-            if (data) { // login success
-                req.session.user = {
-                    email: data.email,
-                    name: data.name,
-                    id: data._id
-                }
-                res.redirect('/home')
-            } else { //login failed
-                res.render('pages/register', { email: email });
-            }
+            console.log(data)
+            res.redirect('/dashboard/' + req.params.id)
         });
 
-    */
 })
 
 
@@ -523,7 +521,7 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
     const description = req.body.description.trim();
     const userId = req.session.user.id
     const poleId = req.session.user.complaint.poleId
-    const status = "Pending"
+    const status = "In behandeling"
 
     const currentDate = new Date();
     const date = currentDate.getDate();
@@ -702,10 +700,10 @@ app.get('/dashboard/:id', function(req, res, next) {
         body: JSON.stringify({ query }),
     }).then(response => response.json())
         .then(data => {
-            if (data.data.complaints) {
+            if (data.data) {
                 res.render('pages/dashboarddetails', { data: data.data.complaints });
             } else {
-                res.render('pages/dashboarddetails', { errorMsg: "err" });
+                res.send('ID niet gevonden')
             }
         })
 })

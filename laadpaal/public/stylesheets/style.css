@@ -718,3 +718,14 @@ th {
 .yellow {
   background-color: yellow
 }
+
+#complaintid {
+  background-color: white;
+  font-family: 'Dosis', sans-serif;
+  color: black;
+  letter-spacing: .05em;
+  border: none;
+  border-bottom: solid #2F855A;
+  height: 2em;
+  margin-bottom: 1em;
+}
