@@ -7,6 +7,9 @@ const subtitle = document.querySelector(".subtitle")
 
 const myStorage = window.localStorage
 
+var hrefArr = window.location.href.split('/');
+var href = hrefArr[hrefArr.length - 1];
+
 if (complaintButtons) {
     complaintButtons.forEach(complaintButton => {
         complaintButton.addEventListener("click", e => {
@@ -30,7 +33,6 @@ function moveElement(targetElement, movingElement) {
 function createSentence(targetElement, sentenceStart) {
     targetElement.innerHTML = sentenceStart;
 }
-
 
 function slideElementOut(complaintButtons, movingElement) {
     complaintButtons.forEach(complaintButton => {
@@ -156,5 +158,32 @@ function readURL(input) {
         };
 
         reader.readAsDataURL(input.files[0]);
+    }
+}
+
+if(href=="home" || href=="create") {
+    document.getElementById('backArrow').setAttribute('style', 'display: none');
+}
+
+document.getElementById('backArrow').addEventListener("click", function() {
+    back();
+})
+
+function back() {
+    switch (href) {
+        case "reports":
+            window.history.back();
+            break;
+        case "myreports":
+            window.history.back();
+            break;
+        case "create":
+            previousOption();
+            break;
+        default:
+            window.history.back();
+            break;
+    }
+    if(href == 'reports') {
     }
 }
