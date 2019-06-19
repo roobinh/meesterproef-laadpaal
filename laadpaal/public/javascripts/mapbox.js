@@ -207,7 +207,8 @@
         console.log('jo')
         var address = e.features[0].properties.address
         var id = e.features[0].properties.id
-
+        var lnglat = e.features[0].properties.lngLat.split(" ")
+        console.log(lnglat)
         if (e.features[0].properties.showComplaints == 1) {
           var mapbutton = ""
         } else {
@@ -221,6 +222,7 @@
           <h3>${address}</h3>
           <p><a class="mapbutton" href="/setpole/${id}">Melding maken</a></p>
           <p><a class="mapbutton ${mapbutton}" href="/reports/${id}">Meldingen bekijken</a></p>
+          <p><a class="mapbutton" href="https://maps.google.com/?q=${lnglat[1]},${lnglat[0]}">Navigeren</a></p>
         `
 
         new mapboxgl.Popup()
