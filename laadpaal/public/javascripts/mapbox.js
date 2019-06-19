@@ -30,6 +30,12 @@
 
   map.addControl(geolocation, 'bottom-right');
 
+    // disable map rotation using right click + drag
+  map.dragRotate.disable();
+  
+  // disable map rotation using touch rotation gesture
+  map.touchZoomRotate.disableRotation();
+
   // on mapload, trigger user location
   map.on("load", function () {
     geolocation._geolocateButton.click();
