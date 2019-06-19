@@ -35,6 +35,7 @@ h1{
     box-shadow: 3px 2px 2px 2px rgba(0,0,0,0.24);
     padding: 15px;
     margin-bottom: 2em;
+    margin-top: 2em;
 }
 
 .ticketSubtitle{
@@ -44,6 +45,16 @@ h1{
   color: black;
   margin: 0;
 }
+
+.ticketDate{
+  font-family: 'Dosis', sans-serif;
+  font-weight:700;
+  letter-spacing: .05em;
+  color: black;
+  margin: 0;
+  right: 0;
+}
+
 
 .ticketType{
   font-family: 'Dosis', sans-serif;
@@ -57,6 +68,7 @@ h1{
   word-wrap: break-word;
   font-family: 'Dosis', sans-serif;
   letter-spacing: .05em;
+  margin: 5px;
 }
 
 .ticketImg{

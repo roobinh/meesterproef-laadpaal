@@ -210,7 +210,7 @@ app.get('/myreports/:id', authenticate, function (req, res, next) {
           type
           status
           description
-               image
+            image
           date
           time
           pole {

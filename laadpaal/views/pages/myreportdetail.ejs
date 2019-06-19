@@ -7,12 +7,13 @@
 <body>
     <section class="body">
         <section class="ticket">
-            <p class="ticketSubtitle"><%=data.date%></p>
-            <p class="ticketSubtitle"><%=data.time%></p>
-            <h2 class="ticketType"><%=data.type%></h2>
+            <h2 class="ticketType">Melding: <%=data.type%></h2>
+            <p class="ticketDescription">Adres: <%=data.pole.address%></p>
             <p class="ticketDescription">Status: <%=data.status%></p>
             <p class="ticketDescription">Beschrijving: <%=data.description%></p>
             <img class="ticketImg" src="/images/uploads/<%=data._id%>.jpeg">
+            <p class="ticketDate"><%=data.date%> (<%= data.time%>)</p>
+
         </section>
         <section class="chat">
 
