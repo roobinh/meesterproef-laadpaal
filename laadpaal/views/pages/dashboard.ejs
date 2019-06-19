@@ -4,6 +4,9 @@
 <% include ../partials/head %>
 <% include ../partials/header %>
 
+    <% console.log(data) %>
+    
+
 <body>
     <section class="body">
         <h1>Storingen</h1>
@@ -11,15 +14,16 @@
             <thead>
                 <tr>
                     <th>Locatie</th>
-                    
                     <th>Datum</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                <%data.forEach(pole=>{ %>
+                <% data.forEach(complaint=>{ console.log(complaint)%>
                     <tr>
-                        <td><a href="/reports/<%=pole.id%>"><%=pole.address%></a></td>
-                        <td><%=pole.count%></td>
+                        <td><a href="/dashboard/<%=complaint._id%>"><%=complaint.pole.address%></a></td>
+                        <td><%=complaint.date%></td>
+                        <td><%=complaint.status%></td>
                     </tr>
                 <%})%>
             </tbody>
@@ -27,7 +31,7 @@
     </section>
 </body>
 
+
 <% include ../partials/footer %>
 
 </html>
-

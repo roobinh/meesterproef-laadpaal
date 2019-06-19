@@ -324,8 +324,6 @@ app.get('/reports', authenticate, function (req, res, next) {
 
 })
 
-
-
 app.get('/reports/:id', authenticate, function (req, res, next) {
 
     const poleId = req.params.id;
@@ -476,6 +474,44 @@ app.post('/login', function (req, res, next) {
         });
 })
 
+//login
+app.post('/dashboard/changestatus', function (req, res, next) {
+
+    console.log(req.body.state)
+    // email user wants to login with
+
+    // set querry
+    const query = `
+    
+    `
+
+    // post request
+
+    /*
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    }).then(response => response.json())
+        .then(data => {
+            data = data.data.users[0]
+
+            if (data) { // login success
+                req.session.user = {
+                    email: data.email,
+                    name: data.name,
+                    id: data._id
+                }
+                res.redirect('/home')
+            } else { //login failed
+                res.render('pages/register', { email: email });
+            }
+        });
+
+    */
+})
+
+
 // create complaint in database
 app.post('/createComplaint', authenticate, upload.single('image'), function (req, res, next) {
     console.log("--------Creating Complaint in Database--------")
@@ -581,6 +617,98 @@ function authenticate(req, res, next) {
     }
 }
 
+// Dashboard
+app.get('/dashboard', function(req, res, next) {
+
+    const query = ` 
+    query {
+        complaints {
+          _id
+          type
+          status
+          description
+               image
+          date
+          time
+          pole {
+            _id
+            longitude
+            latitude
+            city
+            region
+            regioncode
+            district
+            subdistrict
+            address
+            postalcode
+            provider
+            sockets
+            usedsockets
+          }
+        }
+       }
+    `
+
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    }).then(response => response.json())
+        .then(data => {
+            if (data.data.complaints) {
+                res.render('pages/dashboard', { data: data.data.complaints });
+            } else {
+                res.render('pages/dashboard', { errorMsg: "err" });
+            }
+        })
+})
+
+app.get('/dashboard/:id', function(req, res, next) {
+
+    const id = req.params.id;
+
+    const query = ` 
+    query {
+        complaints(complaintId:"${id}") {
+          _id
+          type
+          status
+          description
+               image
+          date
+          time
+          pole {
+            _id
+            longitude
+            latitude
+            city
+            region
+            regioncode
+            district
+            subdistrict
+            address
+            postalcode
+            provider
+            sockets
+            usedsockets
+          }
+        }
+       }
+    `
+
+    return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    }).then(response => response.json())
+        .then(data => {
+            if (data.data.complaints) {
+                res.render('pages/dashboarddetails', { data: data.data.complaints });
+            } else {
+                res.render('pages/dashboarddetails', { errorMsg: "err" });
+            }
+        })
+})
 // start server
 var server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
 module.exports = app;
