@@ -2,7 +2,6 @@ html{
   padding: 0;
   height: 100%;
 }
-
 body {
   background-color:white;
   padding: 0;
@@ -26,7 +25,7 @@ body {
 
 h1{
   font-family: 'Abel', sans-serif;
-  color: #009136;
+  color: #2F855A;
   font-weight: 400;
   margin-top: 2em;
 }
@@ -35,7 +34,6 @@ h1{
     box-shadow: 3px 2px 2px 2px rgba(0,0,0,0.24);
     padding: 15px;
     margin-bottom: 2em;
-    margin-top: 2em;
 }
 
 .ticketSubtitle{
@@ -55,12 +53,11 @@ h1{
   right: 0;
 }
 
-
 .ticketType{
   font-family: 'Dosis', sans-serif;
   font-weight:700;
   letter-spacing: .05em;
-  color: #009136;
+  color: #2F855A;
   margin: 0;
 }
 .ticketDescription{
@@ -68,7 +65,9 @@ h1{
   word-wrap: break-word;
   font-family: 'Dosis', sans-serif;
   letter-spacing: .05em;
+  color: black;
   margin: 5px;
+  margin-left: 0;
 }
 
 .ticketImg{
@@ -78,7 +77,7 @@ h1{
   font-family: 'Dosis', sans-serif;
   font-weight:700;
   letter-spacing: .05em;
-  color: #009136;
+  color: #2F855A;
 }
 
 .subtitle{
@@ -95,7 +94,7 @@ h1{
 .img{
   width: 100%;
   height: 10em;
-  background-color: #009136;
+  background-color: #2F855A;
   margin-bottom: 1em;
 }
 
@@ -117,7 +116,7 @@ h1{
   color: black;
   letter-spacing: .05em;
   border: none;
-  border-bottom: solid #009136;
+  border-bottom: solid #2F855A;
   height: 2em;
   margin-bottom: 1em;
 }
@@ -129,14 +128,21 @@ h1{
 .button{
   font-family: 'Dosis', sans-serif;
   color: white;
-  background-color: #009136;
-  border: solid #009136;
+  background-color: #2F855A;
+  border: solid #2F855A;
   width: 8em;
   height: 3em;
   font-weight: bold;
   border-radius: 2px;
   box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.24);
 }
+
+.button:active{
+  background-color: #00782d;
+  border: solid #00782d;
+  transform: translateY(4px);
+}
+
 .formButtonRight{
   margin-left: auto;
 }
@@ -144,8 +150,8 @@ h1{
 .fotoButton{
   font-family: 'Dosis', sans-serif;
   color: white;
-  background-color: #009136;
-  border: solid #009136;
+  background-color: #2F855A;
+  border: solid #2F855A;
   width: 6em;
   height: 3em;
   font-weight: bold;
@@ -154,6 +160,12 @@ h1{
   line-height: 3em;
   text-align: center;
   margin-bottom: 1em;
+}
+
+.fotoButton:active{
+  background-color: #00782d;
+  border: solid #00782d;
+  transform: translateY(4px);
 }
 
 #uploadImg{
@@ -165,7 +177,7 @@ h1{
 }
 
 .link{
-  color: #009136;
+  color: #2F855A;
   font-family: 'Dosis', sans-serif;
   width: 8em;
   height: 3em;
@@ -177,7 +189,7 @@ h1{
 header{
   padding-left: 1em;
   padding-right: 1em;
-  background-color: #009136;
+  background-color: #2F855A;
   flex-wrap: wrap;
   position: fixed;
   width: 100%;
@@ -189,7 +201,7 @@ header ul {
   padding: 0;
   list-style: none;
   overflow: hidden;
-  background-color: #009136;
+  background-color: #2F855A;
 }
 
 header li a {
@@ -372,9 +384,14 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   font-size: 12px;
   text-align: center;
   color: #fff;
-  background: #005e23;
+  background: #2F855A;
   top: 10px;
   left: 25%;
+}
+
+#fly:active{
+  background: #005e23;
+  transform: translateY(4px);
 }
 
 .choosePoleForm{
@@ -395,8 +412,8 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   margin-bottom: 1em;
   font-family: 'Dosis', sans-serif;
   color: white;
-  background-color: #009136;
-  border: solid #009136;
+  background-color: #2F855A;
+  border: solid #2F855A;
   width: 8em;
   height: 3em;
   font-weight: bold;
@@ -426,49 +443,33 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
 
 .mapbutton {
     font-family: 'Dosis', sans-serif;
-    background-color: #009136;
-    border: solid #009136;
     width: 8em;
     height: 3em;
     font-weight: bold;
-    border-radius: 2px;
-    background-color: white;
     border: none;
     text-align: left;
-    color: #009136;
-    font-family: 'Dosis', sans-serif;
+    color: #2F855A;
     font-size: 2em;
-    font-weight: bold;
     margin-bottom: 1em;
-    padding: 0;
-    height: 2em
 }
 
-.mapbuttongrey {
-  font-family: 'Dosis', sans-serif;
-  background-color: #009136;
-  border: solid #009136;
-  width: 8em;
-  height: 3em;
-  font-weight: bold;
-  border-radius: 2px;
-  background-color: white;
-  border: none;
-  text-align: left;
+.mapbutton:active{
+  transform: translateY(4px);
+}
+
+.mapbutton:hover{
+  cursor: pointer;
+}
+
+.grey {
   color: grey;
-  font-family: 'Dosis', sans-serif;
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 1em;
-  padding: 0;
-  height: 2em
 }
 
 .complaintButton{
   background-color: white;
   border: none;
   text-align: left;
-  color: #009136;
+  color: #2F855A;
   font-family: 'Dosis', sans-serif;
   font-size: 2em;
   font-weight: bold;
@@ -482,7 +483,7 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   margin-bottom: 0;
   background-color: white;
   text-align: left;
-  color: #009136;
+  color: #2F855A;
   font-family: 'Dosis', sans-serif;
   font-size: 2em;
   font-weight: bold;
@@ -490,8 +491,9 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
 }
 
 .complaintButton:active{
-  background-color: #009136;
+  background-color: #2F855A;
   color: white;
+  transform: translateY(4px);
 }
 
 .slideOut{
@@ -532,8 +534,8 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
 .label{
   font-family: 'Dosis', sans-serif;
   color: white;
-  background-color: #009136;
-  border: solid #009136;
+  background-color: #2F855A;
+  border: solid #2F855A;
   width: 6em;
   height: 2em;
   font-weight: bold;
@@ -568,9 +570,9 @@ td {
 
 
 th {
-    color: #009136;
+    color: #2F855A;
     font-family: 'Dosis', sans-serif;
-    border-bottom: 1px solid #009136;
+    border-bottom: 1px solid #2F855A;
     text-align: left;
 }
 
@@ -587,7 +589,31 @@ th {
   font-size: 12px;
   text-align: center;
   color: #fff;
-  background: #005e23;
+  background-color: #2F855A;
+  border: solid #2F855A;
   top: 10px;
   left: 25%;
+}
+
+.alternativeButton:active {
+  background-color: #005e23;
+  border: solid #005e23;
+  transform: translateY(4px);
+}
+
+.aTicket{
+  text-decoration: none;
+  
+}
+
+.aTicket:visited{
+  text-decoration: none;
+}
+
+.aTicket:hover{
+  cursor: pointer;
+}
+
+.aTicket:active {
+  transform: translateY(4px);
 }

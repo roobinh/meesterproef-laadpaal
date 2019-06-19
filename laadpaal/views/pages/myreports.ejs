@@ -10,21 +10,17 @@
         <% if (data === "error") { %>
         <h3 class="subtitle"> U heeft nog geen meldingen...</h3>
         <% } else { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Locatie</th>
-                    <th>Datum</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
             <% data.forEach(complaint=>{ %>
-                <tr>
-                    <td><a href="/myreports/<%= complaint._id %>"><%= complaint.pole.address%></a></td>
-                    <td><%= complaint.date%></td>
-                    <td><%= complaint.status%></td>
-                </tr>
+                <a href="/myreports/<%= complaint._id %>" class="aTicket">
+                    <section class="ticket">
+                        <h2 class="ticketType">Melding: <%=complaint.type%></h2>
+                        <p class="ticketDescription">Adres: <%=complaint.pole.address%></p>
+                        <p class="ticketDescription">Status: <%=complaint.status%></p>
+                        <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
+                        <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg">
+                        <p class="ticketDate"><%=complaint.date%> (<%= complaint.time%>)</p>
+                    </section>
+                </a>
             <% }) %>
            </tbody>
         </table>

@@ -10,7 +10,7 @@
   var pointers = [];
 
   var hrefArr = window.location.href.split('/');
-  var href = hrefArr[hrefArr.length-1];
+  var href = hrefArr[hrefArr.length - 1];
 
   //create map
   var map = new mapboxgl.Map({
@@ -89,14 +89,14 @@
       console.log(data.data.poles)
       data.data.poles.forEach(pole => {
 
-        if(complaints.includes(pole._id)) {
+        if (complaints.includes(pole._id)) {
           var color = "yellow"
           var showComplaints = 1;
         } else {
           if (pole.usedsockets == pole.sockets) {
             // both poles in use
             var color = "red"
-            var showComplaints = 0; 
+            var showComplaints = 0;
           } else {
             // no complaint + open spot
             availablepoles.push([pole.longitude, pole.latitude]);
@@ -105,8 +105,8 @@
           }
         }
 
-        if(href == "nearestpole") {
-          if(color == "green") {
+        if (href == "nearestpole") {
+          if (color == "green") {
             var pointer = {
               "type": "Feature",
               "geometry": {
@@ -116,7 +116,7 @@
               "properties": {
                 "address": pole.address,
                 "id": pole._id,
-                "lngLat": pole.longitude +" "+ pole.latitude,
+                "lngLat": pole.longitude + " " + pole.latitude,
                 "color": color,
                 "showComplaints": showComplaints
               }
@@ -135,24 +135,24 @@
             "properties": {
               "address": pole.address,
               "id": pole._id,
-              "lngLat": pole.longitude +" "+ pole.latitude,
+              "lngLat": pole.longitude + " " + pole.latitude,
               "color": color,
               "showComplaints": showComplaints
             }
           }
           pointers.push(pointer)
-      }
-        
+        }
 
-        
-    })
+
+
+      })
 
       map.addSource("earthquakes", {
         type: "geojson",
         data: {
-            "type": "FeatureCollection",
-            "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-            "features": pointers
+          "type": "FeatureCollection",
+          "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+          "features": pointers
         },
         cluster: true,
         clusterMaxZoom: 14,
@@ -166,34 +166,35 @@
         filter: ["has", "point_count"],
         paint: {
           "circle-color": [
-              "step",
-              ["get", "point_count"],
-              "#51bbd6",
-              100,
-              "#f1f075",
-              750,
-              "#f28cb1"
+            "step",
+            ["get", "point_count"],
+            "#51bbd6",
+            100,
+            "#f1f075",
+            750,
+            "#f28cb1"
           ],
           "circle-radius": [
-              "step",
-              ["get", "point_count"],
-              20,
-              100,
-              30,
-              750,
-              40
-        ]
-      }})
+            "step",
+            ["get", "point_count"],
+            20,
+            100,
+            30,
+            750,
+            40
+          ]
+        }
+      })
 
       // inspect a cluster on click
       map.on('click', 'clusters', function (e) {
         var features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
         var clusterId = features[0].properties.cluster_id;
-        
+
         map.getSource('earthquakes').getClusterExpansionZoom(clusterId, function (err, zoom) {
           if (err)
-          return;
-        
+            return;
+
           map.easeTo({
             center: features[0].geometry.coordinates,
             zoom: zoom
@@ -201,25 +202,25 @@
         });
       });
 
-      map.on('click', 'unclustered-point', function(e) {
+      map.on('click', 'unclustered-point', function (e) {
         console.log(e.features)
         console.log('jo')
         var address = e.features[0].properties.address
         var id = e.features[0].properties.id
-       
-        if(e.features[0].properties.showComplaints == 1) {
-          var mapbutton = "mapbutton"
+
+        if (e.features[0].properties.showComplaints == 1) {
+          var mapbutton = ""
         } else {
-          var mapbutton = "mapbuttongrey"
+          var mapbutton = "grey"
         }
 
         console.log(id)
 
-        
+
         var html = `
           <h3>${address}</h3>
           <p><a class="mapbutton" href="/setpole/${id}">Melding maken</a></p>
-          <p><a class="${mapbutton}" href="/reports/${id}">Meldingen bekijken</a></p>
+          <p><a class="mapbutton ${mapbutton}" href="/reports/${id}">Meldingen bekijken</a></p>
         `
 
         new mapboxgl.Popup()
@@ -246,13 +247,14 @@
         source: "earthquakes",
         filter: ["!", ["has", "point_count"]],
         paint: {
-          "circle-color": ['get','color'],
+          "circle-color": ['get', 'color'],
           "circle-radius": 8,
-          "circle-stroke-width": 1,
-          "circle-stroke-color": "#fff"
+          "circle-stroke-width": 4,
+          "circle-stroke-color": ['get', 'color'],
+          "circle-stroke-opacity": 0.5
         }
       })
-  });
+    });
 
   document.getElementById("fly").addEventListener("click", function () {
     flyToNearestPole();
@@ -267,11 +269,11 @@
       }
     });
 
-    if(href == "nearestpole") {
+    if (href == "nearestpole") {
       flyToNearestPole();
     }
 
-    console.log(`dichstbijzijnde pole(afstand:${dichstbijzijnde[0]}): ${dichstbijzijnde[1]}, ${dichstbijzijnde[2]}`); 
+    console.log(`dichstbijzijnde pole(afstand:${dichstbijzijnde[0]}): ${dichstbijzijnde[1]}, ${dichstbijzijnde[2]}`);
   }
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -294,7 +296,7 @@
   }
 
   function flyToNearestPole() {
-    if(dichstbijzijnde[1]==0 && dichstbijzijnde[2]==0) {
+    if (dichstbijzijnde[1] == 0 && dichstbijzijnde[2] == 0) {
       console.log('paal nog niet berekend.')
     } else {
       map.flyTo({

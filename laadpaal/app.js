@@ -129,11 +129,11 @@ app.get('/complaint/success', authenticate, function (req, res, next) {
                     res.send("session.currentcomplaint not found.")
                 }
             }
-        )
+            )
     }
 });
 
-app.get('/nearestpole', function(req, res, next) {
+app.get('/nearestpole', function (req, res, next) {
     res.render('pages/nearestpole')
 })
 
@@ -188,7 +188,7 @@ app.get('/myreports', authenticate, function (req, res, next) {
     }).then(response => response.json())
         .then(data => {
             if (data.data.complaints.length > 0) {
-                console.log("data::::", data.data)
+                console.log("data::::", data.data.complaints)
                 res.render('pages/myreports', { data: data.data.complaints });
             } else {
                 res.render('pages/myreports', { data: "error" });
