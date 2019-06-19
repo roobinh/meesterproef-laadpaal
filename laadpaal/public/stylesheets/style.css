@@ -627,6 +627,10 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   justify-content: space-between;
 }
 
+.ticket:first-of-type{
+  margin-top: 2em;
+}
+
 .label{
   font-family: 'Dosis', sans-serif;
   color: white;

@@ -15,9 +15,9 @@
       } %>
 
     <section class="ticket">
+      <h2 class="ticketType"><%= data.type%></h2>
       <p class="ticketSubtitle"><%= data.date%></p>
       <p class="ticketSubtitle"><%= data.time%></p>
-      <h2 class="ticketType"><%= data.type%></h2>
       <p class="ticketDescription"><%= data.description%></p>
       <img class="ticketImg" src="/images/uploads/<%= data._id %>.jpeg"></img>
     </section>

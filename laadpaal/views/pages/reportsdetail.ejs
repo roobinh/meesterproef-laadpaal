@@ -8,9 +8,9 @@
     <section class="body">
     <%data.forEach(complaint=>{ %>
         <section class="ticket">
+            <h2 class="ticketType"><%= complaint.type%></h2>
             <p class="ticketSubtitle"><%= complaint.date%></p>
             <p class="ticketSubtitle"><%= complaint.time%></p>
-            <h2 class="ticketType"><%= complaint.type%></h2>
             <p class="ticketDescription">Status: <%= complaint.status%></p>
             <p class="ticketDescription">Beschrijving: <%= complaint.description%></p>
             <img class="ticketImg" src="/images/uploads/<%= complaint._id%>.jpeg">
