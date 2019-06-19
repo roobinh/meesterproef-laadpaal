@@ -31,17 +31,17 @@
 
                     <button class="button">change</button>
                 </form>
+                 <section class="ticket">
+                    <h2 class="ticketType"><%=complaint.type%></h2>
+                    <p class="ticketDescription">ID: <%=complaint._id%></p>
+                    <p class="ticketDescription">Address: <a href="http://maps.google.com/?q=<%=complaint.pole.address%>"> <%=complaint.pole.address%> </a></p>
+                    <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
+                    <p class="ticketDescription">Status: <%=complaint.status%></p>
+                    <p class="ticketDescription">Datum: <%=complaint.date%> (<%= complaint.time%>)</p>
 
-                <h2 class="ticketType"><%=complaint.type%></h2>
-                <p class="ticketDescription">ID: <%=complaint._id%></p>
-                <p class="ticketDescription">Address: <a href="http://maps.google.com/?q=<%=complaint.pole.address%>"> <%=complaint.pole.address%> </a></p>
-                <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
-                <p class="ticketDescription">Status: <%=complaint.status%></p>
-                <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg">
-                <p class="ticketDate"><%=complaint.date%> (<%= complaint.time%>)</p>
+                    <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg">
+                 </section>
             <% }) %>
-           </tbody>
-        </table>
         <% } %>
     </section>
 </body>
@@ -49,3 +49,6 @@
 <% include ../partials/footer %>
 
 </html>
+
+
+
