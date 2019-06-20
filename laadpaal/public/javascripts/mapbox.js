@@ -278,12 +278,14 @@
     flyToNearestPole();
   });
 
-  const legendaButton = document.getElementById("legendaButton");
+  if(href !==  "nearestpole") {
+    const legendaButton = document.getElementById("legendaButton");
 
-  legendaButton.addEventListener("click", function() {
-    toggleLegenda();
-  });
-
+    legendaButton.addEventListener("click", function() {
+      toggleLegenda();
+    });
+  }
+  
   function calculateNearestPole(long, lat) {
     availablepoles.forEach(pole => {
       const distance = calculateDistance(lat, long, pole[1], pole[0]);
@@ -292,15 +294,6 @@
         dichstbijzijnde = [distance, pole[1], pole[0]];
       }
     });
-
-    if (href == "nearestpole") {
-      if(dichstbijzijnde = [99999, 0, 0]) {
-        if(!flewToNearestPole) {
-          flewToNearestPole = 1;
-          flyToNearestPole();
-        }
-      }
-    }
   }
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
