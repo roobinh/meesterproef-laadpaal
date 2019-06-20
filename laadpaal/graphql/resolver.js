@@ -10,7 +10,6 @@ const user = async userId => {
         if(!user) {
             console.log("User == null!");
         }
-        console.log(user);
         return {
             ...user._doc,
             _id: user.id,
@@ -101,7 +100,6 @@ module.exports = {
         return user
             .save()
             .then(result =>{
-                console.log(result) 
                 return { ...result._doc }
             }).catch(err => {
                 console.log(err)
@@ -159,7 +157,6 @@ module.exports = {
         return pole
             .save()
             .then(result =>{
-                console.log(result) 
                 return { ...result._doc }
             }).catch(err => {
                 console.log(err)
@@ -218,7 +215,6 @@ module.exports = {
             try {
                 const complaints = await Complaint.find();
                 return complaints.map(complaint => {
-                    console.log(complaint);
                     return {
                         ...complaint._doc,
                         _id: complaint.id,
@@ -247,7 +243,6 @@ module.exports = {
         return complaint   
             .save()
             .then(result => {
-                console.log(result) 
                 return { ...result._doc }
             }).catch(err => {
                 console.log(err)
@@ -292,7 +287,6 @@ module.exports = {
             return complaint   
                 .save()
                 .then(result => {
-                    console.log(result) 
                     return { ...result._doc }
                 }).catch(err => {
                     console.log(err)
@@ -302,7 +296,6 @@ module.exports = {
     },
 
     messages: async args => {
-        console.log('kutgraphql')
         if(args.complaintId) 
         {
             try {
@@ -323,7 +316,6 @@ module.exports = {
             try {
                 const messages = await Message.find();
                 return messages.map(message => {
-                    console.log(message);
                     return {
                         ...message._doc,
                         _id: message.id,
@@ -338,8 +330,6 @@ module.exports = {
     },
 
     createMessage: async args => {
-        console.log("faka");
-
         const message = new Message({
             user: args.messageInput.userId.toString(),
             complaint: args.messageInput.complaintId.toString(),
@@ -351,7 +341,6 @@ module.exports = {
         return message
             .save()
             .then(result => {
-                console.log(result)
                 return { ...result._doc }
             }).catch(err => {
                 console.log(err)

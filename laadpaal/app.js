@@ -32,17 +32,6 @@ const port = process.env.port || 2500;
 // start the server
 let server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
 
-// sockets
-let io = socket(server);
-
-io.on('connection', function(socket) {
-    console.log('a user connected');
-    socket.on('disconnect', function() {
-        console.log('user disconnected');
-    });
-});
-
-
 // app.set
 app.set('views', path.join('views'))
     .set('view engine', 'ejs');
@@ -71,7 +60,7 @@ app.use(express.json())
 // login routes
 app.get('/', function(req, res, next) {
     if (req.session.user) {
-        res.redirect('/home')
+        res.redirect('/home');
     } else {
         res.render('pages/login');
     }
@@ -208,6 +197,27 @@ app.get('/myreports', authenticate, function(req, res, next) {
 
 app.get('/myreports/:id', authenticate, function(req, res, next) {
     const complaintId = req.params.id;
+    const room = complaintId;
+
+    // sockets
+    let io = socket(server);
+
+    io.on('connection', function(socket) {
+        console.log('a user connected');
+
+        socket.on('join-room', function(data) {
+            socket.join(room);
+            socket.emit('news', { room: "joined" })
+        })
+        // socket join room
+
+        socket.on('disconnect', function() {
+            console.log('user disconnected');
+        });
+    });
+
+    io.sockets.in(room).emit('create', "hallo");
+
     const query = ` 
     query {
         complaints(complaintId: "${complaintId}") {
