@@ -1,9 +1,6 @@
 console.log('dashboard.js included.')
 
-document.getElementById('search').addEventListener('click', function() {
-    console.log(document.getElementById('complaintid').value)
-
-    var id = document.getElementById('complaintid').value;
-
+document.querySelector('#search').addEventListener('click', function () {
+    const id = document.querySelector('#complaintid').value;
     window.location.href = '/dashboard/' + id.trim()
 });

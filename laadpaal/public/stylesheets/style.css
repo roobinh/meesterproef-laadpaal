@@ -1,3 +1,5 @@
+/* ---------------------GENERAL---------------------- */
+
 html{
   padding: 0;
   height: 100%;
@@ -14,13 +16,6 @@ body {
   padding-top: 45px;
   display: flex;
   flex-direction: column;
-  }
-
-.fullscreenmap {
-  padding-top: 45px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
 }
 
 h1{
@@ -30,81 +25,18 @@ h1{
   margin-top: 2em;
 }
 
-.ticket {
-  box-shadow: 7px 7px 10px -1px rgba(0,0,0,0.42);
-  padding: 0 0 15px 0;
-  margin-bottom: 2em;
-  border-radius: 10px;
-}
-
-.ticketSubtitle{
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: black;
-  margin-left: .5em;
-}
-
-.ticketDate{
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: black;
-  margin-left: .5em;
-}
-
-.ticketType{
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: white;
-  margin: 0;
-  width: calc(100% - 1em);
-  background-color: #2F855A;
-  border-radius: 10px 10px 0 0;
-  padding: .5em;
-  margin-bottom: .5em;
-}
-.ticketDescription{
-  max-width: 100%;
-  word-wrap: break-word;
-  font-family: 'Dosis', sans-serif;
-  letter-spacing: .05em;
-  color: black;
-  margin: 5px;
-  margin-left: .5em;
-}
-
-.ticketImg{
-  margin-top: 1em;
-  margin-left: .5em;
-  max-width: calc(100% - 1em);
-}
-.title {
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: #2F855A;
-}
-
-.subtitle{
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: black;
-}
-
 .invisible {
   display: none;
 }
 
-.img{
-  width: 100%;
-  height: 10em;
-  background-color: #2F855A;
-  margin-bottom: 1em;
+.error{
+  background-color: #FFEFC6;
+  font-family: 'Dosis', sans-serif;
+  font-size: 1.2em;
+  margin: 0;
 }
 
+/* -----------------------------LOGIN------------------------------ */
 .login {
   display: flex;
   flex-direction: column;
@@ -132,6 +64,7 @@ h1{
   margin-bottom: 8em;
 }
 
+/* ----------------------BUTTONS-------------------------- */
 .button{
   font-family: 'Dosis', sans-serif;
   color: white;
@@ -192,6 +125,250 @@ h1{
   transform: translateY(3em);
   line-height: 3em;
 }
+
+.chatLink:active{
+  transform: translateY(4px);
+  background-color: #005e23;
+}
+
+.chatLink:hover{
+  cursor: pointer;
+}
+
+.chatLink{
+  background-color: #2F855A;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: .5em;
+  font-family: 'Dosis', sans-serif;
+  width: 5em;
+  height: 3em;
+  line-height: 3em;
+  text-align: center;
+}
+/* -----------------------------------MAPBOX----------------------- */
+
+.fullscreenmap {
+  padding-top: 45px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+.mapbox {
+  position: relative;
+  height: 100%;
+
+}
+
+.map{
+  width: 100%;
+  height: 100%;
+  margin-bottom: 1em;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.marker {
+  background-color: black;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#fly {
+  display: block;
+  position: absolute;
+  margin: 0px auto;
+  margin-top: 15px;
+  width: 50%;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  background: #2F855A;
+  top: 10px;
+  left: 25%;
+}
+
+.legendaButton {
+  display: block;
+  position: absolute;
+  margin: 0px auto;
+  margin-top: 15px;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  background: #2F855A;
+  bottom: 60px;
+  left: 10%;
+  z-index: 100;
+  font-family: 'Dosis', sans-serif;
+}
+
+.legendaButton:active {
+  transform: translateY(4px);
+}
+
+.legenda{
+  background-color: white;
+  border-radius: 3px;
+  position: absolute;
+  width: 80%;
+  height: 78%;
+  z-index: 99;
+  bottom: 60px;
+  left: 10%;
+  transition: all 0.5s ease-in-out;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.legendaMarkerYellow {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 4px solid rgb(255,255,0,.5);
+}
+
+.legendaMarkerRed {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 4px solid rgb(255,255,0,.5);
+
+}
+
+.legendaMarkerGreen {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 4px solid rgb(255,255,0,.5);
+}
+
+.legenda ul{
+  font-family: 'Dosis', sans-serif;
+  padding-left: 2em;
+}
+
+.markerWrapper{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
+
+.markerText{
+  height: 19px;
+  margin: 0;
+  line-height: 19px;
+  font-family: 'Dosis', sans-serif;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.legendaText{
+  font-family: 'Dosis', sans-serif;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.legenda h2{
+  text-align: center;
+  font-family: 'Dosis', sans-serif;
+
+}
+
+#fly:active{
+  background: #005e23;
+  transform: translateY(4px);
+}
+
+.mapbutton {
+  font-family: 'Dosis', sans-serif;
+  width: 8em;
+  height: 3em;
+  font-weight: bold;
+  border: none;
+  text-align: left;
+  color: #2F855A;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.mapbutton:active{
+transform: translateY(4px);
+}
+
+.mapbutton:hover{
+cursor: pointer;
+}
+
+.grey {
+color: grey;
+}
+
+.mapboxgl-ctrl-bottom-right {
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.alternativeButton {
+  height: 40px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  background-color: #2F855A;
+  border: solid #2F855A;
+  top: 10px;
+  left: 25%;
+}
+
+.alternativeButton:active {
+  background-color: #005e23;
+  border: solid #005e23;
+  transform: translateY(4px);
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green
+}
+
+.yellow {
+  background-color: yellow
+}
+
+/* -----------------------------------HEADER----------------------- */
 
 header{
   padding-left: 1em;
@@ -339,156 +516,80 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   }
 }
 
-.mapbox {
-  position: relative;
-  height: 100%;
+/* -----------------------------------CARD----------------------- */
 
+.ticket {
+  box-shadow: 7px 7px 10px -1px rgba(0,0,0,0.42);
+  padding: 0 0 15px 0;
+  margin-bottom: 2em;
+  border-radius: 10px;
 }
 
-.map{
-  width: 100%;
-  height: 100%;
-  margin-bottom: 1em;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-}
-
-.marker {
-  background-color: black;
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-#fly {
-  display: block;
-  position: absolute;
-  margin: 0px auto;
-  margin-top: 15px;
-  width: 50%;
-  height: 40px;
-  padding: 10px;
-  border: none;
-  border-radius: 3px;
-  font-size: 12px;
-  text-align: center;
-  color: #fff;
-  background: #2F855A;
-  top: 10px;
-  left: 25%;
-}
-
-.legendaButton {
-  display: block;
-  position: absolute;
-  margin: 0px auto;
-  margin-top: 15px;
-  width: 40px;
-  height: 40px;
-  padding: 10px;
-  border: none;
-  border-radius: 3px;
-  font-size: 12px;
-  text-align: center;
-  color: #fff;
-  background: #2F855A;
-  bottom: 60px;
-  left: 10%;
-  z-index: 100;
+.ticketSubtitle{
   font-family: 'Dosis', sans-serif;
+  font-weight:700;
+  letter-spacing: .05em;
+  color: black;
+  margin-left: .5em;
 }
 
-.legenda{
-  background-color: white;
-  border-radius: 3px;
-  position: absolute;
-  width: 80%;
-  height: 78%;
-  z-index: 99;
-  bottom: 60px;
-  left: 10%;
-  transition: all 0.5s ease-in-out;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.legendaMarkerYellow {
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 4px solid rgb(255,255,0,.5);
-}
-
-.legendaMarkerRed {
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 4px solid rgb(255,255,0,.5);
-
-}
-
-.legendaMarkerGreen {
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 4px solid rgb(255,255,0,.5);
-}
-
-.legenda ul{
+.ticketDate{
   font-family: 'Dosis', sans-serif;
-  padding-left: 2em;
+  font-weight:700;
+  letter-spacing: .05em;
+  color: black;
+  margin-left: .5em;
 }
 
-.markerWrapper{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: 1em;
-  margin-left: 1em;
-}
-
-.markerText{
-  height: 19px;
+.ticketType{
+  font-family: 'Dosis', sans-serif;
+  font-weight:700;
+  letter-spacing: .05em;
+  color: white;
   margin: 0;
-  line-height: 19px;
+  width: calc(100% - 1em);
+  background-color: #2F855A;
+  border-radius: 10px 10px 0 0;
+  padding: .5em;
+  margin-bottom: .5em;
+}
+.ticketDescription{
+  max-width: 100%;
+  word-wrap: break-word;
   font-family: 'Dosis', sans-serif;
-  margin-left: 2em;
-  margin-right: 2em;
+  letter-spacing: .05em;
+  color: black;
+  margin: 5px;
+  margin-left: .5em;
 }
 
-.legendaText{
+.ticketImg{
+  margin-top: 1em;
+  margin-left: .5em;
+  max-width: calc(100% - 1em);
+}
+.title {
   font-family: 'Dosis', sans-serif;
-  margin-left: 1em;
-  margin-right: 1em;
+  font-weight:700;
+  letter-spacing: .05em;
+  color: #2F855A;
 }
 
-.heightZero{
-  height: 0;
-  width: 0;
-  opacity: 0;
-}
-
-.legenda h2{
-  text-align: center;
+.subtitle{
   font-family: 'Dosis', sans-serif;
-
+  font-weight:700;
+  letter-spacing: .05em;
+  color: black;
 }
 
-#fly:active{
-  background: #005e23;
-  transform: translateY(4px);
+.img{
+  width: 100%;
+  height: 10em;
+  background-color: #2F855A;
+  margin-bottom: 1em;
 }
+
+/* -----------------------------------CHOSEPOLEFORM----------------------- */
 
 .choosePoleForm{
   margin-top: 0em;
@@ -537,30 +638,6 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   flex-direction: column;
 }
 
-.mapbutton {
-    font-family: 'Dosis', sans-serif;
-    width: 8em;
-    height: 3em;
-    font-weight: bold;
-    border: none;
-    text-align: left;
-    color: #2F855A;
-    font-size: 2em;
-    margin-bottom: 1em;
-}
-
-.mapbutton:active{
-  transform: translateY(4px);
-}
-
-.mapbutton:hover{
-  cursor: pointer;
-}
-
-.grey {
-  color: grey;
-}
-
 .complaintButton{
   background-color: white;
   border: none;
@@ -605,7 +682,6 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
     transform: translateX(-500px)
   }
 }
-
 
 .slideIn{
   animation: 1s alternate slideIn;
@@ -657,85 +733,6 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
 
 }
 
-.error{
-  background-color: #FFEFC6;
-  font-family: 'Dosis', sans-serif;
-  font-size: 1.2em;
-  margin: 0;
-}
-
-td {
-  font-family: 'Dosis', sans-serif;
-}
-
-
-th {
-    color: #2F855A;
-    font-family: 'Dosis', sans-serif;
-    border-bottom: 1px solid #2F855A;
-    text-align: left;
-}
-
-.mapboxgl-ctrl-bottom-right {
-  margin-bottom: 10px;
-  margin-right: 10px;
-}
-
-.alternativeButton {
-  height: 40px;
-  padding: 10px;
-  border: none;
-  border-radius: 3px;
-  font-size: 12px;
-  text-align: center;
-  color: #fff;
-  background-color: #2F855A;
-  border: solid #2F855A;
-  top: 10px;
-  left: 25%;
-}
-
-.alternativeButton:active {
-  background-color: #005e23;
-  border: solid #005e23;
-  transform: translateY(4px);
-}
-
-.chatLink:active{
-  transform: translateY(4px);
-  background-color: #005e23;
-}
-
-.chatLink:hover{
-  cursor: pointer;
-}
-
-.chatLink{
-  background-color: #2F855A;
-  color: white;
-  text-decoration: none;
-  border-radius: 10px;
-  margin-left: auto;
-  margin-right: .5em;
-  font-family: 'Dosis', sans-serif;
-  width: 5em;
-  height: 3em;
-  line-height: 3em;
-  text-align: center;
-}
-
-.red {
-  background-color: red;
-}
-
-.green {
-  background-color: green
-}
-
-.yellow {
-  background-color: yellow
-}
-
 #complaintid {
   background-color: white;
   font-family: 'Dosis', sans-serif;
@@ -749,4 +746,10 @@ th {
 
 .changeStatus {
   margin-bottom: 1em;
+}
+
+.heightZero{
+  height: 0;
+  width: 0;
+  opacity: 0;
 }

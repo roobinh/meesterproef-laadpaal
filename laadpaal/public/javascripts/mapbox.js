@@ -4,16 +4,16 @@
     "pk.eyJ1Ijoicm9vYmluMTk5OSIsImEiOiJjanJxYzVpeGIwdzJ4NDlycTZvd2lramRkIn0.jEoxjM-oE38jYCIHnhLw_g";
 
   // variables for calculating nearest pole
-  var complaints = [];
-  var availablepoles = [];
-  var dichstbijzijnde = [99999, 0, 0];
-  var pointers = [];
+  let complaints = [];
+  let availablepoles = [];
+  let dichstbijzijnde = [99999, 0, 0];
+  let pointers = [];
 
-  var hrefArr = window.location.href.split('/');
-  var href = hrefArr[hrefArr.length - 1];
+  const hrefArr = window.location.href.split('/');
+  const href = hrefArr[hrefArr.length - 1];
 
   //create map
-  var map = new mapboxgl.Map({
+  let map = new mapboxgl.Map({
     "container": "map",
     "style": "mapbox://styles/mapbox/streets-v11?optimize=true",
     "zoom": 12,
@@ -21,7 +21,7 @@
   });
 
   // set user location
-  var geolocation = new this.mapboxgl.GeolocateControl({
+  let geolocation = new this.mapboxgl.GeolocateControl({
     positionOptions: {
       enableHighAccuracy: true
     },
@@ -30,9 +30,9 @@
 
   map.addControl(geolocation, 'bottom-right');
 
-    // disable map rotation using right click + drag
+  // disable map rotation using right click + drag
   map.dragRotate.disable();
-  
+
   // disable map rotation using touch rotation gesture
   map.touchZoomRotate.disableRotation();
 
@@ -45,7 +45,7 @@
     calculateNearestPole(e.coords.longitude, e.coords.latitude);
   });
 
-  var query = `
+  let query = `
     query {
       complaints {
         pole {
@@ -92,28 +92,28 @@
   })
     .then(response => response.json())
     .then(data => {
-      console.log(data.data.poles)
       data.data.poles.forEach(pole => {
+        let color, showComplaints
 
         if (complaints.includes(pole._id)) {
-          var color = "yellow"
-          var showComplaints = 1;
+          color = "yellow"
+          showComplaints = 1;
         } else {
           if (pole.usedsockets == pole.sockets) {
             // both poles in use
-            var color = "red"
-            var showComplaints = 0;
+            color = "red"
+            showComplaints = 0;
           } else {
             // no complaint + open spot
             availablepoles.push([pole.longitude, pole.latitude]);
-            var color = "green"
-            var showComplaints = 0;
+            color = "green"
+            showComplaints = 0;
           }
         }
 
         if (href == "nearestpole") {
           if (color == "green") {
-            var pointer = {
+            let pointer = {
               "type": "Feature",
               "geometry": {
                 "type": "Point",
@@ -132,7 +132,7 @@
             //do nothing
           }
         } else {
-          var pointer = {
+          let pointer = {
             "type": "Feature",
             "geometry": {
               "type": "Point",
@@ -204,8 +204,8 @@
 
       // inspect a cluster on click
       map.on('click', 'clusters', function (e) {
-        var features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
-        var clusterId = features[0].properties.cluster_id;
+        const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+        const clusterId = features[0].properties.cluster_id;
 
         map.getSource('earthquakes').getClusterExpansionZoom(clusterId, function (err, zoom) {
           if (err)
@@ -219,22 +219,16 @@
       });
 
       map.on('click', 'unclustered-point', function (e) {
-        console.log(e.features)
-        console.log('jo')
-        var address = e.features[0].properties.address
-        var id = e.features[0].properties.id
-        var lnglat = e.features[0].properties.lngLat.split(" ")
-        console.log(lnglat)
+        const address = e.features[0].properties.address
+        const id = e.features[0].properties.id
+        const lnglat = e.features[0].properties.lngLat.split(" ")
+        let mapbutton
         if (e.features[0].properties.showComplaints == 1) {
-          var mapbutton = ""
+          mapbutton = ""
         } else {
-          var mapbutton = "grey"
+          mapbutton = "grey"
         }
-
-        console.log(id)
-
-
-        var html = `
+        let html = `
           <h3>${address}</h3>
           <p><a class="mapbutton" href="/setpole/${id}">Melding maken</a></p>
           <p><a class="mapbutton ${mapbutton}" href="/reports/${id}">Meldingen bekijken</a></p>
@@ -274,7 +268,7 @@
       })
     });
 
-  document.getElementById("fly").addEventListener("click", function () {
+  document.querySelector("#fly").addEventListener("click", function () {
     flyToNearestPole();
   });
 
@@ -286,7 +280,7 @@
 
   function calculateNearestPole(long, lat) {
     availablepoles.forEach(pole => {
-      var distance = calculateDistance(lat, long, pole[1], pole[0]);
+      const distance = calculateDistance(lat, long, pole[1], pole[0]);
 
       if (distance < dichstbijzijnde[0]) {
         dichstbijzijnde = [distance, pole[1], pole[0]];
@@ -296,22 +290,20 @@
     if (href == "nearestpole") {
       flyToNearestPole();
     }
-
-    console.log(`dichstbijzijnde pole(afstand:${dichstbijzijnde[0]}): ${dichstbijzijnde[1]}, ${dichstbijzijnde[2]}`);
   }
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2 - lat1); // deg2rad below
-    var dLon = deg2rad(lon2 - lon1);
-    var a =
+    const R = 6371; // Radius of the earth in km
+    let dLat = deg2rad(lat2 - lat1); // deg2rad below
+    let dLon = deg2rad(lon2 - lon1);
+    let a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(deg2rad(lat1)) *
       Math.cos(deg2rad(lat2)) *
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c; // Distance in km
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let d = R * c; // Distance in km
     return d;
   }
 
