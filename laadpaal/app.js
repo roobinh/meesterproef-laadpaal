@@ -184,7 +184,7 @@ app.get('/myreports', authenticate, function (req, res, next) {
     }).then(response => response.json())
         .then(data => {
             if (data.data.complaints.length > 0) {
-                res.render('pages/myreports', { data: data.data.complaints });
+                res.render('pages/myreports', { data: data.data.complaints.reverse() });
             } else {
                 res.render('pages/myreports', { data: "error" });
             }
@@ -336,7 +336,7 @@ app.get('/reports/:id', authenticate, function (req, res, next) {
         .then(data => {
             if (data.data.complaints) {
                 console.log(data.data.complaints)
-                res.render('pages/reportsdetail', { data: data.data.complaints });
+                res.render('pages/reportsdetail', { data: data.data.complaints.reverse() });
             } else {
                 res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
             }
