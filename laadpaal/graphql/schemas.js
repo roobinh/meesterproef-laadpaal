@@ -81,10 +81,28 @@ module.exports = buildSchema(`
         poleId: String
     }
 
+    type Message {
+        _id: ID!
+        user: User!
+        complaint: Complaint!
+        date: String!
+        time: String!
+        content: String!
+    }
+
+    input MessageInput {
+        userId: String!
+        complaintId: String!
+        date: String!
+        time: String!
+        content: String!
+    }
+
     type RootQuery {
         users(userId: String, email: String): [User!]!
         poles(poleId: String): [Pole!]!
         complaints(complaintId: String, userId: String, poleId: String): [Complaint!]!
+        messages(complaintId: String): [Message!]!
     }
 
     type RootMutation {
@@ -92,6 +110,7 @@ module.exports = buildSchema(`
         createPole(poleInput: PoleInput): Pole
         createComplaint(complaintInput: ComplaintInput): Complaint
         updateComplaint(complaintId: String, complaintInput: ComplaintInput): [Complaint!]!
+        createMessage(messageInput: MessageInput): Message
     }
 
     schema {

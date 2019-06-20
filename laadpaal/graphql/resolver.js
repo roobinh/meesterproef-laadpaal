@@ -2,6 +2,7 @@
 const User = require('./models/user')
 const Pole = require('./models/pole')
 const Complaint = require('./models/complaint')
+const Message = require('./models/message')
 
 const user = async userId => {
     try {
@@ -26,6 +27,18 @@ const pole = async poleId => {
             ...pole._doc,
             _id: pole.id
         };
+    } catch(err) {
+        throw err
+    }
+}
+
+const complaint = async complaintId => {
+    try {
+        const complaint = await Complaint.findById(complaintId);
+        return {
+            ...complaint._doc,
+            _id: complaint.id
+        }
     } catch(err) {
         throw err
     }
@@ -285,6 +298,64 @@ module.exports = {
                     console.log(err)
                     throw err;
                 })
+        })
+    },
+
+    messages: async args => {
+        console.log('kutgraphql')
+        if(args.complaintId) 
+        {
+            try {
+                const messages = await Message.find({ complaint: { $in: args.complaintId }});
+                return messages.map(message => {
+                    return {
+                        ...message._doc,
+                        _id: message.id,
+                        complaint: complaint.bind(this, message._doc.complaint),
+                        user: user.bind(this, message._doc.user)
+                    }
+                })
+            } catch (err) {
+                throw err
+            }
+        } else 
+        {
+            try {
+                const messages = await Message.find();
+                return messages.map(message => {
+                    console.log(message);
+                    return {
+                        ...message._doc,
+                        _id: message.id,
+                        complaint: complaint.bind(this, message._doc.complaint),
+                        user: user.bind(this, message._doc.user)
+                    }
+                })
+            } catch(err) {
+                throw err;
+            }
+        }
+    },
+
+    createMessage: async args => {
+        console.log("faka");
+
+        const message = new Message({
+            user: args.messageInput.userId.toString(),
+            complaint: args.messageInput.complaintId.toString(),
+            date: args.messageInput.date,
+            time: args.messageInput.time,
+            content: args.messageInput.content
+        })
+
+        return message
+            .save()
+            .then(result => {
+                console.log(result)
+                return { ...result._doc }
+            }).catch(err => {
+                console.log(err)
+                throw err;
         })
     }
 }
