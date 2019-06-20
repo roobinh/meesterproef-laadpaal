@@ -196,8 +196,9 @@ app.get('/myreports', authenticate, function(req, res, next) {
 })
 
 app.get('/myreports/:id', authenticate, function(req, res, next) {
+
+    // admin id = 5d0b99a3ac92ed4ab0f64fdb
     const complaintId = req.params.id;
-    const room = complaintId;
 
     // sockets
     let io = socket(server);
@@ -206,17 +207,29 @@ app.get('/myreports/:id', authenticate, function(req, res, next) {
         console.log('a user connected');
 
         socket.on('join-room', function(data) {
+
+            // set room number
+            var room = data;
+
+            // joining user to room
+            console.log('joining user to room:' + room)
             socket.join(room);
-            socket.emit('news', { room: "joined" })
+            console.log('user joined room.')
+
+            // emit msg to room
+            var promise = getChat(room);
+
+            promise.then(function(messages) {
+                io.to(complaintId).emit("msg-for-room", {data: messages} )
+            }).catch(function(error) {
+                console.log(error)
+            })
         })
-        // socket join room
 
         socket.on('disconnect', function() {
             console.log('user disconnected');
         });
     });
-
-    io.sockets.in(room).emit('create', "hallo");
 
     const query = ` 
     query {
@@ -579,6 +592,8 @@ mongoose.connect(url, {
 
 // authenticate
 function authenticate(req, res, next) {
+    console.log(req.session.user);
+
     if (req.session.user) {
         console.log("Authentication Succeeded.")
         next();
@@ -677,6 +692,37 @@ app.get('/dashboard/:id', function(req, res, next) {
             }
         })
 })
+
+function getChat(complaintId) {
+    return new Promise(function(resolve, reject) {
+        const query = ` 
+        query {
+            messages(complaintId: "${complaintId}") {
+              user {
+                _id
+                name
+              }
+              date
+              time
+              content
+            }
+          }
+        `
+        return fetch('http://localhost:2500/graphql', {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ query }),
+        })  .then(response => response.json())
+            .then(data => {
+                if (data.data) {
+                    resolve(data.data.messages);
+                } else {
+                    reject("error")
+                }
+        })
+    }) 
+}
+
 module.exports = app;
 
 
