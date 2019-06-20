@@ -1,19 +1,19 @@
 "use strict";
 
 // packages
-const path = require('path');
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const graphqlHttp = require('express-graphql')
-const mongoose = require('mongoose')
-const fetch = require('node-fetch')
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const multer = require('multer')
-const fs = require('fs')
+const path =            require('path');
+const express =         require('express');
+const cookieParser =    require('cookie-parser');
+const graphqlHttp =     require('express-graphql')
+const mongoose =        require('mongoose')
+const fetch =           require('node-fetch')
+const bodyParser =      require('body-parser')
+const session =         require('express-session')
+const multer =          require('multer')
+const fs =              require('fs')
 
 // graphql
-const graphQlSchema = require('./graphql/schemas')
+const graphQlSchema =    require('./graphql/schemas')
 const graphQlResolvers = require('./graphql/resolver')
 
 // dotenv vars
@@ -21,16 +21,19 @@ require('dotenv').config();
 const mdb_username = process.env.DB_USERNAME;
 const mdb_password = process.env.DB_PASSWORD;
 
+// multer
+const upload = multer({ dest: './public/images/uploads/' })
+
 // nodejs
 const app = express()
 const port = process.env.port || 2500;
 
 // app.set
-app.set('views', path.join('views'))
+app .set('views', path.join('views'))
     .set('view engine', 'ejs');
 
 // app.use
-app.use(express.json())
+app .use(express.json())
     .use(express.urlencoded({ extended: false }))
     .use(cookieParser())
     .use(express.static(path.join('public')))
@@ -39,8 +42,8 @@ app.use(express.json())
     .use('/graphql', graphqlHttp({
         schema: graphQlSchema,
         rootValue: graphQlResolvers,
-        graphiql: true
-    })) //interface
+        graphiql: true  // interface
+    })) 
     .use(session({
         resave: false,
         saveUninitialized: true,
@@ -49,9 +52,8 @@ app.use(express.json())
     .use('/image', express.static('public/images/uploads'))
 
 
-const upload = multer({ dest: './public/images/uploads/' })
 
-// routes
+// login routes
 app.get('/', function (req, res, next) {
     if (req.session.user) {
         res.redirect('/home')
@@ -60,28 +62,42 @@ app.get('/', function (req, res, next) {
     }
 });
 
-app.get('/login/failed', function (req, res, next) {
-    res.render('pages/login', { errorMsg: "U bent nog niet ingelogd" });
-});
-
 app.get('/register', function (req, res, next) {
     res.render('pages/register');
 });
 
+app.get('/logout', authenticate, function (req, res, next) {
+    req.session.destroy();
+    res.render('pages/login', { errorMsg: "U bent nu uitgelogd" })
+})
+
+app.get('/login/failed', function (req, res, next) {
+    res.render('pages/login', { errorMsg: "U bent nog niet ingelogd" });
+});
+
+// complaint routes
 app.get('/home', authenticate, function (req, res, next) {
     res.render('pages/choosepole', { name: req.session.user.name });
 });
 
 app.get('/setpole/:id', authenticate, function (req, res, next) {
-
     if (req.params.id) {
         req.session.user.complaint = {
             poleId: req.params.id
         }
-
         res.redirect('/complaint/create')
     } else {
         res.send("idk what happened...")
+    }
+});
+
+app.get('/complaint/create', authenticate, function (req, res, next) {
+    //check if currentpole is set
+    console.log(req.session)
+    if (req.session.user.complaint) {
+        res.render('pages/createComplaint');
+    } else {
+        res.redirect('/')
     }
 });
 
@@ -91,9 +107,7 @@ app.get('/complaint/details/:id', authenticate, function (req, res, next) {
 
 app.get('/complaint/success', authenticate, function (req, res, next) {
     if (req.session.currentComplaint) {
-
         const complaintId = req.session.currentComplaint;
-
         const query = ` 
         query {
             complaints(complaintId: "${complaintId}") {
@@ -128,35 +142,16 @@ app.get('/complaint/success', authenticate, function (req, res, next) {
                 } else {
                     res.send("session.currentcomplaint not found.")
                 }
-            }
-            )
-    }
+            })
+        }
 });
 
 app.get('/nearestpole', function (req, res, next) {
     res.render('pages/nearestpole')
 })
 
-app.get('/complaint/create', authenticate, function (req, res, next) {
-    //check if currentpole is set
-    console.log(req.session)
-    if (req.session.user.complaint) {
-        res.render('pages/createComplaint');
-    } else {
-        res.redirect('/')
-    }
-});
-
-
-app.get('/logout', authenticate, function (req, res, next) {
-    req.session.destroy();
-    res.render('pages/login', { errorMsg: "U bent nu uitgelogd" })
-})
-
 app.get('/myreports', authenticate, function (req, res, next) {
-
     const userId = req.session.user.id;
-
     const query = ` 
     query {
         complaints(userId: "${userId}") {
@@ -188,21 +183,15 @@ app.get('/myreports', authenticate, function (req, res, next) {
     }).then(response => response.json())
         .then(data => {
             if (data.data.complaints.length > 0) {
-                console.log("data::::", data.data.complaints)
                 res.render('pages/myreports', { data: data.data.complaints });
             } else {
                 res.render('pages/myreports', { data: "error" });
             }
-        }
-        )
-
-
+        })
 })
 
 app.get('/myreports/:id', authenticate, function (req, res, next) {
-
     const complaintId = req.params.id;
-
     const query = ` 
     query {
         complaints(complaintId: "${complaintId}") {
@@ -239,19 +228,14 @@ app.get('/myreports/:id', authenticate, function (req, res, next) {
     }).then(response => response.json())
         .then(data => {
             if (data.data.complaints) {
-                console.log("data::::", data.data.complaints[0])
                 res.render('pages/myreportdetail', { data: data.data.complaints[0] });
             } else {
                 res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
             }
-        }
-        )
-
-
+        })
 })
 
 app.get('/reports', authenticate, function (req, res, next) {
-
     const query = ` 
     query {
         complaints {
@@ -290,15 +274,10 @@ app.get('/reports', authenticate, function (req, res, next) {
     }).then(response => response.json())
         .then(data => {
             if (data.data.complaints) {
-                console.log("data::::", data.data.complaints)
                 data.data.complaints.forEach(complaint => {
                     if (poles.some(e => e.id === `${complaint.pole._id}`)) {
-                        console.log("wellles");
                         poles.find(x => x.id == `${complaint.pole._id}`).count++
-
-                        // e.count++
                     } else {
-                        console.log("besttat niert");
                         poles.push({
                             id: complaint.pole._id,
                             address: complaint.pole.address,
@@ -307,27 +286,18 @@ app.get('/reports', authenticate, function (req, res, next) {
 
                     }
                 });
-                console.log(poles);
-
                 poles.sort(function (a, b) {
                     return b.count - a.count;
                 });
-
                 res.render('pages/reports', { data: poles });
             } else {
                 res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
             }
-        }
-        )
-
-
-
+        })
 })
 
 app.get('/reports/:id', authenticate, function (req, res, next) {
-
     const poleId = req.params.id;
-
     const query = ` 
     query {
         complaints(poleId: "${poleId}") {
@@ -369,8 +339,7 @@ app.get('/reports/:id', authenticate, function (req, res, next) {
             } else {
                 res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
             }
-        }
-        )
+        })
 
 })
 
@@ -436,11 +405,7 @@ app.post('/createuser', function (req, res, next) {
 
 //login
 app.post('/login', function (req, res, next) {
-
-    // email user wants to login with
     const email = req.body.email;
-
-    // set querry
     const query = `
     query {
         users(email: "${email}") {
@@ -452,7 +417,6 @@ app.post('/login', function (req, res, next) {
       }
     `
 
-    // post request
     return fetch('http://localhost:2500/graphql', {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -474,13 +438,8 @@ app.post('/login', function (req, res, next) {
         });
 })
 
-//login
 app.post('/dashboard/changestatus/:id', function (req, res, next) {
     console.log(req.params.id)
-
-    // email user wants to login with
-
-    // set querry
     const query = `
         mutation {
             updateComplaint(complaintId:"${req.params.id}",  complaintInput: {
@@ -495,8 +454,6 @@ app.post('/dashboard/changestatus/:id', function (req, res, next) {
               }
         }
     `
-    // post request
-
     return fetch('http://localhost:2500/graphql', {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -506,7 +463,6 @@ app.post('/dashboard/changestatus/:id', function (req, res, next) {
             console.log(data)
             res.redirect('/dashboard/' + req.params.id)
         });
-
 })
 
 
@@ -567,14 +523,10 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
     }).then(response => response.json())
         .then(data => {
             if (data.errors) {
-                console.log("Complaint unsuccessfully created")
+                console.log("--- new report unsuccesfully created ---")
                 res.send("complaint unsuccessfull")
             } else {
-                console.log("--- Complaint aangemaakt ---")
-                console.log("req.file = ")
-                console.log(req.file)
-
-
+                console.log("--- new report succesfully created ---")
                 if (req.file) { // als er een image wordt meegestuurd
                     fs.rename(req.file.path, req.file.destination + data.data.createComplaint._id + '.jpeg', err => {
                         if (err) {
@@ -582,12 +534,10 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
                         }
                     })
                 }
-
                 req.session.currentComplaint = data.data.createComplaint._id
                 res.redirect('/complaint/success')
             }
-        }
-        );
+        });
 })
 
 // connect to mongoose
@@ -603,11 +553,8 @@ mongoose.connect(url, {
 
 // authenticate
 function authenticate(req, res, next) {
-    console.log("---- Authenticating -------")
-    console.log("Session user: ")
     if (req.session.user) {
         console.log("Authentication Succeeded.")
-        console.log(req.session.user)
         next();
     } else {
         console.log("Authentication failed.")
@@ -617,7 +564,6 @@ function authenticate(req, res, next) {
 
 // Dashboard
 app.get('/dashboard', function(req, res, next) {
-
     const query = ` 
     query {
         complaints {
@@ -662,9 +608,7 @@ app.get('/dashboard', function(req, res, next) {
 })
 
 app.get('/dashboard/:id', function(req, res, next) {
-
     const id = req.params.id;
-
     const query = ` 
     query {
         complaints(complaintId:"${id}") {
@@ -707,12 +651,15 @@ app.get('/dashboard/:id', function(req, res, next) {
             }
         })
 })
-// start server
+
+// start the server
 var server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
 module.exports = app;
 
 
-/* Fill database
+
+
+/* Fill database, delete at end of project
 
 const csv = require('csv-parser');
 var allQuerrys = []
