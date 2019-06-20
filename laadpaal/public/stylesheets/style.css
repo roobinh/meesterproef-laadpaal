@@ -1,768 +1,777 @@
 /* ---------------------GENERAL---------------------- */
 
-html{
-  padding: 0;
-  height: 100%;
+html {
+    padding: 0;
+    height: 100%;
 }
+
 body {
-  background-color:white;
-  padding: 0;
-  margin: 0;
-  height: 100%;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    height: 100%;
 }
 
-.body{
-  padding: 25px;
-  padding-top: 45px;
-  display: flex;
-  flex-direction: column;
+.body {
+    padding: 25px;
+    padding-top: 45px;
+    display: flex;
+    flex-direction: column;
 }
 
-h1{
-  font-family: 'Abel', sans-serif;
-  color: #2F855A;
-  font-weight: 400;
-  margin-top: 2em;
+h1 {
+    font-family: 'Abel', sans-serif;
+    color: #2F855A;
+    font-weight: 400;
+    margin-top: 2em;
 }
 
 .invisible {
-  display: none;
+    display: none;
 }
 
-.error{
-  background-color: #FFEFC6;
-  font-family: 'Dosis', sans-serif;
-  font-size: 1.2em;
-  margin: 0;
+.error {
+    background-color: #FFEFC6;
+    font-family: 'Dosis', sans-serif;
+    font-size: 1.2em;
+    margin: 0;
 }
+
 
 /* -----------------------------LOGIN------------------------------ */
+
 .login {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
-.login label{
-  font-family: 'Dosis', sans-serif;
-  font-weight:500;
-  letter-spacing: .05em;
-  color: black;
+.login label {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 500;
+    letter-spacing: .05em;
+    color: black;
 }
 
-.login input{
-  background-color: white;
-  font-family: 'Dosis', sans-serif;
-  color: black;
-  letter-spacing: .05em;
-  border: none;
-  border-bottom: solid #2F855A;
-  height: 2em;
-  margin-bottom: 1em;
+.login input {
+    background-color: white;
+    font-family: 'Dosis', sans-serif;
+    color: black;
+    letter-spacing: .05em;
+    border: none;
+    border-bottom: solid #2F855A;
+    height: 2em;
+    margin-bottom: 1em;
 }
 
-.login input:last-of-type{
-  margin-bottom: 8em;
+.login input:last-of-type {
+    margin-bottom: 8em;
 }
+
 
 /* ----------------------BUTTONS-------------------------- */
-.button{
-  font-family: 'Dosis', sans-serif;
-  color: white;
-  background-color: #2F855A;
-  border: solid #2F855A;
-  width: 8em;
-  height: 3em;
-  font-weight: bold;
-  border-radius: 2px;
-  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.24);
+
+.button {
+    font-family: 'Dosis', sans-serif;
+    color: white;
+    background-color: #2F855A;
+    border: solid #2F855A;
+    width: 8em;
+    height: 3em;
+    font-weight: bold;
+    border-radius: 2px;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.24);
 }
 
-.button:active{
-  background-color: #00782d;
-  border: solid #00782d;
-  transform: translateY(4px);
+.button:active {
+    background-color: #00782d;
+    border: solid #00782d;
+    transform: translateY(4px);
 }
 
-.formButtonRight{
-  margin-left: auto;
+.formButtonRight {
+    margin-left: auto;
 }
 
-.fotoButton{
-  font-family: 'Dosis', sans-serif;
-  color: white;
-  background-color: #2F855A;
-  border: solid #2F855A;
-  width: 6em;
-  height: 3em;
-  font-weight: bold;
-  border-radius: 2px;
-  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.24);
-  line-height: 3em;
-  text-align: center;
-  margin-bottom: 1em;
+.fotoButton {
+    font-family: 'Dosis', sans-serif;
+    color: white;
+    background-color: #2F855A;
+    border: solid #2F855A;
+    width: 6em;
+    height: 3em;
+    font-weight: bold;
+    border-radius: 2px;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.24);
+    line-height: 3em;
+    text-align: center;
+    margin-bottom: 1em;
 }
 
-.fotoButton:active{
-  background-color: #00782d;
-  border: solid #00782d;
-  transform: translateY(4px);
+.fotoButton:active {
+    background-color: #00782d;
+    border: solid #00782d;
+    transform: translateY(4px);
 }
 
-#uploadImg{
-  width: 100%;
+#uploadImg {
+    width: 100%;
 }
 
-.login .button{
-  align-self: flex-end;
+.login .button {
+    align-self: flex-end;
 }
 
-.link{
-  color: #2F855A;
-  font-family: 'Dosis', sans-serif;
-  width: 8em;
-  height: 3em;
-  align-self: flex-start;
-  transform: translateY(3em);
-  line-height: 3em;
+.link {
+    color: #2F855A;
+    font-family: 'Dosis', sans-serif;
+    width: 8em;
+    height: 3em;
+    align-self: flex-start;
+    transform: translateY(3em);
+    line-height: 3em;
 }
 
-.chatLink:active{
-  transform: translateY(4px);
-  background-color: #005e23;
+.chatLink:active {
+    transform: translateY(4px);
+    background-color: #005e23;
 }
 
-.chatLink:hover{
-  cursor: pointer;
+.chatLink:hover {
+    cursor: pointer;
 }
 
-.chatLink{
-  background-color: #2F855A;
-  color: white;
-  text-decoration: none;
-  border-radius: 10px;
-  margin-left: auto;
-  margin-right: .5em;
-  font-family: 'Dosis', sans-serif;
-  width: 5em;
-  height: 3em;
-  line-height: 3em;
-  text-align: center;
+.chatLink {
+    background-color: #2F855A;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: .5em;
+    font-family: 'Dosis', sans-serif;
+    width: 5em;
+    height: 3em;
+    line-height: 3em;
+    text-align: center;
 }
+
+
 /* -----------------------------------MAPBOX----------------------- */
 
 .fullscreenmap {
-  padding-top: 45px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+    padding-top: 45px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
-
 
 .mapbox {
-  position: relative;
-  height: 100%;
-
+    position: relative;
+    height: 100%;
 }
 
-.map{
-  width: 100%;
-  height: 100%;
-  margin-bottom: 1em;
-  position: absolute;
-  top: 0;
-  bottom: 0;
+.map {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 1em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
 }
 
 .marker {
-  background-color: black;
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  left: 0;
+    background-color: black;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 #fly {
-  display: block;
-  position: absolute;
-  margin: 0px auto;
-  margin-top: 15px;
-  width: 50%;
-  height: 40px;
-  padding: 10px;
-  border: none;
-  border-radius: 3px;
-  font-size: 12px;
-  text-align: center;
-  color: #fff;
-  background: #2F855A;
-  top: 10px;
-  left: 25%;
+    display: block;
+    position: absolute;
+    margin: 0px auto;
+    margin-top: 15px;
+    width: 50%;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    background: #2F855A;
+    top: 10px;
+    left: 25%;
 }
 
 .legendaButton {
-  display: block;
-  position: absolute;
-  margin: 0px auto;
-  margin-top: 15px;
-  width: 40px;
-  height: 40px;
-  padding: 10px;
-  border: none;
-  border-radius: 3px;
-  font-size: 12px;
-  text-align: center;
-  color: #fff;
-  background: #2F855A;
-  bottom: 60px;
-  left: 10%;
-  z-index: 100;
-  font-family: 'Dosis', sans-serif;
+    display: block;
+    position: absolute;
+    margin: 0px auto;
+    margin-top: 15px;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    background: #2F855A;
+    bottom: 60px;
+    left: 10%;
+    z-index: 100;
+    font-family: 'Dosis', sans-serif;
 }
 
 .legendaButton:active {
-  transform: translateY(4px);
+    transform: translateY(4px);
 }
 
-.legenda{
-  background-color: white;
-  border-radius: 3px;
-  position: absolute;
-  width: 80%;
-  height: 78%;
-  z-index: 99;
-  bottom: 60px;
-  left: 10%;
-  transition: all 0.5s ease-in-out;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  overflow: hidden;
+.legenda {
+    background-color: white;
+    border-radius: 3px;
+    position: absolute;
+    width: 80%;
+    height: 78%;
+    z-index: 99;
+    bottom: 60px;
+    left: 10%;
+    transition: all 0.5s ease-in-out;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .legendaMarkerYellow {
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 4px solid rgb(255,255,0,.5);
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 4px solid rgb(255, 255, 0, .5);
 }
 
 .legendaMarkerRed {
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 4px solid rgb(255,255,0,.5);
-
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 4px solid rgb(255, 255, 0, .5);
 }
 
 .legendaMarkerGreen {
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 4px solid rgb(255,255,0,.5);
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 4px solid rgb(255, 255, 0, .5);
 }
 
-.legenda ul{
-  font-family: 'Dosis', sans-serif;
-  padding-left: 2em;
+.legenda ul {
+    font-family: 'Dosis', sans-serif;
+    padding-left: 2em;
 }
 
-.markerWrapper{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: 1em;
-  margin-left: 1em;
+.markerWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+    margin-left: 1em;
 }
 
-.markerText{
-  height: 19px;
-  margin: 0;
-  line-height: 19px;
-  font-family: 'Dosis', sans-serif;
-  margin-left: 2em;
-  margin-right: 2em;
+.markerText {
+    height: 19px;
+    margin: 0;
+    line-height: 19px;
+    font-family: 'Dosis', sans-serif;
+    margin-left: 2em;
+    margin-right: 2em;
 }
 
-.legendaText{
-  font-family: 'Dosis', sans-serif;
-  margin-left: 1em;
-  margin-right: 1em;
+.legendaText {
+    font-family: 'Dosis', sans-serif;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
-.legenda h2{
-  text-align: center;
-  font-family: 'Dosis', sans-serif;
-
+.legenda h2 {
+    text-align: center;
+    font-family: 'Dosis', sans-serif;
 }
 
-#fly:active{
-  background: #005e23;
-  transform: translateY(4px);
+#fly:active {
+    background: #005e23;
+    transform: translateY(4px);
 }
 
 .mapbutton {
-  font-family: 'Dosis', sans-serif;
-  width: 8em;
-  height: 3em;
-  font-weight: bold;
-  border: none;
-  text-align: left;
-  color: #2F855A;
-  font-size: 2em;
-  margin-bottom: 1em;
+    font-family: 'Dosis', sans-serif;
+    width: 8em;
+    height: 3em;
+    font-weight: bold;
+    border: none;
+    text-align: left;
+    color: #2F855A;
+    font-size: 2em;
+    margin-bottom: 1em;
 }
 
-.mapbutton:active{
-transform: translateY(4px);
+.mapbutton:active {
+    transform: translateY(4px);
 }
 
-.mapbutton:hover{
-cursor: pointer;
+.mapbutton:hover {
+    cursor: pointer;
 }
 
 .grey {
-color: grey;
+    color: grey;
 }
 
 .mapboxgl-ctrl-bottom-right {
-  margin-bottom: 10px;
-  margin-right: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
 
 .alternativeButton {
-  height: 40px;
-  padding: 10px;
-  border: none;
-  border-radius: 3px;
-  font-size: 12px;
-  text-align: center;
-  color: #fff;
-  background-color: #2F855A;
-  border: solid #2F855A;
-  top: 10px;
-  left: 25%;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    background-color: #2F855A;
+    border: solid #2F855A;
+    top: 10px;
+    left: 25%;
 }
 
 .alternativeButton:active {
-  background-color: #005e23;
-  border: solid #005e23;
-  transform: translateY(4px);
+    background-color: #005e23;
+    border: solid #005e23;
+    transform: translateY(4px);
 }
 
 .red {
-  background-color: red;
+    background-color: red;
 }
 
 .green {
-  background-color: green
+    background-color: green
 }
 
 .yellow {
-  background-color: yellow
+    background-color: yellow
 }
+
 
 /* -----------------------------------HEADER----------------------- */
 
-header{
-  padding-left: 1em;
-  padding-right: 1em;
-  background-color: #2F855A;
-  flex-wrap: wrap;
-  position: fixed;
-  width: 100%;
-  z-index: 3;
+header {
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: #2F855A;
+    flex-wrap: wrap;
+    position: fixed;
+    width: 100%;
+    z-index: 3;
 }
 
 header ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: hidden;
-  background-color: #2F855A;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    background-color: #2F855A;
 }
 
 header li a {
-  display: block;
-  padding: 20px 20px;
-  padding-right: 60px;
-  border-right: 1px solid #00782d ;
-  text-decoration: none;
-  color: white;
-  font-family: 'Dosis', sans-serif;
-  text-align: right;
-
+    display: block;
+    padding: 20px 20px;
+    padding-right: 60px;
+    border-right: 1px solid #00782d;
+    text-decoration: none;
+    color: white;
+    font-family: 'Dosis', sans-serif;
+    text-align: right;
 }
 
 header li a:hover,
 header .menu-btn:hover {
-  background-color: #00782d;
+    background-color: #00782d;
 }
 
-
 header .backArrow {
-  display: block;
-  float: left;
-  font-size: 2em; 
-  padding: 10px 20px;
-  text-decoration: none;
-} 
+    display: block;
+    float: left;
+    font-size: 2em;
+    padding: 10px 20px;
+    text-decoration: none;
+}
 
 header .navHome {
-  display: block;
-  float: center;
-  font-size: 2em; 
-  padding: 10px 20px;
-  text-decoration: none;
-} 
+    display: block;
+    float: center;
+    font-size: 2em;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
 
 /* menu */
 
 header .menu {
-  clear: both;
-  max-height: 0;
-  transition: max-height .2s ease-out;
+    clear: both;
+    max-height: 0;
+    transition: max-height .2s ease-out;
 }
+
 
 /* menu icon */
 
 header .menu-icon {
-  cursor: pointer;
-  display: block;
-  float: right;
-  padding: 28px 20px;
-  position: relative;
-  user-select: none;
+    cursor: pointer;
+    display: block;
+    float: right;
+    padding: 28px 20px;
+    position: relative;
+    user-select: none;
 }
 
 header .menu-icon .navicon {
-  background: white;
-  display: block;
-  height: 2px;
-  position: relative;
-  transition: background .2s ease-out;
-  width: 18px;
-  margin-right: 2em;
+    background: white;
+    display: block;
+    height: 2px;
+    position: relative;
+    transition: background .2s ease-out;
+    width: 18px;
+    margin-right: 2em;
 }
 
 header .menu-icon .navicon:before,
 header .menu-icon .navicon:after {
-  background: white;
-  content: '';
-  display: block;
-  height: 100%;
-  position: absolute;
-  transition: all .2s ease-out;
-  width: 100%;
+    background: white;
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    transition: all .2s ease-out;
+    width: 100%;
 }
 
 header .menu-icon .navicon:before {
-  top: 5px;
+    top: 5px;
 }
 
 header .menu-icon .navicon:after {
-  top: -5px;
+    top: -5px;
 }
+
 
 /* menu btn */
 
 header .menu-btn {
-  display: none;
+    display: none;
 }
 
-header .menu-btn:checked ~ .menu {
-  max-height: 360px;
+header .menu-btn:checked~.menu {
+    max-height: 360px;
 }
 
-header .menu-btn:checked ~ .menu-icon .navicon {
-  background: transparent;
+header .menu-btn:checked~.menu-icon .navicon {
+    background: transparent;
 }
 
-header .menu-btn:checked ~ .menu-icon .navicon:before {
-  transform: rotate(-45deg);
+header .menu-btn:checked~.menu-icon .navicon:before {
+    transform: rotate(-45deg);
 }
 
-header .menu-btn:checked ~ .menu-icon .navicon:after {
-  transform: rotate(45deg);
+header .menu-btn:checked~.menu-icon .navicon:after {
+    transform: rotate(45deg);
 }
 
-header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
-header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
-  top: 0;
+header .menu-btn:checked~.menu-icon:not(.steps) .navicon:before,
+header .menu-btn:checked~.menu-icon:not(.steps) .navicon:after {
+    top: 0;
 }
+
 
 /* 48em = 768px */
 
 @media (min-width: 48em) {
-  header li {
-    float: left;
-  }
-  header li a {
-    padding: 20px 30px;
-  }
-  header .menu {
-    clear: none;
-    float: right;
-    max-height: none;
-  }
-  header .menu-icon {
-    display: none;
-  }
+    header li {
+        float: left;
+    }
+    header li a {
+        padding: 20px 30px;
+    }
+    header .menu {
+        clear: none;
+        float: right;
+        max-height: none;
+    }
+    header .menu-icon {
+        display: none;
+    }
 }
+
 
 /* -----------------------------------CARD----------------------- */
 
 .ticket {
-  box-shadow: 7px 7px 10px -1px rgba(0,0,0,0.42);
-  padding: 0 0 15px 0;
-  margin-bottom: 2em;
-  border-radius: 10px;
+    box-shadow: 7px 7px 10px -1px rgba(0, 0, 0, 0.42);
+    padding: 0 0 15px 0;
+    margin-bottom: 2em;
+    border-radius: 10px;
 }
 
-.ticketSubtitle{
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: black;
-  margin-left: .5em;
+.ticketSubtitle {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    letter-spacing: .05em;
+    color: black;
+    margin-left: .5em;
 }
 
-.ticketDate{
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: black;
-  margin-left: .5em;
+.ticketDate {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    letter-spacing: .05em;
+    color: black;
+    margin-left: .5em;
 }
 
-.ticketType{
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: white;
-  margin: 0;
-  width: calc(100% - 1em);
-  background-color: #2F855A;
-  border-radius: 10px 10px 0 0;
-  padding: .5em;
-  margin-bottom: .5em;
-}
-.ticketDescription{
-  max-width: 100%;
-  word-wrap: break-word;
-  font-family: 'Dosis', sans-serif;
-  letter-spacing: .05em;
-  color: black;
-  margin: 5px;
-  margin-left: .5em;
+.ticketType {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    letter-spacing: .05em;
+    color: white;
+    margin: 0;
+    width: calc(100% - 1em);
+    background-color: #2F855A;
+    border-radius: 10px 10px 0 0;
+    padding: .5em;
+    margin-bottom: .5em;
 }
 
-.ticketImg{
-  margin-top: 1em;
-  margin-left: .5em;
-  max-width: calc(100% - 1em);
+.ticketDescription {
+    max-width: 100%;
+    word-wrap: break-word;
+    font-family: 'Dosis', sans-serif;
+    letter-spacing: .05em;
+    color: black;
+    margin: 5px;
+    margin-left: .5em;
 }
+
+.ticketImg {
+    margin-top: 1em;
+    margin-left: .5em;
+    max-width: calc(100% - 1em);
+}
+
 .title {
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: #2F855A;
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    letter-spacing: .05em;
+    color: #2F855A;
 }
 
-.subtitle{
-  font-family: 'Dosis', sans-serif;
-  font-weight:700;
-  letter-spacing: .05em;
-  color: black;
+.subtitle {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    letter-spacing: .05em;
+    color: black;
 }
 
-.img{
-  width: 100%;
-  height: 10em;
-  background-color: #2F855A;
-  margin-bottom: 1em;
+.img {
+    width: 100%;
+    height: 10em;
+    background-color: #2F855A;
+    margin-bottom: 1em;
 }
+
 
 /* -----------------------------------CHOSEPOLEFORM----------------------- */
 
-.choosePoleForm{
-  margin-top: 0em;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+.choosePoleForm {
+    margin-top: 0em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
-.chosePole{
-  flex: 0 0 100%;
-  margin-bottom: 0em;
-  display: flex;
-  flex-direction: column;
+.chosePole {
+    flex: 0 0 100%;
+    margin-bottom: 0em;
+    display: flex;
+    flex-direction: column;
 }
 
-.chosePole label{
-  margin-bottom: 1em;
-  font-family: 'Dosis', sans-serif;
-  color: white;
-  background-color: #2F855A;
-  border: solid #2F855A;
-  width: 8em;
-  height: 3em;
-  font-weight: bold;
-  border-radius: 2px;
-  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.24);
-  text-align: center;
-  line-height: 3em;
+.chosePole label {
+    margin-bottom: 1em;
+    font-family: 'Dosis', sans-serif;
+    color: white;
+    background-color: #2F855A;
+    border: solid #2F855A;
+    width: 8em;
+    height: 3em;
+    font-weight: bold;
+    border-radius: 2px;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.24);
+    text-align: center;
+    line-height: 3em;
 }
 
-.choosePoleForm input:checked +  label{
-  background-color: #005e23;
-  border: solid #005e23;
+.choosePoleForm input:checked+label {
+    background-color: #005e23;
+    border: solid #005e23;
 }
 
-.choosePoleForm button:last-of-type{
-  margin-left: auto;
+.choosePoleForm button:last-of-type {
+    margin-left: auto;
 }
 
-.choosePoleForm input{
-  display: none;
+.choosePoleForm input {
+    display: none;
 }
 
-.complaintForm{
-  display: flex;
-  flex-direction: column;
+.complaintForm {
+    display: flex;
+    flex-direction: column;
 }
 
-.complaintButton{
-  background-color: white;
-  border: none;
-  text-align: left;
-  color: #2F855A;
-  font-family: 'Dosis', sans-serif;
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 1em;
-  padding: 0;
-  height: 2em
+.complaintButton {
+    background-color: white;
+    border: none;
+    text-align: left;
+    color: #2F855A;
+    font-family: 'Dosis', sans-serif;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 1em;
+    padding: 0;
+    height: 2em
 }
 
-.selectedComplaint{
-  min-height: 2em;
-  margin-bottom: 0;
-  background-color: white;
-  text-align: left;
-  color: #2F855A;
-  font-family: 'Dosis', sans-serif;
-  font-size: 2em;
-  font-weight: bold;
-  padding: 0;
+.selectedComplaint {
+    min-height: 2em;
+    margin-bottom: 0;
+    background-color: white;
+    text-align: left;
+    color: #2F855A;
+    font-family: 'Dosis', sans-serif;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 0;
 }
 
-.complaintButton:active{
-  background-color: #2F855A;
-  color: white;
-  transform: translateY(4px);
+.complaintButton:active {
+    background-color: #2F855A;
+    color: white;
+    transform: translateY(4px);
 }
 
-.slideOut{
-  animation: 1s alternate slideOut;
+.slideOut {
+    animation: 1s alternate slideOut;
 }
 
-@keyframes slideOut{
-  from {
-    transform: translateX(0)
-  }
-
-  to {
-    transform: translateX(-500px)
-  }
+@keyframes slideOut {
+    from {
+        transform: translateX(0)
+    }
+    to {
+        transform: translateX(-500px)
+    }
 }
 
-.slideIn{
-  animation: 1s alternate slideIn;
+.slideIn {
+    animation: 1s alternate slideIn;
 }
 
-@keyframes slideIn{
-  from {
-    transform: translateX(+500px)
-  }
-
-  to {
-    transform: translateX(0)
-  }
+@keyframes slideIn {
+    from {
+        transform: translateX(+500px)
+    }
+    to {
+        transform: translateX(0)
+    }
 }
 
-.buttonWrapper{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.buttonWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.ticket:first-of-type{
-  margin-top: 2em;
+.ticket:first-of-type {
+    margin-top: 2em;
 }
 
-.label{
-  font-family: 'Dosis', sans-serif;
-  color: white;
-  background-color: #2F855A;
-  border: solid #2F855A;
-  width: 6em;
-  height: 2em;
-  font-weight: bold;
-  border-radius: 2px;
-  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.24);
-  padding: none;
-  text-align: center;
-  line-height: 2em;
-  font-size: 1.5em;
-  margin-bottom: 6em;
+.label {
+    font-family: 'Dosis', sans-serif;
+    color: white;
+    background-color: #2F855A;
+    border: solid #2F855A;
+    width: 6em;
+    height: 2em;
+    font-weight: bold;
+    border-radius: 2px;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.24);
+    padding: none;
+    text-align: center;
+    line-height: 2em;
+    font-size: 1.5em;
+    margin-bottom: 6em;
 }
 
-.textarea{
-  margin-top: 2em;
-  margin-bottom: 2em;
-  height: 6em;
-  font-family: 'Dosis', sans-serif;
-  font-weight: bold;
-
+.textarea {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    height: 6em;
+    font-family: 'Dosis', sans-serif;
+    font-weight: bold;
 }
 
 #complaintid {
-  background-color: white;
-  font-family: 'Dosis', sans-serif;
-  color: black;
-  letter-spacing: .05em;
-  border: none;
-  border-bottom: solid #2F855A;
-  height: 2em;
-  margin-bottom: 1em;
+    background-color: white;
+    font-family: 'Dosis', sans-serif;
+    color: black;
+    letter-spacing: .05em;
+    border: none;
+    border-bottom: solid #2F855A;
+    height: 2em;
+    margin-bottom: 1em;
 }
 
 .changeStatus {
-  margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 
-.heightZero{
-  height: 0;
-  width: 0;
-  opacity: 0;
+.heightZero {
+    height: 0;
+    width: 0;
+    opacity: 0;
 }
+
 
 /* -----------------------------------table----------------------- */
-th{
-  font-family: 'Dosis', sans-serif;
-  border-bottom: solid #2F855A;
-  color: #2F855A;
-  text-align: left;
+
+th {
+    font-family: 'Dosis', sans-serif;
+    border-bottom: solid #2F855A;
+    color: #2F855A;
+    text-align: left;
 }
 
-td{
-  font-family: 'Dosis', sans-serif;
-  text-align: left;
+td {
+    font-family: 'Dosis', sans-serif;
+    text-align: left;
 }
