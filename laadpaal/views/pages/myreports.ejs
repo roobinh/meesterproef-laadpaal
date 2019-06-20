@@ -1,35 +1,28 @@
-<!DOCTYPE html>
-<html>
-
 <% include ../partials/head %>
 <% include ../partials/header %>
 
-<body>
-    <section class="body">
-        <h1>Mijn meldingen</h1>
-        <% if (data === "error") { %>
-        <h3 class="subtitle"> U heeft nog geen meldingen...</h3>
-        <% } else { %>
-            <% data.forEach(complaint=>{ %>
-                
-                    <section class="ticket">
-                        <h2 class="ticketType"><%=complaint.type%></h2>
-                        <div class="markerWrapper">
-                            <p class="ticketDate"><%=complaint.date%> (<%= complaint.time%>)</p>
-                            <a href="/myreports/<%= complaint._id %>" class="chatLink">CHAT</a>
-                        </div>
-                        <p class="ticketDescription">Adres: <%=complaint.pole.address%></p>
-                        <p class="ticketDescription">Status: <%=complaint.status%></p>
-                        <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
-                        <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg">
-                        
-                    </section>
-                
-            <% }) %>
-        <% } %>
-    </section>
-</body>
+<section class="body">
+    <h1>Mijn meldingen</h1>
+    <% if (data === "error") { %>
+    <h3 class="subtitle"> U heeft nog geen meldingen...</h3>
+    <% } else { %>
+        <% data.forEach(complaint=>{ %>
+            
+                <section class="ticket">
+                    <h2 class="ticketType"><%=complaint.type%></h2>
+                    <div class="markerWrapper">
+                        <p class="ticketDate"><%=complaint.date%> (<%= complaint.time%>)</p>
+                        <a href="/myreports/<%= complaint._id %>" class="chatLink">CHAT</a>
+                    </div>
+                    <p class="ticketDescription">Adres: <%=complaint.pole.address%></p>
+                    <p class="ticketDescription">Status: <%=complaint.status%></p>
+                    <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
+                    <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg">
+                    
+                </section>
+            
+        <% }) %>
+    <% } %>
+</section>
 
 <% include ../partials/footer %>
-
-</html>

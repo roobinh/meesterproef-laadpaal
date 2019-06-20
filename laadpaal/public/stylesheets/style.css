@@ -83,8 +83,8 @@ h1 {
 }
 
 .button:active {
-    background-color: #00782d;
-    border: solid #00782d;
+    background-color: #205d3f;
+    border: solid #205d3f;
     transform: translateY(4px);
 }
 
@@ -108,8 +108,8 @@ h1 {
 }
 
 .fotoButton:active {
-    background-color: #00782d;
-    border: solid #00782d;
+    background-color: #205d3f;
+    border: solid #205d3f;
     transform: translateY(4px);
 }
 
@@ -133,7 +133,7 @@ h1 {
 
 .chatLink:active {
     transform: translateY(4px);
-    background-color: #005e23;
+    background-color: #205d3f;
 }
 
 .chatLink:hover {
@@ -306,7 +306,7 @@ h1 {
 }
 
 #fly:active {
-    background: #005e23;
+    background: #205d3f;
     transform: translateY(4px);
 }
 
@@ -354,8 +354,8 @@ h1 {
 }
 
 .alternativeButton:active {
-    background-color: #005e23;
-    border: solid #005e23;
+    background-color: #205d3f;
+    border: solid #205d3f;
     transform: translateY(4px);
 }
 
@@ -396,7 +396,7 @@ header li a {
     display: block;
     padding: 20px 20px;
     padding-right: 60px;
-    border-right: 1px solid #00782d;
+    border-right: 1px solid #205d3f;
     text-decoration: none;
     color: white;
     font-family: 'Dosis', sans-serif;
@@ -405,7 +405,7 @@ header li a {
 
 header li a:hover,
 header .menu-btn:hover {
-    background-color: #00782d;
+    background-color: #205d3f;
 }
 
 header .backArrow {
@@ -631,8 +631,8 @@ header .menu-btn:checked~.menu-icon:not(.steps) .navicon:after {
 }
 
 .choosePoleForm input:checked+label {
-    background-color: #005e23;
-    border: solid #005e23;
+    background-color: #205d3f;
+    border: solid #205d3f;
 }
 
 .choosePoleForm button:last-of-type {
@@ -674,7 +674,7 @@ header .menu-btn:checked~.menu-icon:not(.steps) .navicon:after {
 }
 
 .complaintButton:active {
-    background-color: #2F855A;
+    background-color: #205d3f;
     color: white;
     transform: translateY(4px);
 }

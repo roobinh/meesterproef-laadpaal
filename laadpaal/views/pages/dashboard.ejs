@@ -1,40 +1,33 @@
-<!DOCTYPE html>
-<html>
-
 <% include ../partials/head %>
 <% include ../partials/header %>    
 
-<body>
-    <section class="body">
-        <h1>Storing Zoeken</h1>
+<section class="body">
+    <h1>Storing Zoeken</h1>
 
-        <input type="text" name="complaintid" id="complaintid" placeholder="Complaint ID here">
-        <button class="button" id="search">Zoeken</button>
+    <input type="text" name="complaintid" id="complaintid" placeholder="Complaint ID here">
+    <button class="button" id="search">Zoeken</button>
 
-        <h1>Alle Storingen</h1>
-        <table>
-            <thead>
+    <h1>Alle Storingen</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Locatie</th>
+                <th>Datum</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(complaint=>{ console.log(complaint)%>
                 <tr>
-                    <th>Locatie</th>
-                    <th>Datum</th>
-                    <th>Status</th>
+                    <td><a href="/dashboard/<%=complaint._id%>"><%=complaint.pole.address%></a></td>
+                    <td><%=complaint.date%></td>
+                    <td><%=complaint.status%></td>
                 </tr>
-            </thead>
-            <tbody>
-                <% data.forEach(complaint=>{ console.log(complaint)%>
-                    <tr>
-                        <td><a href="/dashboard/<%=complaint._id%>"><%=complaint.pole.address%></a></td>
-                        <td><%=complaint.date%></td>
-                        <td><%=complaint.status%></td>
-                    </tr>
-                <%})%>
-            </tbody>
-        </table>
-    </section>
-</body>
+            <%})%> 
+        </tbody>
+    </table>
+</section>
 
-
-<% include ../partials/footer %>
 <script src="/javascripts/dashboard.js"></script>
 
-</html>
+<% include ../partials/footer %>    

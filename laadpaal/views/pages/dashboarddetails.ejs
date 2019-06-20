@@ -1,54 +1,47 @@
-<!DOCTYPE html>
-<html>
-
 <% include ../partials/head %>
 <% include ../partials/header %>
 
-    <% console.log(data) %>
-    
-<body>
-    <section class="body">
-        <h1>Melding</h1>
-        <% if (data === "error") { %>
-        <h3 class="subtitle"> U heeft nog geen meldingen...</h3>
-        <% } else { %>
-            <% data.forEach(complaint=>{ %>
+<section class="body">
+    <h1>Melding</h1>
+    <% if (data === "error") { %>
+    <h3 class="subtitle"> U heeft nog geen meldingen...</h3>
+    <% } else { %>
+        <% data.forEach(complaint=>{ %>
 
 
 
-                <p class="ticketDescription">Status:</p>
+            <p class="ticketDescription">Status:</p>
 
-                <form class="changeStatus" action="/dashboard/changestatus/<%=complaint._id%>" method="POST">
+            <form class="changeStatus" action="/dashboard/changestatus/<%=complaint._id%>" method="POST">
 
-                    <select name="state">
-                        <option id="name" name="volvo" value="In behandeling">In behandeling</option>
-                        <% if(complaint.status == "Opgelost") { %>
-                        <option id="name" name="volvo" value="Opgelost" selected>Opgelost</option>
-                        <% } else { %>
-                        <option id="name" name="volvo" value="Opgelost">Opgelost</option>
-                        <% } %>
-                    </select>
+                <select name="state">
+                    <option id="name" name="volvo" value="In behandeling">In behandeling</option>
+                    <% if(complaint.status == "Opgelost") { %>
+                    <option id="name" name="volvo" value="Opgelost" selected>Opgelost</option>
+                    <% } else { %>
+                    <option id="name" name="volvo" value="Opgelost">Opgelost</option>
+                    <% } %>
+                </select>
 
-                    <button class="button">change</button>
-                </form>
-                 <section class="ticket">
-                    <h2 class="ticketType"><%=complaint.type%></h2>
-                    <p class="ticketDescription">ID: <%=complaint._id%></p>
-                    <p class="ticketDescription">Address: <a href="http://maps.google.com/?q=<%=complaint.pole.address%>"> <%=complaint.pole.address%> </a></p>
-                    <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
-                    <p class="ticketDescription">Status: <%=complaint.status%></p>
-                    <p class="ticketDescription">Datum: <%=complaint.date%> (<%= complaint.time%>)</p>
+                <button class="button">change</button>
+            </form>
+                <section class="ticket">
+                <h2 class="ticketType"><%=complaint.type%></h2>
+                <p class="ticketDescription">ID: <%=complaint._id%></p>
+                <p class="ticketDescription">Address: <a href="http://maps.google.com/?q=<%=complaint.pole.address%>"> <%=complaint.pole.address%> </a></p>
+                <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
+                <p class="ticketDescription">Status: <%=complaint.status%></p>
+                <p class="ticketDescription">Datum: <%=complaint.date%> (<%= complaint.time%>)</p>
 
-                    <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg">
-                 </section>
-            <% }) %>
-        <% } %>
-    </section>
-</body>
+                <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg">
+                </section>
+        <% }) %>
+    <% } %>
+</section>
+
 
 <% include ../partials/footer %>
 
-</html>
 
 
 

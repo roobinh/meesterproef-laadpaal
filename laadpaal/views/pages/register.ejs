@@ -1,34 +1,27 @@
-<!DOCTYPE html>
-<html>
-
 <% include ../partials/head %>
 
-<body>
-  <section class="body">
-    <h1>Meldpaaal app</h1>  
-    <div class="img"></div>
-    <p class="subtitle">Registreer om een melding te maken</p>
-    <form class="login" action="/createuser" method="POST">
-      <label for="email">Email</Label>
-      
-      <% if(typeof email != 'undefined') { %>
-        <input type="email" name="email" id="email" value="<%=email%>" required>
-      <% } else { %>
-        <input type="email" name="email" id="email" placeholder="example@email.com" required>
-      <% } %>
+<section class="body">
+  <h1>De Meldpaal</h1>  
+  <div class="img"></div>
+  <p class="subtitle">Registreer om een melding te maken</p>
+  <form class="login" action="/createuser" method="POST">
+    <label for="email">Email</Label>
+    
+    <% if(typeof email != 'undefined') { %>
+      <input type="email" name="email" id="email" value="<%=email%>" required>
+    <% } else { %>
+      <input type="email" name="email" id="email" placeholder="example@email.com" required>
+    <% } %>
 
-      <label for="name">Voornaam</Label>
-      <input type="text" name="name" id="name" placeholder="uw naam hier" required>
+    <label for="name">Voornaam</Label>
+    <input type="text" name="name" id="name" placeholder="uw naam hier" required>
 
-      <a class="link" href="/">log in</a>
+    <a class="link" href="/">log in</a>
 
-      <button class="button">REGISTREER</button>
-    </form>
-  </section>
-</body>
+    <button class="button">REGISTREER</button>
+  </form>
+</section>
 
 <% include ../partials/footer %>
-
-</html>
 
 

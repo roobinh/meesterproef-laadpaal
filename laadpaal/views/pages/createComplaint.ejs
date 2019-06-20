@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-
 <% include ../partials/head %>
-
-<body>
-
 <% include ../partials/header %>
 
 <section class="body">
@@ -12,15 +6,11 @@
     <p class="subtitle">Selecteer waar het probleem ligt.</p>
     <div class="selectedComplaint"></div>
     
-    
     <form class="chooseType complaintForm" action="/createComplaint" method="POST" enctype="multipart/form-data">
       <button class="complaintButton option">De laadpaal...</button>
       <button class="complaintButton option">De parkeerplek...</button>
       <button class="complaintButton option">Mijn pasje...</button>  
     </form>
   </section>
-</body>
 
 <% include ../partials/footer %>
-
-</html>

@@ -8,6 +8,7 @@
   let availablepoles = [];
   let dichstbijzijnde = [99999, 0, 0];
   let pointers = [];
+  let flewToNearestPole = 0;
 
   const hrefArr = window.location.href.split("/");
   const href = hrefArr[hrefArr.length - 1];
@@ -293,7 +294,10 @@
     });
 
     if (href == "nearestpole") {
-      flyToNearestPole();
+      if(!flewToNearestPole) {
+        flewToNearestPole = 1;
+        flyToNearestPole();
+      }
     }
   }
 

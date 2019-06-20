@@ -1,32 +1,25 @@
-<!DOCTYPE html>
-<html>
-
 <% include ../partials/head %>
 <% include ../partials/header %>
 
-<body>
-    <section class="body">
-        <h1>Storingen</h1>
-        <table>
-            <thead>
+<section class="body">
+    <h1>Storingen</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Locatie</th>
+                <th>Datum</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%data.forEach(pole=>{ %>
                 <tr>
-                    <th>Locatie</th>
-                    <th>Datum</th>
+                    <td><a href="/reports/<%=pole.id%>"><%=pole.address%></a></td>
+                    <td><%=pole.count%></td>
                 </tr>
-            </thead>
-            <tbody>
-                <%data.forEach(pole=>{ %>
-                    <tr>
-                        <td><a href="/reports/<%=pole.id%>"><%=pole.address%></a></td>
-                        <td><%=pole.count%></td>
-                    </tr>
-                <%})%>
-            </tbody>
-        </table>
-    </section>
-</body>
+            <%})%>
+        </tbody>
+    </table>
+</section>
 
 <% include ../partials/footer %>
-
-</html>
 

@@ -77,7 +77,7 @@ app.get('/login/failed', function (req, res, next) {
 
 // complaint routes
 app.get('/home', authenticate, function (req, res, next) {
-    res.render('pages/choosepole', { name: req.session.user.name });
+    res.render('pages/home', { name: req.session.user.name });
 });
 
 app.get('/setpole/:id', authenticate, function (req, res, next) {
@@ -121,6 +121,7 @@ app.get('/complaint/success', authenticate, function (req, res, next) {
               pole {
                 longitude
                 latitude
+                address
               }
               user {
                 email
