@@ -1,4 +1,4 @@
-(function () {
+(function() {
   // MapBox
   mapboxgl.accessToken =
     "pk.eyJ1Ijoicm9vYmluMTk5OSIsImEiOiJjanJxYzVpeGIwdzJ4NDlycTZvd2lramRkIn0.jEoxjM-oE38jYCIHnhLw_g";
@@ -9,15 +9,15 @@
   let dichstbijzijnde = [99999, 0, 0];
   let pointers = [];
 
-  const hrefArr = window.location.href.split('/');
+  const hrefArr = window.location.href.split("/");
   const href = hrefArr[hrefArr.length - 1];
 
   //create map
   let map = new mapboxgl.Map({
-    "container": "map",
-    "style": "mapbox://styles/mapbox/streets-v11?optimize=true",
-    "zoom": 12,
-    "center": [4.909203, 52.360157]
+    container: "map",
+    style: "mapbox://styles/mapbox/streets-v11?optimize=true",
+    zoom: 12,
+    center: [4.909203, 52.360157]
   });
 
   // set user location
@@ -28,7 +28,7 @@
     trackUserLocation: true
   });
 
-  map.addControl(geolocation, 'bottom-right');
+  map.addControl(geolocation, "bottom-right");
 
   // disable map rotation using right click + drag
   map.dragRotate.disable();
@@ -37,11 +37,11 @@
   map.touchZoomRotate.disableRotation();
 
   // on mapload, trigger user location
-  map.on("load", function () {
+  map.on("load", function() {
     geolocation._geolocateButton.click();
   });
 
-  geolocation.on("geolocate", function (e) {
+  geolocation.on("geolocate", function(e) {
     calculateNearestPole(e.coords.longitude, e.coords.latitude);
   });
 
@@ -93,20 +93,20 @@
     .then(response => response.json())
     .then(data => {
       data.data.poles.forEach(pole => {
-        let color, showComplaints
+        let color, showComplaints;
 
         if (complaints.includes(pole._id)) {
-          color = "yellow"
+          color = "yellow";
           showComplaints = 1;
         } else {
           if (pole.usedsockets == pole.sockets) {
             // both poles in use
-            color = "red"
+            color = "red";
             showComplaints = 0;
           } else {
             // no complaint + open spot
             availablepoles.push([pole.longitude, pole.latitude]);
-            color = "green"
+            color = "green";
             showComplaints = 0;
           }
         }
@@ -114,56 +114,56 @@
         if (href == "nearestpole") {
           if (color == "green") {
             let pointer = {
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": [pole.longitude, pole.latitude]
+              type: "Feature",
+              geometry: {
+                type: "Point",
+                coordinates: [pole.longitude, pole.latitude]
               },
-              "properties": {
-                "address": pole.address,
-                "id": pole._id,
-                "lngLat": pole.longitude + " " + pole.latitude,
-                "color": color,
-                "showComplaints": showComplaints
+              properties: {
+                address: pole.address,
+                id: pole._id,
+                lngLat: pole.longitude + " " + pole.latitude,
+                color: color,
+                showComplaints: showComplaints
               }
-            }
-            pointers.push(pointer)
+            };
+            pointers.push(pointer);
           } else {
             //do nothing
           }
         } else {
           let pointer = {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [pole.longitude, pole.latitude]
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [pole.longitude, pole.latitude]
             },
-            "properties": {
-              "address": pole.address,
-              "id": pole._id,
-              "lngLat": pole.longitude + " " + pole.latitude,
-              "color": color,
-              "showComplaints": showComplaints
+            properties: {
+              address: pole.address,
+              id: pole._id,
+              lngLat: pole.longitude + " " + pole.latitude,
+              color: color,
+              showComplaints: showComplaints
             }
-          }
-          pointers.push(pointer)
+          };
+          pointers.push(pointer);
         }
-
-
-
-      })
+      });
 
       map.addSource("earthquakes", {
         type: "geojson",
         data: {
-          "type": "FeatureCollection",
-          "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-          "features": pointers
+          type: "FeatureCollection",
+          crs: {
+            type: "name",
+            properties: { name: "urn:ogc:def:crs:OGC:1.3:CRS84" }
+          },
+          features: pointers
         },
         cluster: true,
         clusterMaxZoom: 14,
         clusterRadius: 50
-      })
+      });
 
       map.addLayer({
         id: "clusters",
@@ -190,56 +190,61 @@
             40
           ]
         }
-      })
-
-      map.on('mouseenter', 'unclustered-point', function (e) {
-        // Change the cursor style as a UI indicator.
-        map.getCanvas().style.cursor = 'pointer';
-      })
-
-      map.on('mouseleave', 'unclustered-point', function (e) {
-        // Change the cursor style as a UI indicator.
-        map.getCanvas().style.cursor = '';
-      })
-
-      // inspect a cluster on click
-      map.on('click', 'clusters', function (e) {
-        const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
-        const clusterId = features[0].properties.cluster_id;
-
-        map.getSource('earthquakes').getClusterExpansionZoom(clusterId, function (err, zoom) {
-          if (err)
-            return;
-
-          map.easeTo({
-            center: features[0].geometry.coordinates,
-            zoom: zoom
-          });
-        });
       });
 
-      map.on('click', 'unclustered-point', function (e) {
-        const address = e.features[0].properties.address
-        const id = e.features[0].properties.id
-        const lnglat = e.features[0].properties.lngLat.split(" ")
-        let mapbutton
+      map.on("mouseenter", "unclustered-point", function(e) {
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      map.on("mouseleave", "unclustered-point", function(e) {
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = "";
+      });
+
+      // inspect a cluster on click
+      map.on("click", "clusters", function(e) {
+        const features = map.queryRenderedFeatures(e.point, {
+          layers: ["clusters"]
+        });
+        const clusterId = features[0].properties.cluster_id;
+
+        map
+          .getSource("earthquakes")
+          .getClusterExpansionZoom(clusterId, function(err, zoom) {
+            if (err) return;
+
+            map.easeTo({
+              center: features[0].geometry.coordinates,
+              zoom: zoom
+            });
+          });
+      });
+
+      map.on("click", "unclustered-point", function(e) {
+        const address = e.features[0].properties.address;
+        const id = e.features[0].properties.id;
+        const lnglat = e.features[0].properties.lngLat.split(" ");
+        let mapbutton;
         if (e.features[0].properties.showComplaints == 1) {
-          mapbutton = ""
+          mapbutton = "";
         } else {
-          mapbutton = "grey"
+          mapbutton = "grey";
         }
         let html = `
           <h3>${address}</h3>
           <p><a class="mapbutton" href="/setpole/${id}">Melding maken</a></p>
           <p><a class="mapbutton ${mapbutton}" href="/reports/${id}">Meldingen bekijken</a></p>
-          <p><a class="mapbutton" href="https://maps.google.com/?q=${lnglat[1]},${lnglat[0]}">Navigeren</a></p>
-        `
+          <p><a class="mapbutton" href="https://maps.google.com/?q=${
+            lnglat[1]
+          },${lnglat[0]}">Navigeren</a></p>
+        `;
 
         new mapboxgl.Popup()
           .setLngLat(e.features[0].properties.lngLat.split(" "))
           .setHTML(html)
           .addTo(map);
-      })
+      });
 
       map.addLayer({
         id: "cluster-count",
@@ -259,22 +264,22 @@
         source: "earthquakes",
         filter: ["!", ["has", "point_count"]],
         paint: {
-          "circle-color": ['get', 'color'],
+          "circle-color": ["get", "color"],
           "circle-radius": 8,
           "circle-stroke-width": 4,
-          "circle-stroke-color": ['get', 'color'],
+          "circle-stroke-color": ["get", "color"],
           "circle-stroke-opacity": 0.5
         }
-      })
+      });
     });
 
-  document.querySelector("#fly").addEventListener("click", function () {
+  document.querySelector("#fly").addEventListener("click", function() {
     flyToNearestPole();
   });
 
-  const legendaButton = document.getElementById("legendaButton")
+  const legendaButton = document.getElementById("legendaButton");
 
-  legendaButton.addEventListener("click", function () {
+  legendaButton.addEventListener("click", function() {
     toggleLegenda();
   });
 
@@ -299,9 +304,9 @@
     let a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     let d = R * c; // Distance in km
     return d;
@@ -313,7 +318,7 @@
 
   function flyToNearestPole() {
     if (dichstbijzijnde[1] == 0 && dichstbijzijnde[2] == 0) {
-      console.log('paal nog niet berekend.')
+      console.log("paal nog niet berekend.");
     } else {
       map.flyTo({
         center: [dichstbijzijnde[2], dichstbijzijnde[1]],
@@ -323,13 +328,12 @@
   }
 
   function toggleLegenda() {
-    const legenda = document.querySelector(".legenda")
-    legenda.classList.toggle("heightZero")
+    const legenda = document.querySelector(".legenda");
+    legenda.classList.toggle("heightZero");
     if (legendaButton.innerHTML === "?") {
       legendaButton.innerHTML = "X";
     } else {
       legendaButton.innerHTML = "?";
     }
   }
-
 })();
