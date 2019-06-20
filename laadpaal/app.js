@@ -1,19 +1,20 @@
 "use strict";
 
 // packages
-const path =            require('path');
-const express =         require('express');
-const cookieParser =    require('cookie-parser');
-const graphqlHttp =     require('express-graphql')
-const mongoose =        require('mongoose')
-const fetch =           require('node-fetch')
-const bodyParser =      require('body-parser')
-const session =         require('express-session')
-const multer =          require('multer')
-const fs =              require('fs')
+const path = require('path');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const graphqlHttp = require('express-graphql')
+const mongoose = require('mongoose')
+const fetch = require('node-fetch')
+const bodyParser = require('body-parser')
+const session = require('express-session')
+const multer = require('multer')
+const fs = require('fs');
+const socket = require('socket.io');
 
 // graphql
-const graphQlSchema =    require('./graphql/schemas')
+const graphQlSchema = require('./graphql/schemas')
 const graphQlResolvers = require('./graphql/resolver')
 
 // dotenv vars
@@ -28,12 +29,26 @@ const upload = multer({ dest: './public/images/uploads/' })
 const app = express()
 const port = process.env.port || 2500;
 
+// start the server
+let server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
+
+// sockets
+let io = socket(server);
+
+io.on('connection', function(socket) {
+    console.log('a user connected');
+    socket.on('disconnect', function() {
+        console.log('user disconnected');
+    });
+});
+
+
 // app.set
-app .set('views', path.join('views'))
+app.set('views', path.join('views'))
     .set('view engine', 'ejs');
 
 // app.use
-app .use(express.json())
+app.use(express.json())
     .use(express.urlencoded({ extended: false }))
     .use(cookieParser())
     .use(express.static(path.join('public')))
@@ -42,8 +57,8 @@ app .use(express.json())
     .use('/graphql', graphqlHttp({
         schema: graphQlSchema,
         rootValue: graphQlResolvers,
-        graphiql: true  // interface
-    })) 
+        graphiql: true // interface
+    }))
     .use(session({
         resave: false,
         saveUninitialized: true,
@@ -54,7 +69,7 @@ app .use(express.json())
 
 
 // login routes
-app.get('/', function (req, res, next) {
+app.get('/', function(req, res, next) {
     if (req.session.user) {
         res.redirect('/home')
     } else {
@@ -62,25 +77,25 @@ app.get('/', function (req, res, next) {
     }
 });
 
-app.get('/register', function (req, res, next) {
+app.get('/register', function(req, res, next) {
     res.render('pages/register');
 });
 
-app.get('/logout', authenticate, function (req, res, next) {
+app.get('/logout', authenticate, function(req, res, next) {
     req.session.destroy();
     res.render('pages/login', { errorMsg: "U bent nu uitgelogd" })
 })
 
-app.get('/login/failed', function (req, res, next) {
+app.get('/login/failed', function(req, res, next) {
     res.render('pages/login', { errorMsg: "U bent nog niet ingelogd" });
 });
 
 // complaint routes
-app.get('/home', authenticate, function (req, res, next) {
+app.get('/home', authenticate, function(req, res, next) {
     res.render('pages/home', { name: req.session.user.name });
 });
 
-app.get('/setpole/:id', authenticate, function (req, res, next) {
+app.get('/setpole/:id', authenticate, function(req, res, next) {
     if (req.params.id) {
         req.session.user.complaint = {
             poleId: req.params.id
@@ -91,7 +106,7 @@ app.get('/setpole/:id', authenticate, function (req, res, next) {
     }
 });
 
-app.get('/complaint/create', authenticate, function (req, res, next) {
+app.get('/complaint/create', authenticate, function(req, res, next) {
     //check if currentpole is set
     console.log(req.session)
     if (req.session.user.complaint) {
@@ -101,11 +116,11 @@ app.get('/complaint/create', authenticate, function (req, res, next) {
     }
 });
 
-app.get('/complaint/details/:id', authenticate, function (req, res, next) {
+app.get('/complaint/details/:id', authenticate, function(req, res, next) {
     res.send("This page has yet to come... (id = " + req.params.id + ")");
 });
 
-app.get('/complaint/success', authenticate, function (req, res, next) {
+app.get('/complaint/success', authenticate, function(req, res, next) {
     if (req.session.currentComplaint) {
         const complaintId = req.session.currentComplaint;
         const query = ` 
@@ -132,10 +147,10 @@ app.get('/complaint/success', authenticate, function (req, res, next) {
         `
 
         return fetch('http://localhost:2500/graphql', {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ query }),
-        }).then(response => response.json())
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ query }),
+            }).then(response => response.json())
             .then(data => {
                 if (data.data.complaints) {
                     console.log("succesPAge::::", data.data.complaints)
@@ -144,14 +159,14 @@ app.get('/complaint/success', authenticate, function (req, res, next) {
                     res.send("session.currentcomplaint not found.")
                 }
             })
-        }
+    }
 });
 
-app.get('/nearestpole', function (req, res, next) {
+app.get('/nearestpole', function(req, res, next) {
     res.render('pages/nearestpole')
 })
 
-app.get('/myreports', authenticate, function (req, res, next) {
+app.get('/myreports', authenticate, function(req, res, next) {
     const userId = req.session.user.id;
     const query = ` 
     query {
@@ -178,10 +193,10 @@ app.get('/myreports', authenticate, function (req, res, next) {
     `
 
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    }).then(response => response.json())
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        }).then(response => response.json())
         .then(data => {
             if (data.data.complaints.length > 0) {
                 res.render('pages/myreports', { data: data.data.complaints.reverse() });
@@ -191,7 +206,7 @@ app.get('/myreports', authenticate, function (req, res, next) {
         })
 })
 
-app.get('/myreports/:id', authenticate, function (req, res, next) {
+app.get('/myreports/:id', authenticate, function(req, res, next) {
     const complaintId = req.params.id;
     const query = ` 
     query {
@@ -223,10 +238,10 @@ app.get('/myreports/:id', authenticate, function (req, res, next) {
     `
 
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    }).then(response => response.json())
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        }).then(response => response.json())
         .then(data => {
             if (data.data.complaints) {
                 res.render('pages/myreportdetail', { data: data.data.complaints[0] });
@@ -236,7 +251,7 @@ app.get('/myreports/:id', authenticate, function (req, res, next) {
         })
 })
 
-app.get('/reports', authenticate, function (req, res, next) {
+app.get('/reports', authenticate, function(req, res, next) {
     const query = ` 
     query {
         complaints {
@@ -269,10 +284,10 @@ app.get('/reports', authenticate, function (req, res, next) {
     let poles = [];
 
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    }).then(response => response.json())
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        }).then(response => response.json())
         .then(data => {
             if (data.data.complaints) {
                 data.data.complaints.forEach(complaint => {
@@ -287,7 +302,7 @@ app.get('/reports', authenticate, function (req, res, next) {
 
                     }
                 });
-                poles.sort(function (a, b) {
+                poles.sort(function(a, b) {
                     return b.count - a.count;
                 });
                 res.render('pages/reports', { data: poles });
@@ -297,7 +312,7 @@ app.get('/reports', authenticate, function (req, res, next) {
         })
 })
 
-app.get('/reports/:id', authenticate, function (req, res, next) {
+app.get('/reports/:id', authenticate, function(req, res, next) {
     const poleId = req.params.id;
     const query = ` 
     query {
@@ -329,10 +344,10 @@ app.get('/reports/:id', authenticate, function (req, res, next) {
     `
 
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    }).then(response => response.json())
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        }).then(response => response.json())
         .then(data => {
             if (data.data.complaints) {
                 console.log(data.data.complaints)
@@ -344,7 +359,7 @@ app.get('/reports/:id', authenticate, function (req, res, next) {
 
 })
 
-app.post('/choosePole', authenticate, function (req, res, next) {
+app.post('/choosePole', authenticate, function(req, res, next) {
     console.log(req.body.pole)
 
     if (req.body.pole) {
@@ -356,7 +371,7 @@ app.post('/choosePole', authenticate, function (req, res, next) {
     }
 })
 
-app.post('/createuser', function (req, res, next) {
+app.post('/createuser', function(req, res, next) {
 
     // set vars
     const name = req.body.name;
@@ -380,10 +395,10 @@ app.post('/createuser', function (req, res, next) {
 
     // request to server
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    })
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        })
         .then(response => response.json())
         .then(data => {
 
@@ -405,7 +420,7 @@ app.post('/createuser', function (req, res, next) {
 })
 
 //login
-app.post('/login', function (req, res, next) {
+app.post('/login', function(req, res, next) {
     const email = req.body.email;
     const query = `
     query {
@@ -419,10 +434,10 @@ app.post('/login', function (req, res, next) {
     `
 
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    }).then(response => response.json())
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        }).then(response => response.json())
         .then(data => {
             data = data.data.users[0]
 
@@ -439,7 +454,7 @@ app.post('/login', function (req, res, next) {
         });
 })
 
-app.post('/dashboard/changestatus/:id', function (req, res, next) {
+app.post('/dashboard/changestatus/:id', function(req, res, next) {
     console.log(req.params.id)
     const query = `
         mutation {
@@ -456,10 +471,10 @@ app.post('/dashboard/changestatus/:id', function (req, res, next) {
         }
     `
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    }).then(response => response.json())
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        }).then(response => response.json())
         .then(data => {
             console.log(data)
             res.redirect('/dashboard/' + req.params.id)
@@ -468,7 +483,7 @@ app.post('/dashboard/changestatus/:id', function (req, res, next) {
 
 
 // create complaint in database
-app.post('/createComplaint', authenticate, upload.single('image'), function (req, res, next) {
+app.post('/createComplaint', authenticate, upload.single('image'), function(req, res, next) {
     console.log("--------Creating Complaint in Database--------")
     console.log(req.session)
     console.log(req.body)
@@ -518,10 +533,10 @@ app.post('/createComplaint', authenticate, upload.single('image'), function (req
     console.log(query)
 
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    }).then(response => response.json())
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        }).then(response => response.json())
         .then(data => {
             if (data.errors) {
                 console.log("--- new report unsuccesfully created ---")
@@ -595,10 +610,10 @@ app.get('/dashboard', function(req, res, next) {
     `
 
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    }).then(response => response.json())
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        }).then(response => response.json())
         .then(data => {
             if (data.data.complaints) {
                 res.render('pages/dashboard', { data: data.data.complaints });
@@ -640,10 +655,10 @@ app.get('/dashboard/:id', function(req, res, next) {
     `
 
     return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    }).then(response => response.json())
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ query }),
+        }).then(response => response.json())
         .then(data => {
             if (data.data) {
                 res.render('pages/dashboarddetails', { data: data.data.complaints });
@@ -652,9 +667,6 @@ app.get('/dashboard/:id', function(req, res, next) {
             }
         })
 })
-
-// start the server
-var server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
 module.exports = app;
 
 
@@ -662,100 +674,100 @@ module.exports = app;
 
 /* Fill database, delete at end of project
 
-const csv = require('csv-parser');
-var allQuerrys = []
+            const csv = require('csv-parser');
+            var allQuerrys = []
 
-async function createPoles() {
-    var providers = ["NUON", "EVBOX", "EVNET", "ALVEN"]
+            async function createPoles() {
+                var providers = ["NUON", "EVBOX", "EVNET", "ALVEN"]
 
-    fs.createReadStream('dfLocations.csv')
-        .pipe(csv())
-        .on('data', (row) => {
-            var country = row.Region
-            var postal = row.PostalCode;
+                fs.createReadStream('dfLocations.csv')
+                    .pipe(csv())
+                    .on('data', (row) => {
+                        var country = row.Region
+                        var postal = row.PostalCode;
 
-            if(country == "Amsterdam") {
-                var longitude = parseFloat(row.Longitude)
-                var latitude = parseFloat(row.Latitude)
-                var city = row.City
-                var region = row.Region
-                var regioncode = row.State
-                var district = row.District
-                var subdistrict = row.SubDistrict
-                var address = row.Address
-                var postalcode = row.PostalCode
-                var randomprovider = providers[Math.floor(Math.random() * providers.length)]
-                var provider = randomprovider
-                var sockets = Math.floor(Math.random() * 2) + 1
-                var usedsockets = Math.ceil(Math.random() * sockets)
+                        if(country == "Amsterdam") {
+                            var longitude = parseFloat(row.Longitude)
+                            var latitude = parseFloat(row.Latitude)
+                            var city = row.City
+                            var region = row.Region
+                            var regioncode = row.State
+                            var district = row.District
+                            var subdistrict = row.SubDistrict
+                            var address = row.Address
+                            var postalcode = row.PostalCode
+                            var randomprovider = providers[Math.floor(Math.random() * providers.length)]
+                            var provider = randomprovider
+                            var sockets = Math.floor(Math.random() * 2) + 1
+                            var usedsockets = Math.ceil(Math.random() * sockets)
 
-                if(longitude && latitude) {
+                            if(longitude && latitude) {
 
-                    const query = `
-                    mutation {
-                        createPole(poleInput: {
-                            longitude: ${longitude},
-                            latitude: ${latitude},
-                            city: "${city}",
-                            region: "${region}",
-                            regioncode: "${regioncode}",
-                            district: "${district}",
-                            subdistrict: "${subdistrict}",
-                            address: "${address}",
-                            postalcode: "${postalcode}",
-                            provider: "${provider}",
-                            sockets: ${sockets},
-                            usedsockets: ${usedsockets}
-                            }
-                        ) {
-                          city
-                          region
-                          regioncode
-                          district
-                          subdistrict
-                          address
-                          postalcode
-                          provider
-                          sockets
-                          usedsockets
-                        }
+                                const query = `
+                                mutation {
+                                    createPole(poleInput: {
+                                        longitude: ${longitude},
+                                        latitude: ${latitude},
+                                        city: "${city}",
+                                        region: "${region}",
+                                        regioncode: "${regioncode}",
+                                        district: "${district}",
+                                        subdistrict: "${subdistrict}",
+                                        address: "${address}",
+                                        postalcode: "${postalcode}",
+                                        provider: "${provider}",
+                                        sockets: ${sockets},
+                                        usedsockets: ${usedsockets}
+                                        }
+                                    ) {
+                                      city
+                                      region
+                                      regioncode
+                                      district
+                                      subdistrict
+                                      address
+                                      postalcode
+                                      provider
+                                      sockets
+                                      usedsockets
+                                    }
+                                }
+                                `
+
+                                allQuerrys.push(query)
+                                       }
+                    }})
+                    .on('end', () => {
+                        console.log('all querrys added..');
+                        console.log(allQuerrys.length)
+                        addToDB(0)
                     }
-                    `
-
-                    allQuerrys.push(query)
-                           }
-        }})
-        .on('end', () => {
-            console.log('all querrys added..');
-            console.log(allQuerrys.length)
-            addToDB(0)
-        }
-    );
-}
-
-function addToDB(number) {
-    console.log('adding to db...' + number);
-
-    var query = allQuerrys[number]
-    return fetch('http://localhost:2500/graphql', {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ query }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            if(number <= allQuerrys.length) {
-                addToDB(number+1);
-
-                if (data.errors) {
-                    console.log("Complaint unsuccessfully created")
-                } else {
-                    console.log("--- Complaint aangemaakt ---")
-                }
+                );
             }
-        });
-}
 
-createPoles();
+            function addToDB(number) {
+                console.log('adding to db...' + number);
+
+                var query = allQuerrys[number]
+                return fetch('http://localhost:2500/graphql', {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify({ query }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(number <= allQuerrys.length) {
+                            addToDB(number+1);
+
+                            if (data.errors) {
+                                console.log("Complaint unsuccessfully created")
+                            } else {
+                                console.log("--- Complaint aangemaakt ---")
+                            }
+                        }
+                    });
+            }
+
+            createPoles();
 
 */
