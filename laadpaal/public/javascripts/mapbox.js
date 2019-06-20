@@ -294,9 +294,11 @@
     });
 
     if (href == "nearestpole") {
-      if(!flewToNearestPole) {
-        flewToNearestPole = 1;
-        flyToNearestPole();
+      if(dichstbijzijnde = [99999, 0, 0]) {
+        if(!flewToNearestPole) {
+          flewToNearestPole = 1;
+          flyToNearestPole();
+        }
       }
     }
   }
