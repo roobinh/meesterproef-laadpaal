@@ -753,3 +753,16 @@ header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   width: 0;
   opacity: 0;
 }
+
+/* -----------------------------------table----------------------- */
+th{
+  font-family: 'Dosis', sans-serif;
+  border-bottom: solid #2F855A;
+  color: #2F855A;
+  text-align: left;
+}
+
+td{
+  font-family: 'Dosis', sans-serif;
+  text-align: left;
+}
