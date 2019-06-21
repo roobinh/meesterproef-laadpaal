@@ -855,3 +855,61 @@ td {
 .chatHeader {
     margin-top: 0;
 }
+
+/* -----------------------------------MIJN MELDING----------------------- */
+
+.reportsbody {
+    padding-top: 45px;
+    display: flex;
+    flex-direction: column;
+}
+
+.reportsbody h1 {
+    margin-left: 1em;
+}
+
+.myreports {
+    /* border: 1px solid; */
+    border-top: 0.8px solid darkgrey;
+    width: 100%;
+    padding: 10px;
+}
+
+.myreports:last-child {
+    border-bottom: 0.8px solid darkgrey;
+    border-top: 0.8px solid darkgrey;
+    width: 100%;
+    padding: 10px;
+}
+
+.myreports h3 {
+    font-family: 'Abel', sans-serif;
+    color: #2F855A;
+    font-weight: 600;
+    margin: 0;
+}
+
+.myreports h4 {
+    font-family: 'Dosis', sans-serif;
+    color: black;
+    font-weight: 400;
+    margin: 0;
+}
+
+.myreports form button {
+    font-family: 'Dosis', sans-serif;
+    position: absolute;
+    float: right;
+    right: 10px;
+
+    background-color: white; /* Green */
+    border: none;
+    color: #2F855A;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    margin: 4px 2px;
+    cursor: pointer;
+}

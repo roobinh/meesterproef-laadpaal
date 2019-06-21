@@ -1,26 +1,27 @@
 <% include ../partials/head %>
 <% include ../partials/header %>
 
-<section class="body">
+<section class="reportsbody">
     <h1>Mijn meldingen</h1>
+
     <% if (data === "error") { %>
     <h3 class="subtitle"> U heeft nog geen meldingen...</h3>
     <% } else { %>
         <% data.forEach(complaint=>{ %>
-            
-                <section class="ticket">
-                    <h2 class="ticketType"><%=complaint.type%></h2>
-                    <div class="markerWrapper">
-                        <p class="ticketDate"><%=complaint.date%> (<%= complaint.time%>)</p>
-                        <a href="/account/melding/<%= complaint._id %>" class="chatLink">CHAT</a>
-                    </div>
-                    <p class="ticketDescription">Adres: <%=complaint.pole.address%></p>
-                    <p class="ticketDescription">Status: <%=complaint.status%></p>
-                    <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
-                    <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg">
+
+                <section class="myreports">
+
+                    <form action="/account/melding/<%= complaint._id %>">
+                        <button>    >   </button>
+                    </form>
+
+                    <h3><%=complaint.pole.address%></h3>
+                    <h4>Melding: <%=complaint.type%></h4>
+                    <h4>Status: <%=complaint.status%></h4>
+
                     
                 </section>
-            
+
         <% }) %>
     <% } %>
 </section>
