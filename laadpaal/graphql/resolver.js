@@ -341,7 +341,11 @@ module.exports = {
         return message
             .save()
             .then(result => {
-                return { ...result._doc }
+                return { 
+                    ...result._doc,
+                    complaint: complaint.bind(this, result._doc.complaint),
+                    user: user.bind(this, result._doc.user) 
+                }
             }).catch(err => {
                 console.log(err)
                 throw err;

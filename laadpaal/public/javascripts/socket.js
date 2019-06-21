@@ -1,34 +1,36 @@
 const socket = io();
-const chat = document.querySelector('#messages');
+const chat = document.querySelector('#newchat');
 const input = document.querySelector('#input')
 const button = document.querySelector('#sendbutton')
+let currentName = "";
 
 socket.on('connect', function() {
     console.log('Socket connection established.')
-    console.log('joining room: ' + href)
-
     socket.emit('join-room', href)
-    
-    console.log('room joined.')
+    console.log('room ' + href + ' joined.')
 
 })
 
 socket.on('all-messages', function (msg) {
-    const messages = msg.data;
-    console.log(messages);
-    
+    const messages = msg.data;    
+
+    // clear chat 
     chat.innerHTML = "";
 
+    // fill chat
     messages.forEach(message => {
         chat.innerHTML += generateMessageHTML(message);
     })
+
+    // update scroll value
     updateScroll();
  });    
 
  socket.on('new-message', function(msg) {
-     console.log('recieved new message from server!')
+     console.log('recieved new message from server! = ')
      console.log(msg);
-
+    
+     // create variables
      let message = {
          content: msg.data.createMessage.content,
          date: msg.data.createMessage.date,
@@ -39,6 +41,7 @@ socket.on('all-messages', function (msg) {
          }
      }
 
+     // add new message to chat
      chat.innerHTML += generateMessageHTML(message);
      updateScroll();
 
@@ -46,35 +49,38 @@ socket.on('all-messages', function (msg) {
 
  button.addEventListener('click', function() {
      if(input.value.trim() !== "") {
-        sendMessage(input.value.trim())
+        sendMessageToServer(input.value.trim())
         input.value = "";
      } else {
          // input field empty, do nothing
      }
  })
 
- function sendMessage(msg) {
-     console.log('sending new message')
-
+ function sendMessageToServer(msg) {
+     console.log('sending new message to server...' + msg)
      socket.emit('new-client-message', { data: msg })
  }
 
  function generateMessageHTML(message) {
-    console.log(message);
-
     let htmlclass;
     let name = message.user.name;
-
+    
     if(message.user._id == "5d0b99a3ac92ed4ab0f64fdb") {
-        htmlclass = "dashboard";
+        htmlclass = "adminmsg";
     } else {
-        htmlclass = "client";
+        htmlclass = "userMessage";
     }
 
-    return `<li class="${htmlclass}">${name}: ${message.content}</li>`
+    return `
+    <div class=${htmlclass}>
+        <h5>${name}</h5>
+        <h4>${message.content}</h4>
+    </div>
+    `
  }
 
  function updateScroll() {
-    const chat = document.querySelector(".chat")
+    const chat = document.querySelector(".newchat")
     chat.scrollTop = chat.scrollHeight
  }
+

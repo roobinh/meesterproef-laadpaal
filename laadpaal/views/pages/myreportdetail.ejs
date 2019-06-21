@@ -1,46 +1,25 @@
 <% include ../partials/head %>
 <% include ../partials/header %>
 
-<section class="body">
-    
-    <% console.log("data myreportdetail");console.log(data)%>
-     <section class="myreports">
-        <h3>Adres</h3>
-        <h4>Melding</h4>
-        <h4>Status</h4>
-     </section>
+<% console.log("data myreportdetail");console.log(data)%>
 
-    <section class="ticket">
-        <h2 class="ticketType"><%=data.type%></h2>
-
-        <section class="chat">
-            <ul id="messages">
-                <%# Messages get shown here %>
-            </ul>
-         </section>
-
-         <section class="inputBar">
-            <input id="input" class="chatInput" autocomplete="off" placeholder="typ een bericht" />
-            <button class="chatButton"id="sendbutton">Send</button>
-        </section>   
-        
-        <!--
-        <p class="ticketDescription">Adres: <%=data.pole.address%></p>
-        <p class="ticketDescription">Status: <%=data.status%></p>
-        <p class="ticketDescription">Beschrijving: <%=data.description%></p>
-
-        -->
-
-        <!--
-        <img class="ticketImg" src="/images/uploads/<%=data._id%>.jpeg">
-        <p class="ticketDate"><%=data.date%> (<%= data.time%>)</p>
-        -->
-
+<section class="chatbody">
+    <section class="chatHeader">
+        <h3><%=data.pole.address%></h3>
+        <h4>Melding: <%=data.type%></h4>
+        <h4>Status: <%=data.status%></h4>
     </section>
-    <%# <h1 class="chatHeader">Chat</h1> %>
-    
-    
-    
+
+
+    <section id="newchat" class="newchat">
+        <!-- Messages get shown here -->
+    </section>
+
+    <section class="chatinputfield">
+        <input id="input" autocomplete="off" placeholder="typ een bericht" />
+        <button id="sendbutton">Send</button>
+    </section>
+   
 </section>
 
 <!-- Socket.io -->
@@ -48,6 +27,3 @@
 <script src ="/javascripts/socket.js" ></script>
 
 <% include ../partials/footer %>
-
-
-

@@ -252,6 +252,8 @@ app.get('/account/melding/:id', authenticate, function(req, res, next) {
         });
 
         socket.on('new-client-message', function(message) {
+            console.log("message recieved!")
+            console.log(message);
             writeMessageToDatabase(message, complaintId, req.session.user.id, io);
         })
 
@@ -791,7 +793,7 @@ function writeMessageToDatabase(msg, complaintid, userid, io) {
                 body: JSON.stringify({ query }),
         })  .then(response => response.json())
             .then(data => {
-                io.in(complaint).emit('new-message', {data:data.data})
+               io.in(complaint).emit('new-message', {data:data.data})
                console.log("New message written to db.")
                console.log(data.data.createMessage.user);
         })
@@ -833,10 +835,6 @@ function firstMessage(complaint) {
             date
             time
             content
-            user {
-              name
-              _id
-            }
         }
       }
       `
@@ -850,7 +848,6 @@ function firstMessage(complaint) {
     })  .then(response => response.json())
         .then(data => {
             console.log("New message written to db.")
-            console.log(data)
     })
 }
 
