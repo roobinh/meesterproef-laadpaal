@@ -29,8 +29,6 @@ const upload = multer({ dest: './public/images/uploads/' })
 const app = express()
 const port = process.env.port || 2500;
 
-
-
 // app.set
 app.set('views', path.join('views'))
     .set('view engine', 'ejs');
@@ -53,7 +51,7 @@ app.use(express.json())
         secret: process.env.SESSION_SECRET
     }))
     .use('/image', express.static('public/images/uploads'))
-    .use((req, res) => res.sendFile(INDEX) )
+
 // start the server
 let server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
 
