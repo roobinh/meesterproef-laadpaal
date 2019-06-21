@@ -13,14 +13,6 @@ socket.on('connect', function() {
 
 })
 
-socket.on('news', function(data) {
-    console.log(data)
-})
-
-socket.on('create', function(data) {
-    console.log('message from room!!')
-})
-
 socket.on('all-messages', function (msg) {
     const messages = msg.data;
     console.log(messages);
@@ -30,10 +22,26 @@ socket.on('all-messages', function (msg) {
     messages.forEach(message => {
         chat.innerHTML += generateMessageHTML(message);
     })
- });
+    updateScroll();
+ });    
 
  socket.on('new-message', function(msg) {
-     chat.innerHTML += generateMessageHTML(msg.data);
+     console.log('recieved new message from server!')
+     console.log(msg);
+
+     let message = {
+         content: msg.data.createMessage.content,
+         date: msg.data.createMessage.date,
+         time: msg.data.createMessage.time,
+         user: {
+             _id: msg.data.createMessage.user._id,
+             name: msg.data.createMessage.user.name
+         }
+     }
+
+     chat.innerHTML += generateMessageHTML(message);
+     updateScroll();
+
  })
 
  button.addEventListener('click', function() {
@@ -47,10 +55,8 @@ socket.on('all-messages', function (msg) {
 
  function sendMessage(msg) {
      console.log('sending new message')
-     msg = {
 
-     }
-     socket.emit('send-client-message', { data: msg })
+     socket.emit('new-client-message', { data: msg })
  }
 
  function generateMessageHTML(message) {
@@ -61,10 +67,14 @@ socket.on('all-messages', function (msg) {
 
     if(message.user._id == "5d0b99a3ac92ed4ab0f64fdb") {
         htmlclass = "dashboard";
-        
     } else {
         htmlclass = "client";
     }
 
     return `<li class="${htmlclass}">${name}: ${message.content}</li>`
+ }
+
+ function updateScroll() {
+    const chat = document.querySelector(".chat")
+    chat.scrollTop = chat.scrollHeight
  }

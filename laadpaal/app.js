@@ -226,52 +226,34 @@ app.get('/myreports/:id', authenticate, function(req, res, next) {
             socket.join(room);
 
 
-            // if(!req.session.room) {
-            //     socketSendChat(room, io);
-            // } else {
-            //     req.session.room = {
-            //         id: room
-            //     }
-
-            //     req.session.save()
-            //     socketSendChat(room, io);                
-            // }
-
-
-
             if(!req.session.room) {
-
                 console.log("new room, sending messages.")
                 req.session.room = {
                     id: room
                 }
-
                 req.session.save()
                 socketSendChat(room, io);
             } else {
                 if(req.session.room.id !== room) {
                     console.log('room changed! sending new messages.')
-    
                     req.session.room = {
                         id: room
                     }
-    
                     socketSendChat(room, io);
                     req.session.save()
                 } else {
                     console.log('else')
                     socketSendChat(room, io);
                 }           
-                }
+            }
             })
 
         socket.on('disconnect', function() {
             console.log('user disconnected');
         });
 
-        socket.on('send-message', function(message) {
-            writeMessageToDatabase(message, complaintId);
-            io.to(complaintId).emit('new-message', {data:message})
+        socket.on('new-client-message', function(message) {
+            writeMessageToDatabase(message, complaintId, req.session.user.id, io);
         })
 
     });
@@ -766,8 +748,42 @@ function sendChat(complaintId) {
     }) 
 }
 
-function writeMessageToDatabase(msg, user, complaint) {
+function writeMessageToDatabase(msg, complaintid, userid, io) {
+    var content = msg.data;
+    var user = userid
+    var complaint = complaintid;
 
+    var query = `
+    mutation {
+        createMessage(messageInput: {
+          userId:  "${user}",
+          complaintId: "${complaint}",
+          date: "21-6-2019",
+          time: "12:53",
+          content: "${content}"
+        }) {
+            _id
+            date
+            time
+            content
+            user {
+              name
+              _id
+            }
+        }
+      }
+      `
+      return fetch('http://localhost:2500/graphql', {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ query }),
+        })  .then(response => response.json())
+            .then(data => {
+                io.to(complaint).emit('new-message', {data:data.data})
+               console.log("New message written to db.")
+               console.log(data.data.createMessage.user);
+        })
+      
 }
 
 module.exports = app;
