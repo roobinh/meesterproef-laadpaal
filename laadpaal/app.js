@@ -225,6 +225,8 @@ app.get('/myreports/:id', authenticate, function(req, res, next) {
             // joining user to room
             socket.join(room);
 
+            console.log("room joined! id = " + room)
+
 
             if(!req.session.room) {
                 console.log("new room, sending messages.")
