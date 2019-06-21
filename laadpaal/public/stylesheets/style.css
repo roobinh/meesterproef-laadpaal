@@ -913,3 +913,11 @@ td {
     margin: 4px 2px;
     cursor: pointer;
 }
+
+.myreportsA {
+    text-decoration: none;
+}
+
+.myreportsA:visited {
+    color: black;
+}

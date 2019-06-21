@@ -8,20 +8,14 @@
     <h3 class="subtitle"> U heeft nog geen meldingen...</h3>
     <% } else { %>
         <% data.forEach(complaint=>{ %>
+                <a class="myreportsA" href = "/account/melding/<%= complaint._id %>">
+                    <section class="myreports">
 
-                <section class="myreports">
-
-                    <form action="/account/melding/<%= complaint._id %>">
-                        <button>    >   </button>
-                    </form>
-
-                    <h3><%=complaint.pole.address%></h3>
-                    <h4>Melding: <%=complaint.type%></h4>
-                    <h4>Status: <%=complaint.status%></h4>
-
-                    
-                </section>
-
+                        <h3><%=complaint.pole.address%></h3>
+                        <h4>Melding: <%=complaint.type%></h4>
+                        <h4>Status: <%=complaint.status%></h4>
+                    </section>
+                </a>
         <% }) %>
     <% } %>
 </section>
