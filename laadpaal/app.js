@@ -207,8 +207,7 @@ function socketSendChat(room, io) {
 app.get('/myreports/:id', authenticate, function(req, res, next) {
     // sockets
     let io = socket(server);
-
-    // admin id = 5d0b99a3ac92ed4ab0f64fdb
+    
     const complaintId = req.params.id;
 
     // when user connects
@@ -601,7 +600,8 @@ app.post('/createComplaint', authenticate, upload.single('image'), function(req,
                     })
                 }
                 req.session.currentComplaint = data.data.createComplaint._id
-                res.redirect('/complaint/success')
+                firstMessage(data.data.createComplaint)
+                res.redirect('/myreports/' + data.data.createComplaint._id)
             }
         });
 })
@@ -753,13 +753,25 @@ function writeMessageToDatabase(msg, complaintid, userid, io) {
     var user = userid
     var complaint = complaintid;
 
+    const currentDate = new Date();
+    const date = currentDate.getDate();
+    const month = currentDate.getMonth(); //Be careful! January is 0 not 1
+    const year = currentDate.getFullYear();
+    let time = ""
+    if (currentDate.getMinutes() < 10) {
+        time = currentDate.getHours() + ":0" + currentDate.getMinutes();
+    } else {
+        time = currentDate.getHours() + ":" + currentDate.getMinutes();
+    }
+    const dateString = date + "-" + (month + 1) + "-" + year;
+
     var query = `
     mutation {
         createMessage(messageInput: {
           userId:  "${user}",
           complaintId: "${complaint}",
-          date: "21-6-2019",
-          time: "12:53",
+          date: "${dateString}",
+          time: "${time}",
           content: "${content}"
         }) {
             _id
@@ -788,6 +800,59 @@ function writeMessageToDatabase(msg, complaintid, userid, io) {
 
 module.exports = app;
 
+// admin id = 5d0b99a3ac92ed4ab0f64fdb
+function firstMessage(complaint) {
+
+    console.log("firstmessage")
+    console.log(complaint)
+
+    const currentDate = new Date();
+    const date = currentDate.getDate();
+    const month = currentDate.getMonth(); //Be careful! January is 0 not 1
+    const year = currentDate.getFullYear();
+    let time = ""
+    if (currentDate.getMinutes() < 10) {
+        time = currentDate.getHours() + ":0" + currentDate.getMinutes();
+    } else {
+        time = currentDate.getHours() + ":" + currentDate.getMinutes();
+    }
+    const dateString = date + "-" + (month + 1) + "-" + year;
+
+    const content =" Bedankt voor je melding! We gaan er zo snel mogelijk mee aan de slag. Klik hier om de melding te bekijken. Klik hier voor een alternatieve laadpaal"
+
+    var query = `
+    mutation {
+        createMessage(messageInput: {
+          userId:  "5d0b99a3ac92ed4ab0f64fdb",
+          complaintId: "${complaint._id}",
+          date: "${dateString}",
+          time: "${time}",
+          content: "${content}"
+        }) {
+            _id
+            date
+            time
+            content
+            user {
+              name
+              _id
+            }
+        }
+      }
+      `
+
+      console.log(query)
+
+      return fetch('http://localhost:2500/graphql', {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ query }),
+    })  .then(response => response.json())
+        .then(data => {
+            console.log("New message written to db.")
+            console.log(data)
+    })
+}
 
 
 

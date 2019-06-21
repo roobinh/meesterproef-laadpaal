@@ -4,9 +4,24 @@
 <section class="body">
     <section class="ticket">
         <h2 class="ticketType"><%=data.type%></h2>
+
+        <section class="chat">
+            <ul id="messages">
+                <%# Messages get shown here %>
+            </ul>
+         </section>
+
+         <section class="inputBar">
+            <input id="input" class="chatInput" autocomplete="off" placeholder="typ een bericht" />
+            <button class="chatButton"id="sendbutton">Send</button>
+        </section>   
+        
+        <!--
         <p class="ticketDescription">Adres: <%=data.pole.address%></p>
         <p class="ticketDescription">Status: <%=data.status%></p>
         <p class="ticketDescription">Beschrijving: <%=data.description%></p>
+
+        -->
 
         <!--
         <img class="ticketImg" src="/images/uploads/<%=data._id%>.jpeg">
@@ -15,18 +30,8 @@
 
     </section>
     <%# <h1 class="chatHeader">Chat</h1> %>
-    <section class="chat">
     
-        <ul id="messages">
-            <%# Messages get shown here %>
-        </ul>
-
     
-    </section>
-    <section class="inputBar">
-        <input id="input" class="chatInput" autocomplete="off" placeholder="typ een bericht" />
-        <button class="chatButton"id="sendbutton">Send</button>
-    </section>
     
 </section>
 
