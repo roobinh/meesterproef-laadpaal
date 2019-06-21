@@ -195,14 +195,25 @@ app.get('/myreports', authenticate, function(req, res, next) {
         })
 })
 
+function socketSendChat(room, io) {
+    // emit msg to room
+    var promise = sendChat(room);
+
+    promise.then(function(messages) {
+        io.to(room).emit("all-messages", {data: messages} )
+    }).catch(function(error) {
+        console.log(error)
+    })
+}
+
 app.get('/myreports/:id', authenticate, function(req, res, next) {
+    // sockets
+    let io = socket(server);
 
     // admin id = 5d0b99a3ac92ed4ab0f64fdb
     const complaintId = req.params.id;
 
-    // sockets
-    let io = socket(server);
-
+    // when user connects
     io.on('connection', function(socket) {
         console.log('a user connected');
 
@@ -212,23 +223,57 @@ app.get('/myreports/:id', authenticate, function(req, res, next) {
             var room = data;
 
             // joining user to room
-            console.log('joining user to room:' + room)
             socket.join(room);
-            console.log('user joined room.')
 
-            // emit msg to room
-            var promise = getChat(room);
 
-            promise.then(function(messages) {
-                io.to(complaintId).emit("msg-for-room", {data: messages} )
-            }).catch(function(error) {
-                console.log(error)
+            // if(!req.session.room) {
+            //     socketSendChat(room, io);
+            // } else {
+            //     req.session.room = {
+            //         id: room
+            //     }
+
+            //     req.session.save()
+            //     socketSendChat(room, io);                
+            // }
+
+
+
+            if(!req.session.room) {
+
+                console.log("new room, sending messages.")
+                req.session.room = {
+                    id: room
+                }
+
+                req.session.save()
+                socketSendChat(room, io);
+            } else {
+                if(req.session.room.id !== room) {
+                    console.log('room changed! sending new messages.')
+    
+                    req.session.room = {
+                        id: room
+                    }
+    
+                    socketSendChat(room, io);
+                    req.session.save()
+                } else {
+                    console.log('else')
+                    socketSendChat(room, io);
+                }           
+                }
             })
-        })
 
         socket.on('disconnect', function() {
             console.log('user disconnected');
         });
+
+        socket.on('send-message', function(message) {
+            writeMessageToDatabase(message, complaintId);
+            io.to(complaintId).emit('new-message', {data:message})
+        })
+
     });
 
     const query = ` 
@@ -592,8 +637,6 @@ mongoose.connect(url, {
 
 // authenticate
 function authenticate(req, res, next) {
-    console.log(req.session.user);
-
     if (req.session.user) {
         console.log("Authentication Succeeded.")
         next();
@@ -693,7 +736,7 @@ app.get('/dashboard/:id', function(req, res, next) {
         })
 })
 
-function getChat(complaintId) {
+function sendChat(complaintId) {
     return new Promise(function(resolve, reject) {
         const query = ` 
         query {
@@ -721,6 +764,10 @@ function getChat(complaintId) {
                 }
         })
     }) 
+}
+
+function writeMessageToDatabase(msg, user, complaint) {
+
 }
 
 module.exports = app;

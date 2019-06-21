@@ -813,7 +813,7 @@ td {
     border-radius: 10px 10px 0 10px;
 }
 
-.chat form input {
+.chat input {
     height: 2em;
     width: calc(80% - 1em);
     border: none;
@@ -822,11 +822,11 @@ td {
     padding-left: 1em;
 }
 
-.chat form input:focus {
+.chat input:focus {
     box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.28);
 }
 
-.chat form button {
+.chat button {
     height: 2.2em;
     width: 20%;
     border: none;
