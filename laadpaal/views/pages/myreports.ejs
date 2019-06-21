@@ -10,7 +10,6 @@
         <% data.forEach(complaint=>{ %>
                 <a class="myreportsA" href = "/account/melding/<%= complaint._id %>">
                     <section class="myreports">
-
                         <h3><%=complaint.pole.address%></h3>
                         <h4>Melding: <%=complaint.type%></h4>
                         <h4>Status: <%=complaint.status%></h4>

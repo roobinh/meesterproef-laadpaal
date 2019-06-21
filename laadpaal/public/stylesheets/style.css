@@ -865,18 +865,10 @@ td {
 }
 
 .reportsbody h1 {
-    margin-left: 1em;
+    margin-left: 0.7em;
 }
 
 .myreports {
-    /* border: 1px solid; */
-    border-top: 0.8px solid darkgrey;
-    width: 100%;
-    padding: 10px;
-}
-
-.myreports:last-child {
-    border-bottom: 0.8px solid darkgrey;
     border-top: 0.8px solid darkgrey;
     width: 100%;
     padding: 10px;
@@ -921,3 +913,5 @@ td {
 .myreportsA:visited {
     color: black;
 }
+
+/* newChat */
