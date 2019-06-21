@@ -14,14 +14,20 @@
         -->
 
     </section>
-    <h1>Chat</h1>
+    <h1 class="chatHeader">Chat</h1>
     <section class="chat">
+    
         <ul id="messages">
             <%# Messages get shown here %>
         </ul>
 
-        <input id="input" autocomplete="off" /><button id="sendbutton">Send</button>
+    
     </section>
+    <section class="inputBar">
+        <input id="input" class="chatInput" autocomplete="off" />
+        <button class="chatButton"id="sendbutton">Send</button>
+    </section>
+    
 </section>
 
 <% include ../partials/footer %>

@@ -782,8 +782,20 @@ td {
 
 .chat {
     background-color: #2F855A;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     font-family: 'Dosis', sans-serif;
+    height: 16em;
+    overflow: auto;
+    position: relative;
+}
+
+.inputBar {
+    background-color: #2F855A;
+    border-radius: 0 0 10px 10px;
+    font-family: 'Dosis', sans-serif;
+    height: 2em;
+    overflow: scroll;
+    position: relative;
 }
 
 .chat ul {
@@ -813,22 +825,32 @@ td {
     border-radius: 10px 10px 0 10px;
 }
 
-.chat input {
+.chatInput {
     height: 2em;
     width: calc(80% - 1em);
     border: none;
     background-color: #FFEFC6;
     border-radius: 0 0 0 10px;
     padding-left: 1em;
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
 
-.chat input:focus {
+.chatInput:focus {
     box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.28);
 }
 
-.chat button {
+.chatButton {
     height: 2.2em;
     width: 20%;
     border: none;
     border-radius: 0 0 10px 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.chatHeader {
+    margin-top: 0;
 }
