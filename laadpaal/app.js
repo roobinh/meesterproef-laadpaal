@@ -53,7 +53,7 @@ app.use(express.json())
         secret: process.env.SESSION_SECRET
     }))
     .use('/image', express.static('public/images/uploads'))
-    .user((req, res) => res.sendFile(INDEX) )
+    .use((req, res) => res.sendFile(INDEX) )
 // start the server
 let server = app.listen(port, () => console.log(`App running, listening on port ${port}!`))
 
