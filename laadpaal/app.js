@@ -779,7 +779,7 @@ function writeMessageToDatabase(msg, complaintid, userid, io) {
                 body: JSON.stringify({ query }),
         })  .then(response => response.json())
             .then(data => {
-                io.to(complaint).emit('new-message', {data:data.data})
+                io.in(complaint).emit('new-message', {data:data.data})
                console.log("New message written to db.")
                console.log(data.data.createMessage.user);
         })
