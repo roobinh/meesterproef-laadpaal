@@ -64,7 +64,7 @@ app.get('/', function(req, res, next) {
     }
 });
 
-app.get('/register', function(req, res, next) {
+app.get('/registreer', function(req, res, next) {
     res.render('pages/register');
 });
 
@@ -73,7 +73,7 @@ app.get('/logout', authenticate, function(req, res, next) {
     res.render('pages/login', { errorMsg: "U bent nu uitgelogd" })
 })
 
-app.get('/login/failed', function(req, res, next) {
+app.get('/login/mislukt', function(req, res, next) {
     res.render('pages/login', { errorMsg: "U bent nog niet ingelogd" });
 });
 
@@ -87,13 +87,13 @@ app.get('/setpole/:id', authenticate, function(req, res, next) {
         req.session.user.complaint = {
             poleId: req.params.id
         }
-        res.redirect('/complaint/create')
+        res.redirect('/melding/maken')
     } else {
         res.send("idk what happened...")
     }
 });
 
-app.get('/complaint/create', authenticate, function(req, res, next) {
+app.get('/melding/maken', authenticate, function(req, res, next) {
     //check if currentpole is set
     console.log(req.session)
     if (req.session.user.complaint) {
@@ -153,7 +153,7 @@ app.get('/nearestpole', function(req, res, next) {
     res.render('pages/nearestpole')
 })
 
-app.get('/myreports', authenticate, function(req, res, next) {
+app.get('/account/meldingen', authenticate, function(req, res, next) {
     const userId = req.session.user.id;
     const query = ` 
     query {
@@ -204,7 +204,7 @@ function socketSendChat(room, io) {
     })
 }
 
-app.get('/myreports/:id', authenticate, function(req, res, next) {
+app.get('/account/melding/:id', authenticate, function(req, res, next) {
     // sockets
     let io = socket(server);
     
@@ -300,7 +300,7 @@ app.get('/myreports/:id', authenticate, function(req, res, next) {
         })
 })
 
-app.get('/reports', authenticate, function(req, res, next) {
+app.get('/meldingen', authenticate, function(req, res, next) {
     const query = ` 
     query {
         complaints {
@@ -416,7 +416,7 @@ app.post('/choosePole', authenticate, function(req, res, next) {
             poleId: req.body.pole
         }
 
-        res.redirect('/complaint/create')
+        res.redirect('/melding/maken')
     }
 })
 
@@ -601,7 +601,7 @@ app.post('/createComplaint', authenticate, upload.single('image'), function(req,
                 }
                 req.session.currentComplaint = data.data.createComplaint._id
                 firstMessage(data.data.createComplaint)
-                res.redirect('/myreports/' + data.data.createComplaint._id)
+                res.redirect('/account/melding/' + data.data.createComplaint._id)
             }
         });
 })
@@ -624,7 +624,7 @@ function authenticate(req, res, next) {
         next();
     } else {
         console.log("Authentication failed.")
-        res.redirect('/login/failed')
+        res.redirect('/login/mislukt')
     }
 }
 

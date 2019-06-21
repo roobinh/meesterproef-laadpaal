@@ -12,7 +12,7 @@
     <h2 class="ticketType"><%=data.type%></h2>
     <div class="markerWrapper">
         <p class="ticketDate"><%=data.date%> (<%= data.time%>)</p>
-        <a href="/myreports/<%= data._id %>" class="chatLink">CHAT</a>
+        <a href="/account/melding/<%= data._id %>" class="chatLink">CHAT</a>
     </div>
     <p class="ticketDescription">Adres: <%=data.pole.address%></p>
     <p class="ticketDescription">Status: <%=data.status%></p>
