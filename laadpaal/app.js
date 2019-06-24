@@ -404,7 +404,7 @@ app.get('/reports/:id', authenticate, function(req, res, next) {
                 console.log(data.data.complaints)
                 res.render('pages/reportsdetail', { data: data.data.complaints.reverse() });
             } else {
-                res.render('pages/myreports', { errorMsg: "U heeft geen meldingen" });
+                res.render('pages/myreports', { errorMsg: "Geen meldingen" });
             }
         })
 
@@ -820,7 +820,7 @@ function firstMessage(complaint) {
     }
     const dateString = date + "-" + (month + 1) + "-" + year;
 
-    const content =" Bedankt voor je melding! We gaan er zo snel mogelijk mee aan de slag. Klik hier om de melding te bekijken. Klik hier voor een alternatieve laadpaal"
+    const content =" Bedankt voor je melding! We gaan er zo snel mogelijk mee aan de slag. <a href='/nearestpole'>Klik hier</a> voor een alternatieve laadpaal"
 
     var query = `
     mutation {

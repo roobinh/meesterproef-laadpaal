@@ -8,6 +8,10 @@
         <h3><%=data.pole.address%></h3>
         <h4>Melding: <%=data.type%></h4>
         <h4>Status: <%=data.status%></h4>
+        
+        <% if(data.description) {%>
+            <h4>Beschrijving: <%= data.description %></h4>
+        <%  }   %>
     </section>
 
 

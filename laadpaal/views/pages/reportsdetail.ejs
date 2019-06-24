@@ -11,7 +11,7 @@
         <p class="ticketDescription">Adres: <%=complaint.pole.address%></p>
         <p class="ticketDescription">Status: <%=complaint.status%></p>
         <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
-        <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg">
+        <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg" onerror="this.style='display: none'">
         
     </section>
 <%})%>

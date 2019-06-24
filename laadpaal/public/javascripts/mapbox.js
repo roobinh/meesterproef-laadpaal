@@ -294,6 +294,10 @@
         dichstbijzijnde = [distance, pole[1], pole[0]];
       }
     });
+    if(dichstbijzijnde[0] !== 99999) {
+      console.log("nearest pole calculated." + dichstbijzijnde)
+      document.querySelector('#fly').setAttribute('style', 'background: #2F855A;')
+    }
   }
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
