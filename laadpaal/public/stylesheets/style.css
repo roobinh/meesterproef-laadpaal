@@ -98,7 +98,7 @@ h1 {
     color: white;
     background-color: #2F855A;
     border: solid #2F855A;
-    width: 6em;
+    width: 10em;
     height: 3em;
     font-weight: bold;
     border-radius: 2px;
@@ -333,6 +333,7 @@ h1 {
 
 .grey {
     color: grey;
+    pointer-events: none;
 }
 
 .mapboxgl-ctrl-bottom-right {

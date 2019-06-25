@@ -123,10 +123,10 @@ function completeSentence(sentenceStart, sentenceEnd) {
 
 function slideFormIn() {
     newChild = `
-    <label class="fotoButton slideIn" for="file-upload">FOTO</label>
+    <label class="fotoButton slideIn" for="file-upload">FOTO TOEVOEGEN</label>
 
     <input class="invisible" id="file-upload" name="image" type="file" class="slideIn" onchange="readURL(this)" accept="image/jpeg">
-    <img id="uploadImg" class="slideIn" src="#" alt="your image" />
+    <img id="uploadImg" class="slideIn" src="#" alt="your image" style="display: none"/>
 
     <textarea name="description" class="textarea slideIn" placeholder="Voeg een beschrijving toe" required></textarea>
     <input name="type" type="checkbox" class="invisible" value="${myStorage.getItem(
@@ -149,10 +149,12 @@ function readURL(input) {
 
         reader.onload = function(e) {
             uploadImg.setAttribute("src", e.target.result);
+            uploadImg.setAttribute("style", "display: block");
             // .attr('src', e.target.result)
             // .width(150)
             // .height(200);
         };
+        
 
         reader.readAsDataURL(input.files[0]);
     }
