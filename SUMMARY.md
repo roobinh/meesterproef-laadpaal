@@ -8,6 +8,7 @@
 * [De Applicatie](de-applicatie/README.md)
   * [Frameworks & Packages](de-applicatie/frameworks-and-packages.md)
   * [Inloggen](de-applicatie/inloggen.md)
+  * [Navigation Bar](de-applicatie/navigation-bar.md)
   * [Hoofdpagina](de-applicatie/paal-selecteren.md)
   * [Melding maken](de-applicatie/melding-maken.md)
   * [Melding bekijken/chat](de-applicatie/melding-bekijken-chat.md)
