@@ -7,10 +7,9 @@
 * [Features](features.md)
 * [De Applicatie](de-applicatie/README.md)
   * [Inloggen](de-applicatie/inloggen.md)
-  * [Paal selecteren](de-applicatie/paal-selecteren.md)
+  * [Hoofdpagina](de-applicatie/paal-selecteren.md)
   * [Melding maken](de-applicatie/melding-maken.md)
   * [Melding bekijken/chat](de-applicatie/melding-bekijken-chat.md)
   * [Dashboard](de-applicatie/dashboard.md)
-* [Validatie](validatie.md)
 * [Conclusie](conclusie.md)
 

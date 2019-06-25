@@ -1,4 +1,0 @@
-# Validatie
-
-testen op stakeholders?
-
