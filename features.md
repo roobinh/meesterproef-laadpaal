@@ -11,9 +11,7 @@ Hieronder een lijst met de verschillende features in onze app:
 * De gebruiker krijgt feedback over een melding en kan met het dashboard chatten
 * Andere gebruikers zijn op de hoogte van bestaande meldingen en kunnen deze bekijken.
 
-
-
- Een aantal features is helaas \(nog\) niet gelukt:
+ Een aantal features is helaas niet binnen het tijdsbestek gelukt, maar die we wel graag in de applicatie hadden willen bouwen:
 
 * Communiceren met de relevante partij over het ongemak
 * Bericht/notificatie wanneer een melding is afgehandeld
