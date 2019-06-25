@@ -7,7 +7,6 @@
   * [Originele Concept](design-decisions/originele-concept.md)
   * [Database](design-decisions/database.md)
 * [De Applicatie](de-applicatie/README.md)
-  * [Back-End](de-applicatie/back-end.md)
   * [Inloggen](de-applicatie/inloggen.md)
   * [Melding maken](de-applicatie/melding-maken.md)
   * [Melding bekijken/chat](de-applicatie/melding-bekijken-chat.md)
