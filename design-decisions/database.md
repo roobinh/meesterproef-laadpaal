@@ -1,6 +1,0 @@
-# Database
-
-Waarom graphql
-
-
-
