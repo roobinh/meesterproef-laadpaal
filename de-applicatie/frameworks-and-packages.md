@@ -1,5 +1,7 @@
 ---
-description: 'De applicatie is gebouwd in ExpressJS, een package voor NodeJS.'
+description: >-
+  De applicatie is gebouwd in ExpressJS, een package voor NodeJS. Als rendering
+  engine gebruiken wij EJS.
 ---
 
 # Frameworks & Packages
