@@ -1,4 +1,17 @@
 # Table of contents
 
-* [Initial page](README.md)
+* [Voorblad](README.md)
+* [Inleiding](inleiding.md)
+* [Design Challenges](design-challenges.md)
+* [Design Decisions](design-decisions/README.md)
+  * [Originele Concept](design-decisions/originele-concept.md)
+  * [Database](design-decisions/database.md)
+* [De Applicatie](de-applicatie/README.md)
+  * [Back-End](de-applicatie/back-end.md)
+  * [Inloggen](de-applicatie/inloggen.md)
+  * [Melding maken](de-applicatie/melding-maken.md)
+  * [Melding bekijken/chat](de-applicatie/melding-bekijken-chat.md)
+  * [Dashboard](de-applicatie/dashboard.md)
+* [Validatie](validatie.md)
+* [Conclusie](conclusie.md)
 
