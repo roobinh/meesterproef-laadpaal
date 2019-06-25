@@ -297,6 +297,7 @@
     if(dichstbijzijnde[0] !== 99999) {
       console.log("nearest pole calculated." + dichstbijzijnde)
       document.querySelector('#fly').setAttribute('style', 'background: #2F855A;')
+      document.querySelector('#fly').disabled = false;
     }
   }
 
