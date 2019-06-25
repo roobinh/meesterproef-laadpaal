@@ -10,11 +10,11 @@ Er zijn twee scenario’s:
 
 * **Er bestaat al een account met dit email adres**
 
-Je wordt ingelogd en doorgeleid naar de ‘selecteer paal’ pagina
+Je wordt ingelogd en doorgeleid naar de hoofdpagina
 
 * **Er bestaat nog geen account met dit email-adres** 
 
-Je wordt doorgeleid naar de registratiepagina. Hierin wordt alleen gevraagd naar je naam. Hierna wordt je account aangemaakt en wordt je doorgeleid naar de ‘selecteer paal’ pagina
+Je wordt doorgeleid naar de registratiepagina. Hierin wordt alleen gevraagd naar je naam. Hierna wordt je account aangemaakt en wordt je doorgeleid naar de hoofdpagina
 
   
 __
