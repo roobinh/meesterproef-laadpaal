@@ -1,10 +1,4 @@
----
-description: De Meldpaal
----
-
-# Voorblad
-
-![](.gitbook/assets/logo.png)
+[Meldpaal - Live Link ](https://laadpalen.herokuapp.com/) (Heroku)
 
 | **Door:** | **Robin Hofman & Jim van de Ven** |
 | :--- | :--- |
