@@ -1,4 +1,0 @@
-# Conclusie
-
-To be continued
-
