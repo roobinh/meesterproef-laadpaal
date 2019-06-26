@@ -1,21 +1,28 @@
 <% include ../partials/head %>
 <% include ../partials/header %>
 
-<section class="body">
-<%data.forEach(complaint=>{ %>
-    <section class="ticket">
-        <h2 class="ticketType"><%=complaint.type%></h2>
-        <div class="markerWrapper">
-            <p class="ticketDate"><%=complaint.date%> (<%= complaint.time%>)</p>
-        </div>
-        <p class="ticketDescription">Adres: <%=complaint.pole.address%></p>
-        <p class="ticketDescription">Status: <%=complaint.status%></p>
-        <p class="ticketDescription">Beschrijving: <%=complaint.description%></p>
-        <img class="ticketImg" src="/images/uploads/<%=complaint._id%>.jpeg" onerror="this.style='display: none'">
-        
+
+Oud
+<% console.log(data)%>
+<% if (data === "error") { %>
+    <h3 class="subtitle"> Deze paal heeft geen meldingen...</h3>
+    <% } else { %>
+    <section class="reportsbody">
+        <h1>Meldingen paal: <%= data[0].pole.address %></h1>
+
+        <% data.forEach(complaint=>{ %>
+                <section class="myreports">
+                    <h3><%=complaint.type%></h3>
+                    <h4>Status: <%=complaint.status%></h4>
+                    <h4>Datum: <%=complaint.date%> (<%=complaint.time%>)</h4>
+                </section>
+                </a>
+        <% }) %>
+        <% } %>
     </section>
-<%})%>
-</section>
+
+
+
 
 <% include ../partials/footer %>
 

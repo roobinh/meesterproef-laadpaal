@@ -796,6 +796,10 @@ td {
     padding: 10px;
 }
 
+.myreports:last-of-type {
+    border-bottom: 0.8px solid darkgrey;
+}
+
 .myreports h3 {
     font-family: 'Abel', sans-serif;
     color: #2F855A;
