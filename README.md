@@ -5,7 +5,7 @@
 | **Datum:**  | 27/05/2019 |
 
 ## Live Link 
-[Meldpaal](https://laadpalen.herokuapp.com/)
+[De Meldpaal - Website](https://laadpalen.herokuapp.com/)
 
 
 ## Verslagen
